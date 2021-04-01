@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using OpenReferralPOV.Data;
+using OpenReferralPOV.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,10 @@ namespace OpenReferralPOV
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAdB2C"));
+                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAdB2C"))
+                .EnableTokenAcquisitionToCallDownstreamApi(new string[] { Configuration["ORApi:Scope"] })
+                .AddInMemoryTokenCaches();
+
             services.AddControllersWithViews()
                 .AddMicrosoftIdentityUI();
 
@@ -44,7 +48,12 @@ namespace OpenReferralPOV
             services.AddRazorPages();
             services.AddServerSideBlazor()
                 .AddMicrosoftIdentityConsentHandler();
+            
+            services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
+
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<OpenReferralService>();
+            services.AddHttpClient<OpenReferralService, OpenReferralService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

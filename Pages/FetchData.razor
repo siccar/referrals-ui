@@ -1,7 +1,10 @@
 ﻿@page "/fetchdata"
 
 @using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
 @inject WeatherForecastService ForecastService
+@inject OpenReferralService ReferralService
 
 <h1>Weather forecast</h1>
 
@@ -13,6 +16,7 @@
 }
 else
 {
+    <p></p>
     <table class="table">
         <thead>
             <tr>
@@ -38,9 +42,11 @@ else
 
 @code {
     private WeatherForecast[] forecasts;
+    private IEnumerable<Organization> organizations;
 
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        organizations = await ReferralService.GetAsync();
     }
 }
