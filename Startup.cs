@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using OpenReferralPOV.Data;
+using OpenReferralPOV.Identity;
 using OpenReferralPOV.Services;
 using System;
 using System.Collections.Generic;
@@ -31,19 +32,12 @@ namespace OpenReferralPOV
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAdB2C"))
+            services.AddMicrosoftIdentityWebAppAuthentication(Configuration, "AzureAdB2C")
                 .EnableTokenAcquisitionToCallDownstreamApi(new string[] { Configuration["ORApi:Scope"] })
                 .AddInMemoryTokenCaches();
 
             services.AddControllersWithViews()
                 .AddMicrosoftIdentityUI();
-
-            services.AddAuthorization(options =>
-            {
-                // By default, all incoming requests will be authorized according to the default policy
-                options.FallbackPolicy = options.DefaultPolicy;
-            });
 
             services.AddRazorPages();
             services.AddServerSideBlazor()
@@ -52,8 +46,13 @@ namespace OpenReferralPOV
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
 
             services.AddSingleton<WeatherForecastService>();
-            services.AddSingleton<OpenReferralService>();
-            services.AddHttpClient<OpenReferralService, OpenReferralService>();
+            services.AddTransient<IOpenReferralService, OpenReferralService>();
+            services.AddHttpClient<IOpenReferralService, OpenReferralService>(configureClient =>
+            {
+                configureClient.BaseAddress = new Uri(Configuration.GetSection("ORApi:BaseUrl").Value);
+            });
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +60,6 @@ namespace OpenReferralPOV
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -69,6 +67,7 @@ namespace OpenReferralPOV
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+                app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

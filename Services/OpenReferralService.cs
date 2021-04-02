@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OpenReferralPOV.Services
 {
-    public class OpenReferralService
+    public class OpenReferralService : IOpenReferralService
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly HttpClient _httpClient;
@@ -28,14 +28,14 @@ namespace OpenReferralPOV.Services
             _tokenAcquisition = tokenAcquisition;
             _contextAccessor = contextAccessor;
             _Scope = configuration["ORApi:Scope"];
-            _ApiBaseAddress = configuration["ORApi:TodoListBaseAddress"];
+            _ApiBaseAddress = configuration["ORApi:BaseUrl"];
         }
 
         public async Task<IEnumerable<Organization>> GetAsync()
         {
             await PrepareAuthenticatedClient();
 
-            var response = await _httpClient.GetAsync($"{ _ApiBaseAddress}/oranizations");
+            var response = await _httpClient.GetAsync($"{ _ApiBaseAddress}/Organizations");
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
