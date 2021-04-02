@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
 using Newtonsoft.Json;
 using OpenReferralPOV.Data;
+using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,42 +17,29 @@ namespace OpenReferralPOV.Services
 {
     public class OpenReferralService : IOpenReferralService
     {
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly HttpClient _httpClient;
-        private readonly string _Scope = string.Empty;
+        private IHttpClientAdapter _httpClientAdapter;
         private readonly string _ApiBaseAddress = string.Empty;
-        private readonly ITokenAcquisition _tokenAcquisition;
 
-        public OpenReferralService(ITokenAcquisition tokenAcquisition, HttpClient httpClient, IConfiguration configuration, IHttpContextAccessor contextAccessor)
+        public OpenReferralService(IHttpClientAdapter httpClientAdapter, IConfiguration configuration)
         {
-            _httpClient = httpClient;
-            _tokenAcquisition = tokenAcquisition;
-            _contextAccessor = contextAccessor;
-            _Scope = configuration["ORApi:Scope"];
+            _httpClientAdapter = httpClientAdapter;
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
         }
 
         public async Task<IEnumerable<Organization>> GetAsync()
         {
-            await PrepareAuthenticatedClient();
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/Organizations"));
+            var organizations = JsonConvert.DeserializeObject<IEnumerable<Organization>>(responseString);
 
-            var response = await _httpClient.GetAsync($"{ _ApiBaseAddress}/Organizations");
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                IEnumerable<Organization> todolist = JsonConvert.DeserializeObject<IEnumerable<Organization>>(content);
-
-                return todolist;
-            }
-
-            throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+            return organizations;
         }
-        private async Task PrepareAuthenticatedClient()
+
+        public async Task<Organization> AddOrganization(Organization organization)
         {
-            var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { _Scope });
-            Debug.WriteLine($"access token-{accessToken}");
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Organizations"), organization);
+            var addedOrganization = JsonConvert.DeserializeObject<Organization>(responseString);
+
+            return addedOrganization;
         }
     }
 }

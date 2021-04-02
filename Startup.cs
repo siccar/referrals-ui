@@ -12,6 +12,7 @@ using Microsoft.Identity.Web.UI;
 using OpenReferralPOV.Data;
 using OpenReferralPOV.Identity;
 using OpenReferralPOV.Services;
+using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,11 @@ namespace OpenReferralPOV
         {
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration, "AzureAdB2C")
                 .EnableTokenAcquisitionToCallDownstreamApi(new string[] { Configuration["ORApi:Scope"] })
-                .AddInMemoryTokenCaches();
+                .AddDistributedTokenCaches();
+            //ToDo We should switch back to in memory token cache. The distributed cache is for debuggin only.
+            //.AddInMemoryTokenCaches();
+
+            services.AddDistributedMemoryCache();
 
             services.AddControllersWithViews()
                 .AddMicrosoftIdentityUI();
@@ -45,14 +50,14 @@ namespace OpenReferralPOV
             
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
 
-            services.AddSingleton<WeatherForecastService>();
-            services.AddTransient<IOpenReferralService, OpenReferralService>();
             services.AddHttpClient<IOpenReferralService, OpenReferralService>(configureClient =>
             {
                 configureClient.BaseAddress = new Uri(Configuration.GetSection("ORApi:BaseUrl").Value);
             });
+            services.AddTransient<IOpenReferralService, OpenReferralService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddHttpContextAccessor();
+            services.AddTransient<IHttpClientAdapter, HttpClientAdapter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,6 +8,7 @@ namespace OpenReferralPOV.Services
 {
     public interface IOpenReferralService
     {
+        Task<Organization> AddOrganization(Organization organization);
         Task<IEnumerable<Organization>> GetAsync();
     }
 }
