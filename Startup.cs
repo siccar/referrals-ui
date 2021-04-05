@@ -10,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using OpenReferralPOV.Data;
-using OpenReferralPOV.Identity;
 using OpenReferralPOV.Services;
 using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
