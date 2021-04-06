@@ -55,6 +55,7 @@ namespace OpenReferralPOV
                 configureClient.BaseAddress = new Uri(Configuration.GetSection("ORApi:BaseUrl").Value);
             });
             services.AddTransient<IOpenReferralOrganisationService, OpenReferralOrganisationService>();
+            services.AddTransient<IOpenReferralKeyContactService, OpenReferralKeyContactService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddHttpContextAccessor();
             services.AddTransient<IHttpClientAdapter, HttpClientAdapter>();

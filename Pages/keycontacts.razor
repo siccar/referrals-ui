@@ -3,7 +3,7 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 
-@inject IOpenReferralService ReferralService
+@inject IOpenReferralKeyContactService ReferralService
 
 <h1>Key Contacts</h1>
 
@@ -21,7 +21,6 @@ else
             <tr>
                 <th>User ID</th>
                 <th>Org ID</th>
-                <th>Org Name</th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +29,6 @@ else
                 <tr>
                     <td>@kc.UserId</td>
                     <td>@kc.OrgId</td>
-                    <td>@kc.OrgName</td>
                 </tr>
             }
         </tbody>

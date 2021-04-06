@@ -39,7 +39,15 @@ namespace OpenReferralPOV.Services
             var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Organizations"), organization);
             var addedOrganization = JsonConvert.DeserializeObject<Organization>(responseString);
 
+            await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/{addedOrganization.Id}"));
+
             return addedOrganization;
         }
+
+        public async Task JoinOrganisation(string orgId)
+        {
+            await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/OrganizationMember/create/{orgId}"));
+        }
+
     }
 }

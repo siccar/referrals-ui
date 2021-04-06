@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace OpenReferralPOV.Services
 {
-    public interface IOpenReferralService
+    public interface IOpenReferralOrganisationService
     {
         Task<Organization> AddOrganization(Organization organization);
         Task<IEnumerable<Organization>> GetAsync();
+
+        Task JoinOrganisation(string orgId);
     }
 }

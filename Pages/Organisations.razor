@@ -3,7 +3,7 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 
-@inject IOpenReferralService ReferralService
+@inject IOpenReferralOrganisationService ReferralService
 
 <h1>Organizations</h1>
 
@@ -23,27 +23,48 @@ else
                 <th>Description</th>
                 <th>Charity Number</th>
                 <th>Web Url</th>
+                <th>View Key Contact</th>
+                <th>Request to Join</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var org in organizations)
             {
-                <tr>
-                    <td>@org.Name</td>
-                    <td>@org.Description</td>
-                    <td>@org.CharityNumber</td>
-                    <td>@org.Url</td>
-                </tr>
+            <tr>
+                <td>@org.Name</td>
+                <td>@org.Description</td>
+                <td>@org.CharityNumber</td>
+                <td>@org.Url</td>
+                <td>
+                    @*<NavLink class="nav-link" href="view-keycontacts?orgs=@org.ID">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Click Here
+                    </NavLink>*@
+                </td>
+                <td>
+                    <input type="button" name="Request to Join" class="button1" value="@org.RequestToJoinStatusMessage" 
+                           @onclick="@(e => HandleRequestToJoin(org))" />
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 }
 
 @code {
+
+    
     private IEnumerable<Organization> organizations;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()  
     {
         organizations = await ReferralService.GetAsync();
+    }
+
+    protected async Task HandleRequestToJoin(Organization org)
+    {
+        await ReferralService.JoinOrganisation(org.Id);
+        org.RequestToJoinStatusMessage = "Request Sent";
+        
+
     }
 }

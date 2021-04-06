@@ -21,7 +21,7 @@ namespace OpenReferralPOV.Services
 
         public async Task<IEnumerable<KeyContact>> GetAsync()
         {
-            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContacts"));
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact"));
             var keycontacts = JsonConvert.DeserializeObject<IEnumerable<KeyContact>>(responseString);
 
             return keycontacts;
