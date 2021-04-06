@@ -10,6 +10,7 @@ namespace OpenReferralPOV.Data
         public Organization()
         {
             RequestToJoinStatusMessage = "Request to join";
+            RequestToAdminister = "Request to Administer";
         }
         public string Id { get; set; }
         public string Description { get; set; }
@@ -19,5 +20,6 @@ namespace OpenReferralPOV.Data
         public string Url { get; set; }
 
         public string RequestToJoinStatusMessage { get; set; }
+        public string RequestToAdminister { get; set; }
     }
 }

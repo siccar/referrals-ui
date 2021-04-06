@@ -10,5 +10,10 @@ namespace OpenReferralPOV.Services
     {
         Task<KeyContact> AddKeyContact(KeyContact contact);
         Task<IEnumerable<KeyContact>> GetAsync();
+
+        Task<IEnumerable<KeyContact>> GetPendingAdminRequests();
+
+
+        Task HandleAdminGrantRequest(string orgId, string userId);
     }
 }
