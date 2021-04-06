@@ -10,5 +10,6 @@ namespace OpenReferralPOV.Services
     {
         Task<Organization> AddOrganization(Organization organization);
         Task<IEnumerable<Organization>> GetAsync();
+        Task<Service> AddService(Service service);
     }
 }
