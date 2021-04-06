@@ -1,0 +1,47 @@
+﻿@page "/keycontacts"
+
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralService ReferralService
+
+<h1>Key Contacts</h1>
+
+<p>This component will return all the current key contacts for each Organisation.</p>
+
+@if (keyContacts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Org ID</th>
+                <th>Org Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var kc in keyContacts)
+            {
+                <tr>
+                    <td>@kc.UserId</td>
+                    <td>@kc.OrgId</td>
+                    <td>@kc.OrgName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<KeyContact> keyContacts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        keyContacts = await ReferralService.GetAsync();
+    }
+}
