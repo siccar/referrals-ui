@@ -74,7 +74,7 @@ else
     {
         organizations = await OrgService.GetAsync();
         memberships = await MembershipRequests.GetAsync();
-        otherRequests = (await MembershipRequests.GetAdminRequestsAsync()).Where(x => x.Status != MembershipRequestsStatus.JOINED);
+        otherRequests = (await MembershipRequests.GetAdminRequestsAsync()).Where(x => x.Status != MembershipRequestsStatus.JOINED && x.Status != MembershipRequestsStatus.DENIED);
     }
 
     protected async Task HandleGrantRequest(MembershipRequests request)
