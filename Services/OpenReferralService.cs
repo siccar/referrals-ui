@@ -41,5 +41,10 @@ namespace OpenReferralPOV.Services
 
             return addedOrganization;
         }
+
+        public async Task<Service> AddService (Service Service)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
