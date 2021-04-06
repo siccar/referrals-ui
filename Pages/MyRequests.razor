@@ -5,6 +5,7 @@
 
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralMembershipRequestsService MembershipRequests
+@inject IOpenReferralKeyContactService KeyContactRequests
 
 <h1>Membership Requests</h1>
 
@@ -14,7 +15,7 @@
 }
 else
 {
-    <p>My Requests</p>
+    <p>My Requests to Join</p>
     <table class="table">
         <thead>
             <tr>
@@ -33,7 +34,7 @@ else
         </tbody>
     </table>
 
-    <p>Admin Requests</p>
+    <p>Join Requests for Orgs I am a Key Contact For</p>
     <table class="table">
         <thead>
             <tr>
@@ -45,17 +46,39 @@ else
         <tbody>
             @foreach (var membership in otherRequests)
             {
+                <tr>
+                    <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
+                    <td>@membership.UserId</td>
+
+                    <td>
+                        <input type="button" name="Accept" class="button1" value="Accept"
+                               @onclick="@(e => HandleGrantRequest(membership))" />
+
+                        <input type="button" name="Reject" class="button1" value="Reject"
+                               @onclick="@(e => HandleDenyRequest(membership))" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Admin Requests for Orgs I am a Key Contact For</p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
-                <td>@membership.UserId</td>
-
-                <td>
-                    <input type="button" name="Accept" class="button1" value="Accept"
-                           @onclick="@(e => HandleGrantRequest(membership))" />
-
-                    <input type="button" name="Reject" class="button1" value="Reject"
-                           @onclick="@(e => HandleDenyRequest(membership))" />
-                </td>
+                <th>Organisation</th>
+                <th>User Email</th>
+                <th>Accept / Reject</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ar in adminRequests)
+            {
+            <tr>
+                <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
+                <td>@ar.UserEmail</td>
+                <input type="button" name="Accept" class="button1" value="Accept"
+                       @onclick="@(e => HandleAdminGrantRequest(ar.OrgId, ar.UserId))" />
             </tr>
             }
         </tbody>
@@ -69,12 +92,15 @@ else
     private IEnumerable<MembershipRequests> memberships;
     private IEnumerable<MembershipRequests> otherRequests;
 
+    private IEnumerable<KeyContact> adminRequests;
+
 
     protected override async Task OnInitializedAsync()
     {
         organizations = await OrgService.GetAsync();
         memberships = await MembershipRequests.GetAsync();
         otherRequests = (await MembershipRequests.GetAdminRequestsAsync()).Where(x => x.Status != MembershipRequestsStatus.JOINED && x.Status != MembershipRequestsStatus.DENIED);
+        adminRequests = await KeyContactRequests.GetPendingAdminRequests();
     }
 
     protected async Task HandleGrantRequest(MembershipRequests request)
@@ -85,5 +111,10 @@ else
     protected async Task HandleDenyRequest(MembershipRequests request)
     {
         await MembershipRequests.HandleDenyRequest(request);
+    }
+
+    protected async Task HandleAdminGrantRequest(string orgId, string userId)
+    {
+        await KeyContactRequests.HandleAdminGrantRequest(orgId, userId);
     }
 }

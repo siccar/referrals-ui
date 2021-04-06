@@ -12,5 +12,7 @@ namespace OpenReferralPOV.Services
         Task<IEnumerable<Organization>> GetAsync();
 
         Task JoinOrganisation(string orgId);
+
+        Task JoinOrgAsAdmin(string orgId);
     }
 }

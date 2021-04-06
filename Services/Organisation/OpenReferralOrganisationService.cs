@@ -49,5 +49,11 @@ namespace OpenReferralPOV.Services
             await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/OrganizationMember/create/{orgId}"));
         }
 
+        public async Task JoinOrgAsAdmin(string orgId)
+        {
+            await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/admin/{orgId}"));
+        }
+
+
     }
 }

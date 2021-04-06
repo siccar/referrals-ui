@@ -23,8 +23,8 @@ else
                 <th>Description</th>
                 <th>Charity Number</th>
                 <th>Web Url</th>
-                <th>View Key Contact</th>
                 <th>Request to Join</th>
+                <th>Request to Administer</th>
             </tr>
         </thead>
         <tbody>
@@ -36,13 +36,12 @@ else
                 <td>@org.CharityNumber</td>
                 <td>@org.Url</td>
                 <td>
-                    @*<NavLink class="nav-link" href="view-keycontacts?orgs=@org.ID">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Click Here
-                    </NavLink>*@
+                    <input type="button" name="Request to Join" class="button1" value="@org.RequestToJoinStatusMessage"
+                           @onclick="@(e => HandleRequestToJoin(org))" />
                 </td>
                 <td>
-                    <input type="button" name="Request to Join" class="button1" value="@org.RequestToJoinStatusMessage" 
-                           @onclick="@(e => HandleRequestToJoin(org))" />
+                    <input type="button" name="Request to Administer" class="button1" value="@org.RequestToAdminister"
+                           @onclick="@(e => HandleRequestToBecomeAdmin(org))" />
                 </td>
             </tr>
             }
@@ -64,5 +63,11 @@ else
     {
         await ReferralService.JoinOrganisation(org.Id);
         org.RequestToJoinStatusMessage = "Request Sent";
+    }
+
+    protected async Task HandleRequestToBecomeAdmin(Organization org)
+    {
+        await ReferralService.JoinOrgAsAdmin(org.Id);
+        org.RequestToAdminister = "Request Sent";
     }
 }
