@@ -52,10 +52,10 @@ else
 
 @code {
 
-    
+
     private IEnumerable<Organization> organizations;
 
-    protected override async Task OnInitializedAsync()  
+    protected override async Task OnInitializedAsync()
     {
         organizations = await ReferralService.GetAsync();
     }
@@ -64,7 +64,5 @@ else
     {
         await ReferralService.JoinOrganisation(org.Id);
         org.RequestToJoinStatusMessage = "Request Sent";
-        
-
     }
 }

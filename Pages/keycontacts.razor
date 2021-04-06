@@ -9,7 +9,7 @@
 
 <p>This component will return all the current key contacts for each Organisation.</p>
 
-@if (keyContacts == null)
+@if (KeyContacts == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -24,7 +24,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var kc in keyContacts)
+            @foreach (var kc in KeyContacts)
             {
                 <tr>
                     <td>@kc.UserId</td>
@@ -36,10 +36,10 @@ else
 }
 
 @code {
-    private IEnumerable<KeyContact> keyContacts;
+    private IEnumerable<KeyContact> KeyContacts;
 
     protected override async Task OnInitializedAsync()
     {
-        keyContacts = await ReferralService.GetAsync();
+        KeyContacts = await ReferralService.GetAsync();
     }
 }

@@ -1,0 +1,89 @@
+﻿@page "/myrequests"
+
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralMembershipRequestsService MembershipRequests
+
+<h1>Membership Requests</h1>
+
+@if (memberships == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>My Requests</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Organisation</th>
+                <th>Request Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var membership in memberships)
+            {
+                <tr>
+                    <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
+                    <td>@membership.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Admin Requests</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Organisation</th>
+                <th>User ID</th>
+                <th>Accept</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var membership in otherRequests)
+            {
+            <tr>
+                <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
+                <td>@membership.UserId</td>
+
+                <td>
+                    <input type="button" name="Accept" class="button1" value="Accept"
+                           @onclick="@(e => HandleGrantRequest(membership))" />
+
+                    <input type="button" name="Reject" class="button1" value="Reject"
+                           @onclick="@(e => HandleDenyRequest(membership))" />
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+
+    private IEnumerable<Organization> organizations;
+    private IEnumerable<MembershipRequests> memberships;
+    private IEnumerable<MembershipRequests> otherRequests;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        organizations = await OrgService.GetAsync();
+        memberships = await MembershipRequests.GetAsync();
+        otherRequests = (await MembershipRequests.GetAdminRequestsAsync()).Where(x => x.Status != MembershipRequestsStatus.JOINED);
+    }
+
+    protected async Task HandleGrantRequest(MembershipRequests request)
+    {
+        await MembershipRequests.HandleGrantRequest(request);
+    }
+
+    protected async Task HandleDenyRequest(MembershipRequests request)
+    {
+        await MembershipRequests.HandleDenyRequest(request);
+    }
+}
