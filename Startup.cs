@@ -50,11 +50,11 @@ namespace OpenReferralPOV
             
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
 
-            services.AddHttpClient<IOpenReferralService, OpenReferralService>(configureClient =>
+            services.AddHttpClient<IOpenReferralOrganisationService, OpenReferralOrganisationService>(configureClient =>
             {
                 configureClient.BaseAddress = new Uri(Configuration.GetSection("ORApi:BaseUrl").Value);
             });
-            services.AddTransient<IOpenReferralService, OpenReferralService>();
+            services.AddTransient<IOpenReferralOrganisationService, OpenReferralOrganisationService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddHttpContextAccessor();
             services.AddTransient<IHttpClientAdapter, HttpClientAdapter>();

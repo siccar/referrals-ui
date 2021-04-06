@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace OpenReferralPOV.Services
 {
-    public class OpenReferralService : IOpenReferralService
+    public class OpenReferralOrganisationService : IOpenReferralOrganisationService
     {
         private IHttpClientAdapter _httpClientAdapter;
         private readonly string _ApiBaseAddress = string.Empty;
 
-        public OpenReferralService(IHttpClientAdapter httpClientAdapter, IConfiguration configuration)
+        public OpenReferralOrganisationService(IHttpClientAdapter httpClientAdapter, IConfiguration configuration)
         {
             _httpClientAdapter = httpClientAdapter;
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
