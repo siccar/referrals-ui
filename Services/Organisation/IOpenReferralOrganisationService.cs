@@ -11,6 +11,10 @@ namespace OpenReferralPOV.Services
         Task<Organization> AddOrganization(Organization organization);
         Task<IEnumerable<Organization>> GetAllOrganisations();
 
+        Task<Organization> GetOrganisation(string orgId);
+
+        Task<Organization> UpdateOrganisation(Organization organization);
+
         Task RequestToJoinOrganisationAsMember(string orgId);
 
         Task RequestToJoinOrganisationAsAdmin(string orgId);

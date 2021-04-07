@@ -25,6 +25,7 @@ else
                 <th>Web Url</th>
                 <th>Request to Join</th>
                 <th>Request to Administer</th>
+                <th>Manage Org</th>
             </tr>
         </thead>
         <tbody>
@@ -43,6 +44,11 @@ else
                     <input type="button" name="Request to Administer" class="button1" value="@org.RequestToAdminister"
                            @onclick="@(e => HandleRequestToBecomeAdmin(org))" />
                 </td>
+                <td>
+                    <NavLink class="nav-link" href=@($"manage-organisation/{org.Id}") >
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Org
+                    </NavLink>
+                </td>
             </tr>
             }
         </tbody>
@@ -51,7 +57,7 @@ else
 
 @code {
 
-
+   
     private IEnumerable<Organization> organizations;
 
     protected override async Task OnInitializedAsync()
