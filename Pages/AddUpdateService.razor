@@ -7,6 +7,14 @@
 
 <h3>Add Or Update Service</h3>
 
-@code {
 
+@code {
+    private IEnumerable<Organization> organizations;
+    private IEnumerable<Service> services;
+
+    protected override async Task OnInitializedAsync()
+    {
+        organizations = await ReferralService.GetOrganizationsAsync();
+        services = await ReferralService.GetServicesAsync();
+    }
 }
