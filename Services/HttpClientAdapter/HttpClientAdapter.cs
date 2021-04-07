@@ -63,6 +63,11 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             return await PayloadAsync(endpoint, payload, HttpMethod.Post);
         }
 
+        public async Task<string> DeleteAsync(Uri endpoint, object payload)
+        {
+            return await PayloadAsync(endpoint, payload, HttpMethod.Delete);
+        }
+
         public async Task<string> PutAsync(Uri endpoint, object payload)
         {
             return await PayloadAsync(endpoint, payload, HttpMethod.Put);

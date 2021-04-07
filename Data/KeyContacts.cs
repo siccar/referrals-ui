@@ -8,8 +8,7 @@
         public string OrgName { get; set; }
         public string UserEmail { get; set; }
 
-        public string IsAdmin { get; set; }
-
-        public string IsPending { get; set; }
+        public bool IsAdmin { get; set; }
+        public bool IsPending { get; set; }
     }
 }
