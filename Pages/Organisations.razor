@@ -44,6 +44,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        organizations = await ReferralService.GetAsync();
+        organizations = await ReferralService.GetOrganizationsAsync();
     }
 }

@@ -9,7 +9,8 @@ namespace OpenReferralPOV.Services
     public interface IOpenReferralService
     {
         Task<Organization> AddOrganization(Organization organization);
-        Task<IEnumerable<Organization>> GetAsync();
+        Task<IEnumerable<Organization>> GetOrganizationsAsync();
         Task<Service> AddService(Service service);
+        Task<IEnumerable<Service>> GetServicesAsync();
     }
 }
