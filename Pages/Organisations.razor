@@ -56,18 +56,18 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        organizations = await ReferralService.GetAsync();
+        organizations = await ReferralService.GetAllOrganisations();
     }
 
     protected async Task HandleRequestToJoin(Organization org)
     {
-        await ReferralService.JoinOrganisation(org.Id);
+        await ReferralService.RequestToJoinOrganisationAsMember(org.Id);
         org.RequestToJoinStatusMessage = "Request Sent";
     }
 
     protected async Task HandleRequestToBecomeAdmin(Organization org)
     {
-        await ReferralService.JoinOrgAsAdmin(org.Id);
+        await ReferralService.RequestToJoinOrganisationAsAdmin(org.Id);
         org.RequestToAdminister = "Request Sent";
     }
 }

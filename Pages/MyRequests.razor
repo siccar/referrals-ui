@@ -97,20 +97,20 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        organizations = await OrgService.GetAsync();
-        myrequeststojoin = await MembershipRequests.GetAsync();
+        organizations = await OrgService.GetAllOrganisations();
+        myrequeststojoin = await MembershipRequests.GetAllMemebershipRequestsThatCanBeActioned();
         joinRequestsICanAuthorise = (await MembershipRequests.GetOrgJoinRequests());
         adminRequestsICanAuthorise = await KeyContactRequests.GetPendingAdminRequests();
     }
 
     protected async Task HandleGrantRequest(MembershipRequests request)
     {
-        await MembershipRequests.HandleGrantRequest(request);
+        await MembershipRequests.HandleGrantRequestForJoiningOrg(request);
     }
 
     protected async Task HandleDenyRequest(MembershipRequests request)
     {
-        await MembershipRequests.HandleDenyRequest(request);
+        await MembershipRequests.HandleDenyRequestForJoiningOrg(request);
     }
 
     protected async Task HandleAdminGrantRequest(string orgId, string userId)

@@ -9,7 +9,7 @@ namespace OpenReferralPOV.Services
     public interface IOpenReferralKeyContactService
     {
         Task<KeyContact> AddKeyContact(KeyContact contact);
-        Task<IEnumerable<KeyContact>> GetAsync();
+        Task<IEnumerable<KeyContact>> GetAllKeyContacts();
 
         Task<IEnumerable<KeyContact>> GetPendingAdminRequests();
 
