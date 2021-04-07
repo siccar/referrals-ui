@@ -3,7 +3,8 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 
-@inject IOpenReferralOrganisationService ReferralService
+@inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralKeyContactService KeyContactService
 
 <h1>Organizations</h1>
 
@@ -25,31 +26,42 @@ else
                 <th>Web Url</th>
                 <th>Request to Join</th>
                 <th>Request to Administer</th>
-                <th>Manage Org</th>
+                @if (KeyContacts.Count() > 0)
+                {
+                    <th>Manage Org</th>
+                }
+
             </tr>
         </thead>
         <tbody>
             @foreach (var org in organizations)
             {
-            <tr>
-                <td>@org.Name</td>
-                <td>@org.Description</td>
-                <td>@org.CharityNumber</td>
-                <td>@org.Url</td>
-                <td>
-                    <input type="button" name="Request to Join" class="button1" value="@org.RequestToJoinStatusMessage"
-                           @onclick="@(e => HandleRequestToJoin(org))" />
-                </td>
-                <td>
-                    <input type="button" name="Request to Administer" class="button1" value="@org.RequestToAdminister"
-                           @onclick="@(e => HandleRequestToBecomeAdmin(org))" />
-                </td>
-                <td>
-                    <NavLink class="nav-link" href=@($"manage-organisation/{org.Id}") >
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Org
-                    </NavLink>
-                </td>
-            </tr>
+                <tr>
+                    <td>@org.Name</td>
+                    <td>@org.Description</td>
+                    <td>@org.CharityNumber</td>
+                    <td>@org.Url</td>
+                    <td>
+                        <input type="button" name="Request to Join" class="button1" value="@org.RequestToJoinStatusMessage"
+                               @onclick="@(e => HandleRequestToJoin(org))" />
+                    </td>
+                    <td>
+                        <input type="button" name="Request to Administer" class="button1" value="@org.RequestToAdminister"
+                               @onclick="@(e => HandleRequestToBecomeAdmin(org))" />
+                    </td>
+                    @if (KeyContacts.Where(x => x.OrgId == org.Id).Count() > 0)
+                    {
+                        <td>
+                            <NavLink class="nav-link" href=@($"manage-organisation/{org.Id}")>
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Org
+                            </NavLink>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                </tr>
             }
         </tbody>
     </table>
@@ -57,23 +69,25 @@ else
 
 @code {
 
-   
+
     private IEnumerable<Organization> organizations;
+    private IEnumerable<KeyContact> KeyContacts;
 
     protected override async Task OnInitializedAsync()
     {
-        organizations = await ReferralService.GetAllOrganisations();
+        organizations = await OrgService.GetAllOrganisations();
+        KeyContacts = await KeyContactService.GetOrgsICanManage();
     }
 
     protected async Task HandleRequestToJoin(Organization org)
     {
-        await ReferralService.RequestToJoinOrganisationAsMember(org.Id);
+        await OrgService.RequestToJoinOrganisationAsMember(org.Id);
         org.RequestToJoinStatusMessage = "Request Sent";
     }
 
     protected async Task HandleRequestToBecomeAdmin(Organization org)
     {
-        await ReferralService.RequestToJoinOrganisationAsAdmin(org.Id);
+        await OrgService.RequestToJoinOrganisationAsAdmin(org.Id);
         org.RequestToAdminister = "Request Sent";
     }
 }

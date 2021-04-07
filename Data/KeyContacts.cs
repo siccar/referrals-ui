@@ -7,5 +7,9 @@
         public string OrgId { get; set; }
         public string OrgName { get; set; }
         public string UserEmail { get; set; }
+
+        public string IsAdmin { get; set; }
+
+        public string IsPending { get; set; }
     }
 }
