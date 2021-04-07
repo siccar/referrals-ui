@@ -19,7 +19,7 @@ namespace OpenReferralPOV.Services
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
         }
 
-        public async Task<IEnumerable<MembershipRequests>> GetAsync()
+        public async Task<IEnumerable<MembershipRequests>> GetAllMemebershipRequestsThatCanBeActioned()
         {
             var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/OrganizationMember/my/requests"));
             var requests = JsonConvert.DeserializeObject<IEnumerable<MembershipRequests>>(responseString);
@@ -33,12 +33,12 @@ namespace OpenReferralPOV.Services
             return requests;
         }
 
-        public async Task HandleGrantRequest(MembershipRequests requests)
+        public async Task HandleGrantRequestForJoiningOrg(MembershipRequests requests)
         {
             await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/OrganizationMember/grant/{requests.OrgId}/{requests.UserId}"));
         }
 
-        public async Task HandleDenyRequest(MembershipRequests requests)
+        public async Task HandleDenyRequestForJoiningOrg(MembershipRequests requests)
         {
             await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/OrganizationMember/deny/{requests.OrgId}/{requests.UserId}"));
         }

@@ -40,6 +40,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        KeyContacts = await ReferralService.GetAsync();
+        KeyContacts = await ReferralService.GetAllKeyContacts();
     }
 }

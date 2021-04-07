@@ -9,10 +9,10 @@ namespace OpenReferralPOV.Services
     public interface IOpenReferralOrganisationService
     {
         Task<Organization> AddOrganization(Organization organization);
-        Task<IEnumerable<Organization>> GetAsync();
+        Task<IEnumerable<Organization>> GetAllOrganisations();
 
-        Task JoinOrganisation(string orgId);
+        Task RequestToJoinOrganisationAsMember(string orgId);
 
-        Task JoinOrgAsAdmin(string orgId);
+        Task RequestToJoinOrganisationAsAdmin(string orgId);
     }
 }

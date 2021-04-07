@@ -19,7 +19,7 @@ namespace OpenReferralPOV.Services
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
         }
 
-        public async Task<IEnumerable<KeyContact>> GetAsync()
+        public async Task<IEnumerable<KeyContact>> GetAllKeyContacts()
         {
             var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact"));
             var keycontacts = JsonConvert.DeserializeObject<IEnumerable<KeyContact>>(responseString);
