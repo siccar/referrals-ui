@@ -26,7 +26,7 @@ namespace OpenReferralPOV.Services
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
         }
 
-        public async Task<IEnumerable<Organization>> GetAsync()
+        public async Task<IEnumerable<Organization>> GetOrganizationsAsync()
         {
             var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/Organizations"));
             var organizations = JsonConvert.DeserializeObject<IEnumerable<Organization>>(responseString);
@@ -43,6 +43,11 @@ namespace OpenReferralPOV.Services
         }
 
         public async Task<Service> AddService (Service Service)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Service>> GetServicesAsync()
         {
             throw new NotImplementedException();
         }
