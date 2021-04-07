@@ -15,7 +15,7 @@
 }
 else
 {
-    <p>My Requests to Join</p>
+    <p>My Requests to Join Organisations and there status</p>
     <table class="table">
         <thead>
             <tr>
@@ -39,7 +39,7 @@ else
         <thead>
             <tr>
                 <th>Organisation</th>
-                <th>User ID</th>
+                <th>User Email</th>
                 <th>Accept</th>
             </tr>
         </thead>
@@ -48,7 +48,7 @@ else
             {
                 <tr>
                     <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
-                    <td>@membership.UserId</td>
+                    <td>@membership.Email</td>
 
                     <td>
                         <input type="button" name="Accept" class="button1" value="Accept"
