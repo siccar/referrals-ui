@@ -9,7 +9,7 @@
 
 <h1>Membership Requests</h1>
 
-@if (memberships == null)
+@if (myrequeststojoin == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -24,7 +24,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var membership in memberships)
+            @foreach (var membership in myrequeststojoin)
             {
                 <tr>
                     <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
@@ -44,7 +44,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var membership in otherRequests)
+            @foreach (var membership in joinRequestsICanAuthorise)
             {
                 <tr>
                     <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
@@ -72,7 +72,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var ar in adminRequests)
+            @foreach (var ar in adminRequestsICanAuthorise)
             {
             <tr>
                 <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
@@ -89,18 +89,18 @@ else
 
 
     private IEnumerable<Organization> organizations;
-    private IEnumerable<MembershipRequests> memberships;
-    private IEnumerable<MembershipRequests> otherRequests;
+    private IEnumerable<MembershipRequests> myrequeststojoin;
+    private IEnumerable<MembershipRequests> joinRequestsICanAuthorise;
 
-    private IEnumerable<KeyContact> adminRequests;
+    private IEnumerable<KeyContact> adminRequestsICanAuthorise;
 
 
     protected override async Task OnInitializedAsync()
     {
         organizations = await OrgService.GetAsync();
-        memberships = await MembershipRequests.GetAsync();
-        otherRequests = (await MembershipRequests.GetAdminRequestsAsync()).Where(x => x.Status != MembershipRequestsStatus.JOINED && x.Status != MembershipRequestsStatus.DENIED);
-        adminRequests = await KeyContactRequests.GetPendingAdminRequests();
+        myrequeststojoin = await MembershipRequests.GetAsync();
+        joinRequestsICanAuthorise = (await MembershipRequests.GetOrgJoinRequests());
+        adminRequestsICanAuthorise = await KeyContactRequests.GetPendingAdminRequests();
     }
 
     protected async Task HandleGrantRequest(MembershipRequests request)

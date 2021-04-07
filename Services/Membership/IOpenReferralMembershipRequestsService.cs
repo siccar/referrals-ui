@@ -9,7 +9,7 @@ namespace OpenReferralPOV.Services
     public interface IOpenReferralMembershipRequestsService
     {
         Task<IEnumerable<MembershipRequests>> GetAsync();
-        Task<IEnumerable<MembershipRequests>> GetAdminRequestsAsync();
+        Task<IEnumerable<MembershipRequests>> GetOrgJoinRequests();
 
         Task HandleDenyRequest(MembershipRequests requests);
 
