@@ -27,6 +27,13 @@ namespace OpenReferralPOV.Services
             return keycontacts;
         }
 
+        public async Task<IEnumerable<KeyContact>> GetOrgsICanManage() {
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/orgs-i-can-manage"));
+            var keycontacts = JsonConvert.DeserializeObject<IEnumerable<KeyContact>>(responseString);
+            return keycontacts;
+        }
+
+
         public async Task<KeyContact> AddKeyContact(KeyContact keycontact)
         {
             var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/KeyContacts"), keycontact);
@@ -45,6 +52,14 @@ namespace OpenReferralPOV.Services
         public async Task HandleAdminGrantRequest(string orgId, string userId)
         {
             var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/admin/confirm/{orgId}/{userId}"));
+        }
+
+
+        public async Task<IEnumerable<KeyContact>> GetKeyContactsForOrg(string orgId)
+        {
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/orgs/{orgId}/contacts"));
+            var keycontacts = JsonConvert.DeserializeObject<IEnumerable<KeyContact>>(responseString);
+            return keycontacts;
         }
     }
 }

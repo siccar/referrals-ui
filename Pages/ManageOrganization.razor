@@ -2,7 +2,9 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 
-@inject IOpenReferralOrganisationService ReferralService
+@inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralMembershipRequestsService MemberService
+@inject IOpenReferralKeyContactService KeyContactService
 
 @if (orgUpdated)
 {
@@ -28,6 +30,48 @@ else
 
         <button type="submit">Submit</button>
     </EditForm>
+
+
+    <p>Admins/Key Contacts of the Organisation</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Is Admin</th>
+                <th>Is Pending</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in keyContacts)
+            {
+                <tr>
+                    <td>@contact.UserEmail</td>
+                    <td>@contact.IsAdmin</td>
+                    <td>@contact.IsPending</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Members of the  Organisation</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Membership Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var member in Memberships)
+            {
+            <tr>
+                <td>@member.Email</td>
+                <td>@member.Status</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
 }
 
 @code {
@@ -39,16 +83,22 @@ else
 
     public Organization organization { get; set; } = new Organization();
 
+    public IEnumerable<KeyContact> keyContacts = new List<KeyContact>();
+
+    public IEnumerable<MembershipRequests> Memberships = new List<MembershipRequests>();
+
 
     protected override async Task OnInitializedAsync()
     {
-        organization = await ReferralService.GetOrganisation(OrgId);
+        organization = await OrgService.GetOrganisation(OrgId);
+        keyContacts = await KeyContactService.GetKeyContactsForOrg(OrgId);
+        Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
     }
 
 
     private async Task HandleValidSubmit()
     {
-        organization = await ReferralService.UpdateOrganisation(organization);
+        organization = await OrgService.UpdateOrganisation(organization);
         orgUpdated = true;
     }
 }

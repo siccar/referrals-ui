@@ -15,5 +15,7 @@ namespace OpenReferralPOV.Services
 
 
         Task HandleGrantRequestForJoiningOrg(MembershipRequests requests);
+
+        Task<IEnumerable<MembershipRequests>> GetAllMembersOfOrg(string orgId);
     }
 }

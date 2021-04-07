@@ -15,5 +15,9 @@ namespace OpenReferralPOV.Services
 
 
         Task HandleAdminGrantRequest(string orgId, string userId);
+
+        Task<IEnumerable<KeyContact>> GetOrgsICanManage();
+
+        Task<IEnumerable<KeyContact>> GetKeyContactsForOrg(string orgId);
     }
 }
