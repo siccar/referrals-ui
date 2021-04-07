@@ -9,5 +9,7 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
     {
         Task<string> GetAsync(Uri endpoint);
         Task<string> PostAsync(Uri endpoint, object payload);
+
+        Task<string> PutAsync(Uri endpoint, object payload);
     }
 }
