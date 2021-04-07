@@ -67,6 +67,10 @@ else
             <tr>
                 <td>@member.Email</td>
                 <td>@member.Status</td>
+                <td>
+                    <input type="button" name="Reject" class="button1" value="Remove"
+                           @onclick="@(e => HandleDenyRequest(member))" />
+                </td>
             </tr>
             }
         </tbody>
@@ -93,6 +97,11 @@ else
         organization = await OrgService.GetOrganisation(OrgId);
         keyContacts = await KeyContactService.GetKeyContactsForOrg(OrgId);
         Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
+    }
+
+    protected async Task HandleDenyRequest(MembershipRequests request)
+    {
+        await MemberService.HandleDenyRequestForJoiningOrg(request);
     }
 
 
