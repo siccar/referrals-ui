@@ -34,11 +34,9 @@ namespace OpenReferralPOV.Services
         }
 
 
-        public async Task<KeyContact> AddKeyContact(KeyContact keycontact)
+        public async Task RemoveKeyContact(KeyContact keycontact)
         {
-            var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/KeyContacts"), keycontact);
-            var addedKeyContact = JsonConvert.DeserializeObject<KeyContact>(responseString);
-            return addedKeyContact;
+            await _httpClientAdapter.DeleteAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/delete"), keycontact);
         }
 
         public async Task<IEnumerable<KeyContact>> GetPendingAdminRequests()

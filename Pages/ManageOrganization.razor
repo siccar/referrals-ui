@@ -39,44 +39,50 @@ else
                 <th>User Email</th>
                 <th>Is Admin</th>
                 <th>Is Pending</th>
+                <th>Remove</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var contact in keyContacts)
             {
-                <tr>
-                    <td>@contact.UserEmail</td>
-                    <td>@contact.IsAdmin</td>
-                    <td>@contact.IsPending</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <p>Members of the  Organisation</p>
-    <table class="table">
-        <thead>
             <tr>
-                <th>User Email</th>
-                <th>Membership Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var member in Memberships)
-            {
-            <tr>
-                <td>@member.Email</td>
-                <td>@member.Status</td>
+                <td>@contact.UserEmail</td>
+                <td>@contact.IsAdmin</td>
+                <td>@contact.IsPending</td>
                 <td>
                     <input type="button" name="Reject" class="button1" value="Remove"
-                           @onclick="@(e => HandleDenyRequest(member))" />
+                           @onclick="@(e => RemoveKeyContact(contact))" />
                 </td>
             </tr>
-            }
-        </tbody>
-    </table>
+            
+        }
+            </tbody>
+        </table>
 
-}
+        <p>Members of the  Organisation</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Email</th>
+                    <th>Membership Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var member in Memberships)
+                {
+                    <tr>
+                        <td>@member.Email</td>
+                        <td>@member.Status</td>
+                        <td>
+                            <input type="button" name="Reject" class="button1" value="Remove"
+                                   @onclick="@(e => HandleDenyRequest(member))" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
 
 @code {
 
@@ -84,6 +90,8 @@ else
     public string OrgId { get; set; }
 
     public bool orgUpdated { get; set; } = false;
+
+    public KeyContact keyContact { get; set; } = new KeyContact() { IsAdmin = true, IsPending = false };
 
     public Organization organization { get; set; } = new Organization();
 
@@ -104,6 +112,10 @@ else
         await MemberService.HandleDenyRequestForJoiningOrg(request);
     }
 
+    private async Task RemoveKeyContact(KeyContact contact)
+    {
+        await KeyContactService.RemoveKeyContact(contact);
+    }
 
     private async Task HandleValidSubmit()
     {
