@@ -50,8 +50,7 @@ else
                 <td>@contact.IsAdmin</td>
                 <td>@contact.IsPending</td>
                 <td>
-                    <input type="button" name="Reject" class="button1" value="Remove"
-                           @onclick="@(e => RemoveKeyContact(contact))" />
+                    <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
                 </td>
             </tr>
             
@@ -74,8 +73,7 @@ else
                         <td>@member.Email</td>
                         <td>@member.Status</td>
                         <td>
-                            <input type="button" name="Reject" class="button1" value="Remove"
-                                   @onclick="@(e => HandleDenyRequest(member))" />
+                            <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => HandleDenyRequest(member))" disabled="@member.DisableButton"/>
                         </td>
                     </tr>
                 }
@@ -109,11 +107,13 @@ else
 
     protected async Task HandleDenyRequest(MembershipRequests request)
     {
+        request.DisableButton = true;
         await MemberService.HandleDenyRequestForJoiningOrg(request);
     }
 
     private async Task RemoveKeyContact(KeyContact contact)
     {
+        contact.DisabledButton = true;
         await KeyContactService.RemoveKeyContact(contact);
     }
 

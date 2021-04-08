@@ -55,11 +55,9 @@ else
                     <td>@membership.Email</td>
 
                     <td>
-                        <input type="button" name="Accept" class="button1" value="Accept"
-                               @onclick="@(e => HandleGrantRequest(membership))" />
+                        <input type="button" name="Accept" class="button1" value="Accept" disabled ="@membership.DisableButton"  @onclick="@(e => HandleGrantRequest(membership))" />
 
-                        <input type="button" name="Reject" class="button1" value="Reject"
-                               @onclick="@(e => HandleDenyRequest(membership))" />
+                        <input type="button" name="Reject" class="button1" value="Reject" disabled ="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
                     </td>
                 </tr>
             }
@@ -82,8 +80,8 @@ else
                     <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
                     <td>@ar.UserEmail</td>
                     <td>
-                        <input type="button" name="Accept" class="button1" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar.OrgId, ar.UserId))" />
-                        <input type="button" name="Reject" class="button1" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar.OrgId, ar.UserId))" />
+                        <input type="button" name="Accept" class="button1" disabled ="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
+                        <input type="button" name="Reject" class="button1" disabled ="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
 
                     </td>
                 </tr>
@@ -115,25 +113,30 @@ else
 
     protected async Task HandleGrantRequest(MembershipRequests request)
     {
+        request.DisableButton = true;
         await MembershipRequests.HandleGrantRequestForJoiningOrg(request);
         ActionTaken = true;
     }
 
     protected async Task HandleDenyRequest(MembershipRequests request)
     {
+        request.DisableButton = true;
         await MembershipRequests.HandleDenyRequestForJoiningOrg(request);
         ActionTaken = true;
     }
 
-    protected async Task HandleAdminGrantRequest(string orgId, string userId)
+    protected async Task HandleAdminGrantRequest(KeyContact kc)
     {
-        await KeyContactRequests.HandleAdminGrantRequest(orgId, userId);
+
+        kc.DisabledButton = true;
+        await KeyContactRequests.HandleAdminGrantRequest(kc.OrgId, kc.UserId);
         ActionTaken = true;
     }
 
-    protected async Task HandleAdminDenyGrantRequest(string orgId, string userId)
+    protected async Task HandleAdminDenyGrantRequest(KeyContact kc)
     {
-        await KeyContactRequests.HandleAdminDenyRequest(orgId, userId);
+        kc.DisabledButton = true;
+        await KeyContactRequests.HandleAdminDenyRequest(kc.OrgId, kc.UserId);
         ActionTaken = true;
     }
 }
