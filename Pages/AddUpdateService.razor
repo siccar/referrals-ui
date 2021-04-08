@@ -2,19 +2,51 @@
 
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
+@using System.Linq;
 
 @inject IOpenReferralService ReferralService
 
 <h3>Add Or Update Service</h3>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Service Name</th>
+            <th>Description</th>
+            <th>tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in serviceList)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.Description</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 
 @code {
     private IEnumerable<Organization> organizations;
     private IEnumerable<Service> services;
+    private Organization selectedOrganization = new Organization();
+    private List<Service> serviceList = new List<Service>();
+    private Dictionary<Organization, List<Service>> dict = new Dictionary<Organization, List<Service>>();
 
     protected override async Task OnInitializedAsync()
     {
+
         organizations = await ReferralService.GetOrganizationsAsync();
         services = await ReferralService.GetServicesAsync();
+        foreach (var org in organizations)
+        {
+            var servicesAssociated = services.Where(s => s.OrganizationId == org.Id).ToList();
+            dict.Add(org, servicesAssociated);
+        }
+
+
     }
 }
