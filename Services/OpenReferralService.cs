@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
 using Newtonsoft.Json;
 using OpenReferralPOV.Data;
+using OpenReferralPOV.Data.Enums;
 using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,21 @@ namespace OpenReferralPOV.Services
             return services;
         }
 
+        public async Task<IEnumerable<TagEnum>> GetServiceTagsAsync(string serviceId)
+        {
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/tags?serviceId={serviceId}"));
+            var tags = JsonConvert.DeserializeObject<IEnumerable<TagEnum>>(responseString);
+
+            return tags;
+        }
+
+        public async Task <Service> UpdateService(Service service)
+        {
+            var responseString = await _httpClientAdapter.PutAsync(new Uri($"{ _ApiBaseAddress}/Services"), service);
+            var updatedService = JsonConvert.DeserializeObject<Service>(responseString);
+
+            return updatedService;
+        }
 
     }
 }
