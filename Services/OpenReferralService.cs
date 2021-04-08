@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
+
 namespace OpenReferralPOV.Services
 {
     public class OpenReferralService : IOpenReferralService
@@ -42,14 +43,22 @@ namespace OpenReferralPOV.Services
             return addedOrganization;
         }
 
-        public async Task<Service> AddService (Service Service)
+        public async Task<Service> AddService (Service service)
         {
-            throw new NotImplementedException();
+            var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Services"), service);
+            var addedService = JsonConvert.DeserializeObject<Service>(responseString);
+
+            return addedService;
         }
 
         public async Task<IEnumerable<Service>> GetServicesAsync()
         {
-            throw new NotImplementedException();
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/Services"));
+            var services = JsonConvert.DeserializeObject<IEnumerable<Service>>(responseString);
+
+            return services;
         }
+
+
     }
 }
