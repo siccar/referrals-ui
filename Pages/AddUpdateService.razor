@@ -20,12 +20,16 @@
     <tbody>
         @foreach (var s in serviceList)
         {
+            selectedService = s;
             <EditForm Model="@s" OnValidSubmit="@HandleValidSubmit">
 
                 <tr>
                     <td><InputText id="Name" @bind-Value="@s.Name" /></td>
                     <td><InputText id="Description" @bind-value="s.Description" /></td>
                     <td></td>
+                    <td>
+                        <button type="submit">Submit</button>
+                    </td>
                 </tr>
                 </EditForm>
                 }
@@ -39,6 +43,7 @@
     private Organization selectedOrganization = new Organization();
     private List<Service> serviceList = new List<Service>();
     private Dictionary<Organization, List<Service>> dict = new Dictionary<Organization, List<Service>>();
+    private Service selectedService { get; set; } = new Service();
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,6 +61,6 @@
 
     private async Task HandleValidSubmit()
     {
-        s = await ReferralService.UpdateService(s);
+        selectedService = await ReferralService.UpdateService(selectedService);
     }
 }

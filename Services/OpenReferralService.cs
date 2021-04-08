@@ -62,7 +62,7 @@ namespace OpenReferralPOV.Services
 
         public async Task<IEnumerable<TagEnum>> GetServiceTagsAsync(string serviceId)
         {
-            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/tags?serviceId={serviceId}"));
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/tags/{serviceId}"));
             var tags = JsonConvert.DeserializeObject<IEnumerable<TagEnum>>(responseString);
 
             return tags;
@@ -74,6 +74,14 @@ namespace OpenReferralPOV.Services
             var updatedService = JsonConvert.DeserializeObject<Service>(responseString);
 
             return updatedService;
+        }
+
+        public async Task<Location> AddLocation(Location location)
+        {
+            var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Location"), location);
+            var addedLocation = JsonConvert.DeserializeObject<Location>(responseString);
+
+            return addedLocation;
         }
 
     }
