@@ -1,37 +1,28 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">OpenReferralPOV</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+﻿<a href="/"><img src="assets/catalyst_logo.svg" alt="Catalyst" height="50"/></a>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+    <ul>
+        <li>
+            <NavLink href="organizations">
+                Organizations
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="organizations">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Organizations
+        <li>
+            <NavLink href="add-organization">
+                Add Organization
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="add-organization">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Add Organization
+        <li>
+            <NavLink href="keycontacts">
+                Key Contacts
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="keycontacts">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Key Contacts
+        <li>
+            <NavLink href="myrequests">
+                My Requests
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="myrequests">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> My Requests
-            </NavLink>
-        </li>
+        <LoginDisplay />
     </ul>
 </div>
 
