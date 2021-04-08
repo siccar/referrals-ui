@@ -13,6 +13,10 @@
 {
     <p><em>Loading...</em></p>
 }
+else if (ActionTaken)
+{
+    <h3><em>Action submitted</em></h3>
+}
 else
 {
     <p>My Requests to Join Organisations and there status</p>
@@ -74,12 +78,12 @@ else
         <tbody>
             @foreach (var ar in adminRequestsICanAuthorise)
             {
-            <tr>
-                <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
-                <td>@ar.UserEmail</td>
-                <input type="button" name="Accept" class="button1" value="Accept"
-                       @onclick="@(e => HandleAdminGrantRequest(ar.OrgId, ar.UserId))" />
-            </tr>
+                <tr>
+                    <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
+                    <td>@ar.UserEmail</td>
+                    <input type="button" name="Accept" class="button1" value="Accept"
+                           @onclick="@(e => HandleAdminGrantRequest(ar.OrgId, ar.UserId))" />
+                </tr>
             }
         </tbody>
     </table>
@@ -93,6 +97,7 @@ else
     private IEnumerable<MembershipRequests> joinRequestsICanAuthorise;
 
     private IEnumerable<KeyContact> adminRequestsICanAuthorise;
+    private bool ActionTaken;
 
 
     protected override async Task OnInitializedAsync()
@@ -101,20 +106,25 @@ else
         myrequeststojoin = await MembershipRequests.GetAllMemebershipRequestsThatCanBeActioned();
         joinRequestsICanAuthorise = (await MembershipRequests.GetOrgJoinRequests());
         adminRequestsICanAuthorise = await KeyContactRequests.GetPendingAdminRequests();
+
+        ActionTaken = false;
     }
 
     protected async Task HandleGrantRequest(MembershipRequests request)
     {
         await MembershipRequests.HandleGrantRequestForJoiningOrg(request);
+        ActionTaken = true;
     }
 
     protected async Task HandleDenyRequest(MembershipRequests request)
     {
         await MembershipRequests.HandleDenyRequestForJoiningOrg(request);
+        ActionTaken = true;
     }
 
     protected async Task HandleAdminGrantRequest(string orgId, string userId)
     {
         await KeyContactRequests.HandleAdminGrantRequest(orgId, userId);
+        ActionTaken = true;
     }
 }

@@ -14,6 +14,10 @@
 {
     <p><em>Loading...</em></p>
 }
+else if (RequestSent)
+{
+    <h3><em>Request Sent.</em></h3>
+}
 else
 {
     <p></p>
@@ -72,22 +76,26 @@ else
 
     private IEnumerable<Organization> organizations;
     private IEnumerable<KeyContact> KeyContacts;
+    private bool RequestSent;
 
     protected override async Task OnInitializedAsync()
     {
         organizations = await OrgService.GetAllOrganisations();
         KeyContacts = await KeyContactService.GetOrgsICanManage();
+        RequestSent = false;
     }
 
     protected async Task HandleRequestToJoin(Organization org)
     {
         await OrgService.RequestToJoinOrganisationAsMember(org.Id);
         org.RequestToJoinStatusMessage = "Request Sent";
+        RequestSent = true;
     }
 
     protected async Task HandleRequestToBecomeAdmin(Organization org)
     {
         await OrgService.RequestToJoinOrganisationAsAdmin(org.Id);
         org.RequestToAdminister = "Request Sent";
+        RequestSent = true;
     }
 }
