@@ -1,0 +1,49 @@
+﻿
+
+
+
+
+@page "/add-service"
+
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralService ReferralService
+
+
+
+@if (serviceAtLocationCreated)
+{
+    <h3>ServiceAtLocationCreated</h3>
+}
+else
+{
+    <h3>Add New Service</h3>
+    <EditForm Model="@serviceAtLocation" OnValidSubmit="@HandleValidSubmit">
+
+        <h3>Add Organization</h3>
+
+        <label for="Name">Service name</label>
+        <InputText id="Name" @bind-Value="@serviceAtLocation.Service.Name" />
+
+        <label for="Description">Description</label>
+        <InputText id="Description" @bind-Value="@serviceAtLocation.Service.Description" />
+
+        <label for="Location">Location</label>
+        <InputText id="Location" @bind-Value="@serviceAtLocation.Location.Name" />
+
+        <button type="submit">Submit</button>
+    </EditForm>
+}
+
+@code {
+    public ServiceAtLocation serviceAtLocation { get; set; } = new ServiceAtLocation();
+    public bool serviceAtLocationCreated { get; set; } = false;
+
+    private async Task HandleValidSubmit()
+    {
+        var location = await ReferralService.AddLocation(serviceAtLocation.Location);
+        var service = await ReferralService.AddService(serviceAtLocation.Service);
+        serviceAtLocationCreated = true;
+    }
+}
