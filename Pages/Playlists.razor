@@ -1,0 +1,96 @@
+﻿@page "/playlists"
+
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralPlaylistService PlaylistService
+@inject IOpenReferralOrganisationService OrgService  // This needs replaced with the service collection once its ine
+
+<h1>PlayLists</h1>
+
+<p>This component will return the current Users Playlists.</p>
+<p>This is not complete</p>
+
+
+@if (organizations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p><em>Playlist Options...</em></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Add To Playlist</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var org in organizations)
+            {
+                <tr>
+                    <td>@org.Name</td>
+                    <td>
+                        <input type="button" name="Add To Playlist" class="button1" value="Add"
+                               @onclick="@(e => AddToPlaylist(org.Id))" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+    @if (Playlist == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <p><em>Your Playlist...</em></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Org Name</th>
+                    <th>Remove From Playlist</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Playlist.Services)
+                {
+                    <tr>
+                        <td>@organizations.First(x => x.Id == s).Name</td>
+                        <td>
+                            <input type="button" name="Remove From Playlist" class="button1" value="Remove"
+                                   @onclick="@(e => RemoveFromPlaylist(s))" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+@code {
+    private Playlist Playlist = null;
+    private IEnumerable<Organization> organizations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Playlist = await PlaylistService.Get();
+        organizations = await OrgService.GetAllOrganisations();
+    }
+    private async Task AddToPlaylist(string id)
+    {
+        Playlist.Services = Playlist.Services.Append<string>(id).ToArray<string>();
+        Playlist = await PlaylistService.Update(Playlist);
+    }
+
+    private async Task RemoveFromPlaylist(string id)
+    {
+        var l = Playlist.Services.ToList();
+        l.Remove(id);
+        Playlist.Services = l.ToArray();
+        Playlist = await PlaylistService.Update(Playlist);
+    }
+}
