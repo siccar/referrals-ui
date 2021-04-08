@@ -4,6 +4,7 @@
 @using OpenReferralPOV.Services
 @using System.Linq;
 
+
 @inject IOpenReferralService ReferralService
 
 <h3>Add Or Update Service</h3>
@@ -19,13 +20,16 @@
     <tbody>
         @foreach (var s in serviceList)
         {
-            <tr>
-                <td>@s.Name</td>
-                <td>@s.Description</td>
-                <td></td>
-            </tr>
-        }
-    </tbody>
+            <EditForm Model="@s" OnValidSubmit="@HandleValidSubmit">
+
+                <tr>
+                    <td><InputText id="Name" @bind-Value="@s.Name" /></td>
+                    <td><InputText id="Description" @bind-value="s.Description" /></td>
+                    <td></td>
+                </tr>
+                </EditForm>
+                }
+        </tbody>
 </table>
 
 
@@ -48,5 +52,10 @@
         }
 
 
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        s = await ReferralService.UpdateService(s);
     }
 }

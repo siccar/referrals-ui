@@ -59,6 +59,24 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
 
         }
 
+        public async Task<string> PutAsync (Uri endpoint, object payload)
+        {
+            await PrepareAuthenticatedClient();
+
+            var message = new HttpRequestMessage();
+            message.RequestUri = endpoint;
+            message.Content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+            message.Method = HttpMethod.Put;
+
+            var response = await _httpClient.SendAsync(message);
+            if ((int)response.StatusCode >= 400)
+            {
+                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+            }
+            var responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
+        }
+
         private async Task PrepareAuthenticatedClient()
         {
             var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { _Scope });
