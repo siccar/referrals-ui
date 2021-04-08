@@ -81,8 +81,11 @@ else
                 <tr>
                     <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
                     <td>@ar.UserEmail</td>
-                    <input type="button" name="Accept" class="button1" value="Accept"
-                           @onclick="@(e => HandleAdminGrantRequest(ar.OrgId, ar.UserId))" />
+                    <td>
+                        <input type="button" name="Accept" class="button1" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar.OrgId, ar.UserId))" />
+                        <input type="button" name="Reject" class="button1" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar.OrgId, ar.UserId))" />
+
+                    </td>
                 </tr>
             }
         </tbody>
@@ -125,6 +128,12 @@ else
     protected async Task HandleAdminGrantRequest(string orgId, string userId)
     {
         await KeyContactRequests.HandleAdminGrantRequest(orgId, userId);
+        ActionTaken = true;
+    }
+
+    protected async Task HandleAdminDenyGrantRequest(string orgId, string userId)
+    {
+        await KeyContactRequests.HandleAdminDenyRequest(orgId, userId);
         ActionTaken = true;
     }
 }
