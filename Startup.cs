@@ -53,14 +53,9 @@ namespace OpenReferralPOV
             {
                 configureClient.BaseAddress = new Uri(Configuration.GetSection("ORApi:BaseUrl").Value);
             });
-<<<<<<< HEAD
             services.AddTransient<IOpenReferralOrganisationService, OpenReferralOrganisationService>();
             services.AddTransient<IOpenReferralKeyContactService, OpenReferralKeyContactService>();
             services.AddTransient<IOpenReferralMembershipRequestsService, OpenReferralMembershipRequestsService>();
-            services.AddTransient<IIdentityService, IdentityService>();
-=======
-            services.AddTransient<IOpenReferralService, OpenReferralService>();
->>>>>>> 7041719 (#3279 - Remove useless service)
             services.AddHttpContextAccessor();
             services.AddTransient<IHttpClientAdapter, HttpClientAdapter>();
         }
