@@ -1,0 +1,66 @@
+﻿@import '_reset.scss';
+@import '_colours.scss';
+@import '_sizes.scss';
+@import "_responsive.scss";
+
+body {
+    background: $white;
+    color: $darkblue;
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+header {
+    border-bottom: 1px solid $light-grey;
+    align-self: start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+        position: absolute
+    }
+
+    nav {
+        ul {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        li {
+            padding: 5px 0;
+            
+            a {
+                padding: .6rem 1rem;
+                text-decoration:none;
+            }
+        }
+
+        button {
+            margin-left: 1rem;
+            padding: 0.3rem 1rem;
+        }
+    }
+}
+
+footer {
+    background: $darkblue;
+    color: $white;
+    padding-top: 40px;
+    padding-bottom: 25px;
+}
+
+.content-container {
+    width: $width-lge;
+    padding-top:10px;
+    padding-bottom:10px;
+
+    @media only screen and (max-width: $width-lge) {
+        width: $width-mid;
+        padding:1rem;
+    }
+     margin: auto;
+  }
+
