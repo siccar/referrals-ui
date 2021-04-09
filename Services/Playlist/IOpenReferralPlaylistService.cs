@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace OpenReferralPOV.Services
 {
-    public interface IOpenReferralService
+    public interface IOpenReferralPlaylistService
     {
+        Task<Playlist> Update(Playlist playlist);
+
+        Task<Playlist> Get();
         Task<Organization> AddOrganization(Organization organization);
         Task<IEnumerable<Organization>> GetOrganizationsAsync();
         Task<Service> AddService(Service service);
