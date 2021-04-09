@@ -1,6 +1,20 @@
 ﻿@page "/"
 
-<h1>Catalyst App</h1>
-<p>Starting page for Catalyst App.  Something else to be placed here</p>
+@using Microsoft.Identity.Web
+@using Microsoft.Extensions.Options
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h1>Search for voluntary sector organisations and serivces in your area.</h1>
+    </NotAuthorized>
+
+
+    <Authorized>
+            <datalist>
+
+            </datalist>
+    </Authorized>
+</AuthorizeView>
+
 
 
