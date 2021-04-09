@@ -4,12 +4,34 @@
 @using OpenReferralPOV.Services
 
 @inject IOpenReferralPlaylistService PlaylistService
+@inject IOpenReferralServiceFilterService ServiceFilterService
 @inject IOpenReferralOrganisationService OrgService  // This needs replaced with the service collection once its ine
 
 <h1>PlayLists</h1>
 
 <p>This component will return the current Users Playlists.</p>
 <p>This is not complete</p>
+
+<EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
+
+
+    <label for="Postcode">Enter Postcode:</label><InputText id="Name" @bind-Value="@SearchService.Postcode" />
+    <label for="Category">or </label>
+    <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
+        @foreach (var cat in SearchService.Categories)
+        {
+            <option value="@cat">@cat</option>
+        }
+        }
+    </InputSelect>
+    <label for="SearchFor">Searching For</label>
+    Services
+    <input type="checkbox" checked />
+    
+    Organisations
+    <input type="checkbox" disabled/>
+    <button type="submit">Search</button>
+</EditForm>
 
 
 @if (organizations == null)
@@ -42,43 +64,47 @@ else
 }
 
 
-    @if (Playlist == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <p><em>Your Playlist...</em></p>
-        <table class="table">
-            <thead>
+@if (Playlist == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p><em>Your Playlist...</em></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Org Name</th>
+                <th>Remove From Playlist</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Playlist.Services)
+            {
                 <tr>
-                    <th>Org Name</th>
-                    <th>Remove From Playlist</th>
+                    <td>@organizations.First(x => x.Id == s).Name</td>
+                    <td>
+                        <input type="button" name="Remove From Playlist" class="button1" value="Remove"
+                               @onclick="@(e => RemoveFromPlaylist(s))" />
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var s in Playlist.Services)
-                {
-                    <tr>
-                        <td>@organizations.First(x => x.Id == s).Name</td>
-                        <td>
-                            <input type="button" name="Remove From Playlist" class="button1" value="Remove"
-                                   @onclick="@(e => RemoveFromPlaylist(s))" />
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+            }
+        </tbody>
+    </table>
+}
 
 @code {
-    private Playlist Playlist = null;
-    private IEnumerable<Organization> organizations;
+
+    public Playlist Playlist { get; set; } = new Playlist();
+    public ServiceFilter SearchService { get; set; } = new ServiceFilter();
+
+    public IEnumerable<Organization> organizations;
 
     protected override async Task OnInitializedAsync()
     {
         Playlist = await PlaylistService.Get();
         organizations = await OrgService.GetAllOrganisations();
+        SearchService = await ServiceFilterService.GetSearchFIlter();
     }
     private async Task AddToPlaylist(string id)
     {
@@ -93,4 +119,11 @@ else
         Playlist.Services = l.ToArray();
         Playlist = await PlaylistService.Update(Playlist);
     }
+
+    private async Task HandleSearchService()
+    {
+        // Does this reload
+        Playlist.Services = new string[] { };
+    }
+
 }
