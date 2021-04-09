@@ -8,6 +8,7 @@
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <Content Remove="Shared\Component.razor" />
+    <Content Remove="Shared\SurveyPrompt.razor" />
   </ItemGroup>
 
   <ItemGroup>
