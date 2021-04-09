@@ -1,12 +1,14 @@
-﻿namespace OpenReferralPOV.Data
+﻿using System.Collections.Generic;
+
+namespace OpenReferralPOV.Data
 {
     public class Playlist
     {
         public Playlist()
         {
-            Services = new string[] { };
+            Services = new List<string>();
         }
-        public string UserId { get; set; }
-        public string[] Services { get; set; }
+        public string Id { get; set; }
+        public List<string> Services { get; set; }
     }
 }

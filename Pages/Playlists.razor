@@ -108,22 +108,20 @@ else
     }
     private async Task AddToPlaylist(string id)
     {
-        Playlist.Services = Playlist.Services.Append<string>(id).ToArray<string>();
+        Playlist.Services.Add(id);
         Playlist = await PlaylistService.Update(Playlist);
     }
 
     private async Task RemoveFromPlaylist(string id)
     {
-        var l = Playlist.Services.ToList();
-        l.Remove(id);
-        Playlist.Services = l.ToArray();
+        Playlist.Services.Remove(id);
         Playlist = await PlaylistService.Update(Playlist);
     }
 
     private async Task HandleSearchService()
     {
         // Does this reload
-        Playlist.Services = new string[] { };
+        Playlist.Services = new List<string>();
     }
 
 }
