@@ -1,8 +1,5 @@
 ﻿using OpenReferralPOV.Data;
-<<<<<<< HEAD
-=======
 using OpenReferralPOV.Data.Enums;
->>>>>>> master
 using System;
 using System.Collections.Generic;
 using System.Linq;
