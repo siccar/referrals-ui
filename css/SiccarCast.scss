@@ -1,0 +1,84 @@
+﻿@import '_reset.scss';
+@import '_colours.scss';
+@import '_sizes.scss';
+@import '_weights.scss';
+@import "_responsive.scss";
+
+body {
+    background: $white;
+    color: $darkblue;
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    font-family: Poppins,sans-serif;
+}
+
+header {
+    border-bottom: 1px solid $light-grey;
+    align-self: start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    padding-bottom:10px;
+
+    img {
+        position: absolute;
+        margin-top:5px;
+    }
+
+    nav {
+        ul {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        li {
+            padding: 5px 0;
+
+            a {
+                padding: .7rem 1.5rem;
+                text-decoration: none;
+                color: $darkblue;
+                font-weight: $medium-weight;
+                border-radius: 100px;
+                margin: 0;
+
+                &:hover {
+                    background-color: $light-grey
+                }
+
+                &:focus {
+                    background-color: $darkblue;
+                    color: $white;
+                }
+            }
+        }
+
+        button {
+            margin-left: 1rem;
+            padding: 0.3rem 1rem;
+        }
+    }
+}
+
+footer {
+    background: $darkblue;
+    color: $white;
+    padding-top: 40px;
+    padding-bottom: 25px;
+}
+
+.content-container {
+    width: $width-lge;
+    padding-top:10px;
+    padding-bottom:10px;
+
+    @media only screen and (max-width: $width-lge) {
+        width: $width-mid;
+        padding:1rem;
+    }
+     margin: auto;
+  }
+
