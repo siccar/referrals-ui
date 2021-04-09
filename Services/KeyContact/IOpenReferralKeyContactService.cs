@@ -14,6 +14,7 @@ namespace OpenReferralPOV.Services
 
         Task<IEnumerable<KeyContact>> GetPendingAdminRequests();
 
+        Task HandleAdminDenyRequest(string orgId, string userId);
 
         Task HandleAdminGrantRequest(string orgId, string userId);
 
