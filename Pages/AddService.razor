@@ -1,0 +1,57 @@
+﻿
+
+
+
+
+@page "/add-service"
+
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralService ReferralService
+@inject IOpenReferralOrganisationService OrgService
+
+@if (serviceCreated)
+{
+    <h3>Service Created</h3>
+}
+else
+{
+    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+
+        <h3>Add Service</h3>
+
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="@service.Name" type="text" />
+
+        <label for="Description">Description</label>
+        <InputText id="Description" @bind-Value="@service.Description" type="text" />
+
+        <label for="Org">Organisation</label>
+        <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
+            @foreach (var org in organisations)
+                {
+                <option value="@org.Id">@org.Name</option>
+                }
+            }
+        </InputSelect>
+        <button type="submit">Submit</button>
+    </EditForm>
+}
+
+@code {
+    public IEnumerable<Organization> organisations { get; set; } = new List<Organization>();
+    public Service service { get; set; } = new Service();
+    public bool serviceCreated { get; set; } = false;
+
+    private async Task HandleValidSubmit()
+    {
+        service = await ReferralService.AddService(service);
+        serviceCreated = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        organisations = await OrgService.GetAllOrganisations();
+    }
+}

@@ -1,0 +1,48 @@
+﻿@page "/manage-service/{Id}"
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralService ServiceService
+
+@if (serviceUpdated)
+{
+    <h3>Service Updated</h3>
+}
+else
+{
+    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+
+        <h3>Manage Service</h3>
+
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="@service.Name" />
+
+        <label for="Description">Description</label>
+        <InputText id="Description" @bind-Value="@service.Description" />
+
+        <button type="submit">Submit</button>
+    </EditForm>
+}
+
+@code {
+
+
+    [Parameter]
+    public string Id { get; set; }
+
+    public bool serviceUpdated { get; set; } = false;
+
+    public Service service { get; set; } = new Service();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        service = await ServiceService.GetServiceById(Id);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        service = await ServiceService.UpdateService(service);
+        serviceUpdated = true;
+    }
+}
