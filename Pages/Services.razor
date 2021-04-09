@@ -1,0 +1,46 @@
+﻿@page "/services"
+
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+@using System.Linq;
+
+
+@inject IOpenReferralService ReferralService
+@inject IOpenReferralOrganisationService ReferralOrganisationService
+
+<h3>Add Or Update Service</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Service Name</th>
+            <th>Description</th>
+            <th>Org Name</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var s in services)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.Description</td>
+                <td>@organizations.First(x => x.Id == s.OrganizationId).Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private IEnumerable<Organization> organizations { get; set; } = new List<Organization>();
+    private IEnumerable<Service> services { get; set; } = new List<Service>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        organizations = await ReferralOrganisationService.GetAllOrganisations();
+        services = await ReferralService.GetServicesAsync();
+    }
+}
+
