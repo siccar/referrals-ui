@@ -52,6 +52,14 @@ namespace OpenReferralPOV.Services
             var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/admin/confirm/{orgId}/{userId}"));
         }
 
+        public async Task HandleAdminDenyRequest(string orgId, string userId)
+        {
+            var kc = new KeyContact() { OrgId = orgId, UserId = userId };
+            var responseString = await _httpClientAdapter.DeleteAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/delete"), kc);
+        }
+
+        
+
 
         public async Task<IEnumerable<KeyContact>> GetKeyContactsForOrg(string orgId)
         {

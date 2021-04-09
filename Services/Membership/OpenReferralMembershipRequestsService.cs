@@ -26,6 +26,13 @@ namespace OpenReferralPOV.Services
             return requests;
         }
 
+        public async Task<IEnumerable<MembershipRequests>> GetMembersOfEachOrg()
+        {
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/OrganizationMember/all/joined"));
+            var requests = JsonConvert.DeserializeObject<IEnumerable<MembershipRequests>>(responseString);
+            return requests;
+        }
+
         public async Task<IEnumerable<MembershipRequests>> GetOrgJoinRequests()
         {
             var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/OrganizationMember/admin/requests"));
