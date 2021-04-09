@@ -7,6 +7,7 @@ using OpenReferralPOV.Data.Enums;
 using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -22,13 +23,12 @@ namespace OpenReferralPOV.Services
             _httpClientAdapter = httpClientAdapter;
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
         }
+       
 
-        public async Task<Service> AddService(Service service)
+        public async Task<Service> GetServiceById(string id)
         {
-            var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Services"), service);
-            var addedService = JsonConvert.DeserializeObject<Service>(responseString);
-
-            return addedService;
+            var services = await GetServicesAsync();
+            return services.ToList().First(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Service>> GetServicesAsync()
@@ -87,18 +87,31 @@ namespace OpenReferralPOV.Services
 
         public async Task<Service> UpdateService(Service service)
         {
-            var responseString = await _httpClientAdapter.PutAsync(new Uri($"{ _ApiBaseAddress}/Services"), service);
-            var updatedService = JsonConvert.DeserializeObject<Service>(responseString);
+            //var responseString = await _httpClientAdapter.PutAsync(new Uri($"{ _ApiBaseAddress}/Services"), service);
+            //var updatedService = JsonConvert.DeserializeObject<Service>(responseString);
+            //return updatedService;
 
-            return updatedService;
+            return service;
         }
 
         public async Task<Location> AddLocation(Location location)
         {
-            var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Location"), location);
-            var addedLocation = JsonConvert.DeserializeObject<Location>(responseString);
+            //var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Location"), location);
+            //var addedLocation = JsonConvert.DeserializeObject<Location>(responseString);
+            //return addedLocation;
 
-            return addedLocation;
+
+            return location;
+        }
+
+
+        public async Task<Service> AddService(Service service)
+        {
+            //var responseString = await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/Services"), service);
+            //var addedService = JsonConvert.DeserializeObject<Service>(responseString);
+            //return addedService;
+
+            return service;
         }
 
     }
