@@ -10,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using OpenReferralPOV.Data;
-using OpenReferralPOV.Identity;
 using OpenReferralPOV.Services;
 using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
@@ -50,12 +49,15 @@ namespace OpenReferralPOV
             
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
 
-            services.AddHttpClient<IOpenReferralService, OpenReferralService>(configureClient =>
+            services.AddHttpClient<IOpenReferralOrganisationService, OpenReferralOrganisationService>(configureClient =>
             {
                 configureClient.BaseAddress = new Uri(Configuration.GetSection("ORApi:BaseUrl").Value);
             });
-            services.AddTransient<IOpenReferralService, OpenReferralService>();
-            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IOpenReferralOrganisationService, OpenReferralOrganisationService>();
+            services.AddTransient<IOpenReferralKeyContactService, OpenReferralKeyContactService>();
+            services.AddTransient<IOpenReferralMembershipRequestsService, OpenReferralMembershipRequestsService>();
+            services.AddTransient<IOpenReferralPlaylistService, OpenReferralPlaylistService>();
+            services.AddTransient<IOpenReferralServiceFilterService, OpenReferralMockServiceFilterService>();
             services.AddHttpContextAccessor();
             services.AddTransient<IHttpClientAdapter, HttpClientAdapter>();
         }

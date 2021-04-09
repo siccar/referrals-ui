@@ -40,14 +40,14 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             return responseString;
         }
 
-        public async Task<string> PostAsync(Uri endpoint, object payload)
+        private async Task<string> PayloadAsync(Uri endpoint, object payload, HttpMethod method)
         {
             await PrepareAuthenticatedClient();
 
             var message = new HttpRequestMessage();
             message.RequestUri = endpoint;
             message.Content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-            message.Method = HttpMethod.Post;
+            message.Method = method;
 
             var response = await _httpClient.SendAsync(message);
             if ((int)response.StatusCode >= 400)
@@ -56,7 +56,21 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             }
             var responseString = await response.Content.ReadAsStringAsync();
             return responseString;
+        }
 
+        public async Task<string> PostAsync(Uri endpoint, object payload)
+        {
+            return await PayloadAsync(endpoint, payload, HttpMethod.Post);
+        }
+
+        public async Task<string> DeleteAsync(Uri endpoint, object payload)
+        {
+            return await PayloadAsync(endpoint, payload, HttpMethod.Delete);
+        }
+
+        public async Task<string> PutAsync(Uri endpoint, object payload)
+        {
+            return await PayloadAsync(endpoint, payload, HttpMethod.Put);
         }
 
         public async Task<string> PutAsync (Uri endpoint, object payload)
@@ -82,6 +96,8 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { _Scope });
             Debug.WriteLine($"access token-{accessToken}");
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            
+            
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
     }

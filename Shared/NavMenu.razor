@@ -1,43 +1,41 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">OpenReferralPOV</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+﻿<a href="/"><img src="assets/catalyst_logo.svg" alt="Catalyst" height="50" /></a>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+    <nav>
+        <ul>
+            <li>
+                <NavLink href="organizations" Match="NavLinkMatch.All">
+                    Organizations
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="add-organization">
+                    Add Organization
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="myrequests">
+                    My Requests
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="playlist">
+                    My Playlist
+                </NavLink>
+            </li>
+                    <li>
+            <NavLink  href="addUpdate-service">
+             Add or Update Service
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+        <li >
+            <NavLink  href="add-service">
+ Add Service
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="organizations">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Organizations
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="add-organization">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Add Organization
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="addUpdate-service">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Add or Update Service
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="add-service">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Add Service
-            </NavLink>
-        </li>
-    </ul>
+            <LoginDisplay />
+        </ul>
+    </nav>
 </div>
 
 @code {

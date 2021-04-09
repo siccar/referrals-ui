@@ -3,7 +3,7 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 
-@inject IOpenReferralService ReferralService
+@inject IOpenReferralOrganisationService ReferralService
 
 
 @if (orgCreated)
@@ -17,16 +17,16 @@ else
         <h3>Add Organization</h3>
 
         <label for="Name">Name</label>
-        <InputText id="Name" @bind-Value="@organization.Name" />
+        <InputText id="Name" @bind-Value="@organization.Name" type="text"/> 
 
         <label for="Description">Description</label>
-        <InputText id="Description" @bind-Value="@organization.Description" />
+        <InputText id="Description" @bind-Value="@organization.Description"  type="text"/>
 
         <label for="Charity Number">Charity Number</label>
         <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
 
         <label for="Url">Url</label>
-        <InputText id="Url" @bind-Value="@organization.Url" />
+        <InputText id="Url" @bind-Value="@organization.Url"  type="text"/>
 
         <button type="submit">Submit</button>
     </EditForm>
