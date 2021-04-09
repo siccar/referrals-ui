@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿@page "/playlists"
-=======
 ﻿@page "/playlist"
->>>>>>> master
 
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
@@ -112,34 +108,20 @@ else
     }
     private async Task AddToPlaylist(string id)
     {
-<<<<<<< HEAD
-        Playlist.Services = Playlist.Services.Append<string>(id).ToArray<string>();
-=======
         Playlist.Services.Add(id);
->>>>>>> master
         Playlist = await PlaylistService.Update(Playlist);
     }
 
     private async Task RemoveFromPlaylist(string id)
     {
-<<<<<<< HEAD
-        var l = Playlist.Services.ToList();
-        l.Remove(id);
-        Playlist.Services = l.ToArray();
-=======
         Playlist.Services.Remove(id);
->>>>>>> master
         Playlist = await PlaylistService.Update(Playlist);
     }
 
     private async Task HandleSearchService()
     {
         // Does this reload
-<<<<<<< HEAD
-        Playlist.Services = new string[] { };
-=======
         Playlist.Services = new List<string>();
->>>>>>> master
     }
 
 }
