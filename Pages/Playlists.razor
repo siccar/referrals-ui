@@ -4,12 +4,11 @@
 
 @inject IOpenReferralPlaylistService PlaylistService
 @inject IOpenReferralServiceFilterService ServiceFilterService
-@inject IOpenReferralOrganisationService OrgService  // This needs replaced with the service collection once its ine
+@inject IOpenReferralService ServiceService  // This needs replaced with the service collection once its ine
 
 <h1>PlayLists</h1>
 
 <p>This component will return the current Users Playlists.</p>
-<p>This is not complete</p>
 
 <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
 
@@ -33,7 +32,7 @@
 </EditForm>
 
 
-@if (organizations == null)
+@if (services == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -48,13 +47,13 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var org in organizations)
+            @foreach (var service in services)
             {
                 <tr>
-                    <td>@org.Name</td>
+                    <td>@service.Name</td>
                     <td>
                         <input type="button" name="Add To Playlist" class="button1" value="Add"
-                               @onclick="@(e => AddToPlaylist(org.Id))" />
+                               @onclick="@(e => AddToPlaylist(service.Id))" />
                     </td>
                 </tr>
             }
@@ -73,7 +72,7 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Org Name</th>
+                <th>Service Name</th>
                 <th>Remove From Playlist</th>
             </tr>
         </thead>
@@ -81,7 +80,7 @@ else
             @foreach (var s in Playlist.Services)
             {
                 <tr>
-                    <td>@organizations.First(x => x.Id == s).Name</td>
+                    <td>@services.First(x => x.Id == s).Name</td>
                     <td>
                         <input type="button" name="Remove From Playlist" class="button1" value="Remove"
                                @onclick="@(e => RemoveFromPlaylist(s))" />
@@ -97,12 +96,12 @@ else
     public Playlist Playlist { get; set; } = new Playlist();
     public ServiceFilter SearchService { get; set; } = new ServiceFilter();
 
-    public IEnumerable<Organization> organizations;
+    public IEnumerable<Service> services { get; set; } = new List<Service>();
 
     protected override async Task OnInitializedAsync()
     {
         Playlist = await PlaylistService.Get();
-        organizations = await OrgService.GetAllOrganisations();
+        services = await ServiceService.GetServicesAsync();
         SearchService = await ServiceFilterService.GetSearchFIlter();
     }
     private async Task AddToPlaylist(string id)
