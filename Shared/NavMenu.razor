@@ -3,26 +3,39 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav>
         <ul>
-            <li>
-                <NavLink href="organizations" Match="NavLinkMatch.All">
-                    Organizations
-                </NavLink>
-            </li>
-            <li>
-                <NavLink href="add-organization">
-                    Add Organization
-                </NavLink>
-            </li>
-            <li>
-                <NavLink href="myrequests">
-                    My Requests
-                </NavLink>
-            </li>
-            <li>
-                <NavLink href="playlist">
-                    My Playlist
-                </NavLink>
-            </li>
+            <AuthorizeView>
+                <li>
+                    <NavLink href="organizations" Match="NavLinkMatch.All">
+                        Organizations
+                    </NavLink>
+                </li>
+            </AuthorizeView>
+            <AuthorizeView>
+
+                <li>
+                    <NavLink href="add-organization">
+                        Add Organization
+                    </NavLink>
+                </li>
+            </AuthorizeView>
+
+            <AuthorizeView>
+
+                <li>
+                    <NavLink href="myrequests">
+                        My Requests
+                    </NavLink>
+                </li>
+            </AuthorizeView>
+
+            <AuthorizeView>
+
+                <li>
+                    <NavLink href="playlist">
+                        My Playlist
+                    </NavLink>
+                </li>
+            </AuthorizeView>
             <LoginDisplay />
         </ul>
     </nav>
