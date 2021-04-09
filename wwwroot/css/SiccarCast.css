@@ -70,24 +70,37 @@ body {
   min-height: 100vh;
   margin: 0;
   display: grid;
-  grid-template-rows: auto 1fr auto; }
+  grid-template-rows: auto 1fr auto;
+  font-family: Poppins,sans-serif; }
 
 header {
   border-bottom: 1px solid #e6e5eb;
   align-self: start;
   display: flex;
   justify-content: space-between;
-  align-items: center; }
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 10px; }
   header img {
-    position: absolute; }
+    position: absolute;
+    margin-top: 5px; }
   header nav ul {
     display: flex;
     justify-content: flex-end; }
   header nav li {
     padding: 5px 0; }
     header nav li a {
-      padding: .6rem 1rem;
-      text-decoration: none; }
+      padding: .7rem 1.5rem;
+      text-decoration: none;
+      color: #0a0039;
+      font-weight: 500;
+      border-radius: 100px;
+      margin: 0; }
+      header nav li a:hover {
+        background-color: #e6e5eb; }
+      header nav li a:focus {
+        background-color: #0a0039;
+        color: #fff; }
   header nav button {
     margin-left: 1rem;
     padding: 0.3rem 1rem; }

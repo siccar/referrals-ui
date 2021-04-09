@@ -1,6 +1,7 @@
 ﻿@import '_reset.scss';
 @import '_colours.scss';
 @import '_sizes.scss';
+@import '_weights.scss';
 @import "_responsive.scss";
 
 body {
@@ -10,6 +11,7 @@ body {
     margin: 0;
     display: grid;
     grid-template-rows: auto 1fr auto;
+    font-family: Poppins,sans-serif;
 }
 
 header {
@@ -18,9 +20,12 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 15px;
+    padding-bottom:10px;
 
     img {
-        position: absolute
+        position: absolute;
+        margin-top:5px;
     }
 
     nav {
@@ -31,10 +36,23 @@ header {
 
         li {
             padding: 5px 0;
-            
+
             a {
-                padding: .6rem 1rem;
-                text-decoration:none;
+                padding: .7rem 1.5rem;
+                text-decoration: none;
+                color: $darkblue;
+                font-weight: $medium-weight;
+                border-radius: 100px;
+                margin: 0;
+
+                &:hover {
+                    background-color: $light-grey
+                }
+
+                &:focus {
+                    background-color: $darkblue;
+                    color: $white;
+                }
             }
         }
 
