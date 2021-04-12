@@ -44,6 +44,7 @@ header {
                 font-weight: $medium-weight;
                 border-radius: 100px;
                 margin: 0;
+                font-size: 0.7rem; //temp fix
 
                 &:hover {
                     background-color: $light-grey

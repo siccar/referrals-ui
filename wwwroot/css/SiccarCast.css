@@ -95,7 +95,8 @@ header {
       color: #0a0039;
       font-weight: 500;
       border-radius: 100px;
-      margin: 0; }
+      margin: 0;
+      font-size: 0.7rem; }
       header nav li a:hover {
         background-color: #e6e5eb; }
       header nav li a:focus {
