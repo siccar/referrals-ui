@@ -14,86 +14,77 @@
 <AuthorizeView>
     <Authorized Context="ctx">
 
-        @if (!RequestSent)
+        @if (!NewOrgRequest)
         {
-<EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
-    <table width="100%">
-        <tr>
-            <td>
-                Search for an organisation:
-            </td>
-            <td>
-                <BlazoredTypeahead SearchMethod="SearchOrgs"
-                                   placeholder="Search by Org Name"
-                                   TItem="Organization"
-                                   TValue="Organization"
-                                   @bind-Value="request.Org">
-                    <SelectedTemplate Context="org">
-                        <text>@org.Name</text>
-                    </SelectedTemplate>
-                    <ResultTemplate Context="org">
-                        @org.Name
-                    </ResultTemplate>
-                </BlazoredTypeahead>
-            </td>
-        </tr>
-        <tr>
-            <th>Make me an admin</th>
-            <td>
-                Help text explaining what rights the admin has.
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Request admin rights:
-                <InputCheckbox @bind-Value="@request.IsAdmin" class="form-control" />
-            </td>
-            <td>
-                <button type="submit">Verify Association</button>
-            </td>
-        </tr>
-    </table>
-</EditForm> }
-                else
-                {
-<h3><em>Request Sent.</em></h3>
-        
-        }
+    <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
+        <table width="100%">
+            <tr>
+                <td>
+                    Search for an organisation:
+                </td>
+                <td>
+                    <BlazoredTypeahead SearchMethod="SearchOrgs"
+                                       placeholder="Search by Org Name"
+                                       TItem="Organization"
+                                       TValue="Organization"
+                                       @bind-Value="request.Org">
+                        <SelectedTemplate Context="org">
+                            <text>@org.Name</text>
+                        </SelectedTemplate>
+                        <ResultTemplate Context="org">
+                            @org.Name
+                        </ResultTemplate>
+                    </BlazoredTypeahead>
+                </td>
+            </tr>
+            <tr>
+                <th>Make me an admin</th>
+                <td>
+                    Help text explaining what rights the admin has.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Request admin rights:
+                    <InputCheckbox @bind-Value="@request.IsAdmin" class="form-control" />
+                </td>
+                <td>
+                    <button type="submit">Verify Association</button>
+                </td>
+            </tr>
+        </table>
+    </EditForm> }
+else
+{
+    <h3><em>Request Sent.</em></h3>}
 
-
+        <table>
+            <tr>
+                <th>
+                    Who can add an organisation?
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Info regaurding who can add an organisation.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <NavLink href="add-organization">
+                        Add Organization
+                    </NavLink>
+                </td>
+            </tr>
+        </table>
 
 
     </Authorized>
 </AuthorizeView>
 
-@*<td>
-            <table>
-                <tr>
-                    <th>
-                        Who can add an organisation?
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        Info regaurding who can add an organisation.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        I have read and accept the <a href="">Terms and conditions</a>
-                    </td>
-                    <td>
-                        <button>Add Organisation </button>
-                    </td>
-                </tr>
-            </table>
-        </td>
-        </tr>
-    </table>*@
-
 @code { private IEnumerable<Organization> organizations;
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
-    private bool RequestSent;
+    private bool NewOrgRequest;
 
     protected override async Task OnInitializedAsync()
     {
@@ -123,12 +114,12 @@
         if (request.IsAdmin)
         {
             await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
-            RequestSent = true;
+            NewOrgRequest = true;
         }
         else
         {
             await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
-            RequestSent = true;
+            NewOrgRequest = true;
         }
     } }
 
