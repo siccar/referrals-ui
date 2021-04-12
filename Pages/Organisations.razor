@@ -52,7 +52,7 @@ else
                 @if (isNotAMember && isNotAnAdmin)
                 {
                     <td>
-                        <input type="button" name="Request to Join" class="button1" disabled="@org.JoinAsMemberButtonDisabled" value="@org.RequestToJoinStatusMessage" @onclick="@(e => HandleRequestToJoin(org))" />
+                        <input type="button" name="Request to Join" class="btn-sml" disabled="@org.JoinAsMemberButtonDisabled" value="@org.RequestToJoinStatusMessage" @onclick="@(e => HandleRequestToJoin(org))" />
                     </td>
                 }
                 else
@@ -63,7 +63,7 @@ else
                 @if (isNotAnAdmin)
                 {
                     <td>
-                        <input type="button" name="Request to Administer" class="button1" disabled="@org.JoinAsAdminButtonDisabled" value="@org.RequestToAdminister" @onclick="@(e => HandleRequestToBecomeAdmin(org))" />
+                        <input type="button" name="Request to Administer" class="btn-sml" disabled="@org.JoinAsAdminButtonDisabled" value="@org.RequestToAdminister" @onclick="@(e => HandleRequestToBecomeAdmin(org))" />
                     </td>
                     <td></td>
                 }
