@@ -1,12 +1,21 @@
 ﻿@page "/manage-service/{Id}"
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
+@using Newtonsoft.Json;
 
 @inject IOpenReferralService ServiceService
 
 @if (serviceUpdated)
 {
     <h3>Service Updated</h3>
+}
+else if (loading)
+{
+    <p><em>Loading...</em></p>
+}
+else if (updatingService)
+{
+    <p><em>Updating...</em></p>
 }
 else
 {
@@ -20,6 +29,24 @@ else
         <label for="Description">Description</label>
         <InputText id="Description" @bind-Value="@service.Description" />
 
+        <label for="Address">Address</label>
+        <InputText id="Address" @bind-Value="@address.Address_1" type="text" />
+
+        <label for="City">City</label>
+        <InputText id="City" @bind-Value="@address.City" type="text" />
+
+        <label for="County">County</label>
+        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+
+        <label for="PostCode">Post Code</label>
+        <InputText id="PostCode" @bind-Value="@address.Postal_Code" type="text" />
+
+        <label for="Email">Email</label>
+        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+
+        <label for="Url">Url</label>
+        <InputText id="Url" @bind-Value="@service.Url" type="text" />
+
         <button type="submit">Submit</button>
     </EditForm>
 }
@@ -31,17 +58,36 @@ else
     public string Id { get; set; }
 
     public bool serviceUpdated { get; set; } = false;
+    public bool updatingService { get; set; } = false;
+    public bool loading { get; set; } = true;
 
-    public Service service { get; set; } = new Service();
+    public Service service { get; set; }
+    public PhysicalAddress address;
+    public PhysicalAddress originalAddress;
 
 
     protected override async Task OnInitializedAsync()
     {
         service = await ServiceService.GetServiceById(Id);
+        var location = await ServiceService.GetLocationById(service.Service_At_Locations.First().Location_Id);
+        address = location.Physical_Addresses.First();
+
+        //Doing this to check if the postcode has changed.
+        originalAddress = new PhysicalAddress { Postal_Code = address.Postal_Code };
+        loading = false;
     }
 
     private async Task HandleValidSubmit()
     {
+        updatingService = true;
+        if (originalAddress.Postal_Code != address.Postal_Code)
+        {
+            var location = ServiceHelperFunctions.BuildLocation(service, address);
+            location = await ServiceService.AddLocation(location);
+
+            var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
+            service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+        }
         service = await ServiceService.UpdateService(service);
         serviceUpdated = true;
     }

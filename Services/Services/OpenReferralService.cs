@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace OpenReferralPOV.Services
 {
-    public class OpenReferralMockService : IOpenReferralService
+    public class OpenReferralService : IOpenReferralService
     {
         private IHttpClientAdapter _httpClientAdapter;
         private readonly string _ApiBaseAddress = string.Empty;
 
-        public OpenReferralMockService(IHttpClientAdapter httpClientAdapter, IConfiguration configuration)
+        public OpenReferralService(IHttpClientAdapter httpClientAdapter, IConfiguration configuration)
         {
             _httpClientAdapter = httpClientAdapter;
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
@@ -27,8 +27,16 @@ namespace OpenReferralPOV.Services
 
         public async Task<Service> GetServiceById(string id)
         {
-            var services = await GetServicesAsync();
-            return services.ToList().First(x => x.Id == id);
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/Services/{id}"));
+            var service = JsonConvert.DeserializeObject<Service>(responseString);
+            return service;
+        }
+
+        public async Task<Location> GetLocationById(string id)
+        {
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/Locations/{id}"));
+            var location = JsonConvert.DeserializeObject<Location>(responseString);
+            return location;
         }
 
         public async Task<IEnumerable<Service>> GetServicesAsync()
@@ -54,7 +62,7 @@ namespace OpenReferralPOV.Services
 
         public async Task<Service> UpdateService(Service service)
         {
-            var responseString = await _httpClientAdapter.PutAsync(new Uri($"{ _ApiBaseAddress}/Services"), service);
+            var responseString = await _httpClientAdapter.PutAsync(new Uri($"{ _ApiBaseAddress}/Services/{service.Id}"), service);
             var updatedService = JsonConvert.DeserializeObject<Service>(responseString);
             return updatedService;
         }

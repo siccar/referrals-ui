@@ -72,32 +72,14 @@ else
     {
         creatingService = true;
 
-        var location = BuildLocation();
+        var location = ServiceHelperFunctions.BuildLocation(service, address);
         location = await ReferralService.AddLocation(location);
 
-        var serviceAtLocation = BuildServiceAtLocation(location);
+        var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
         service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
 
         service = await ReferralService.AddService(service);
         serviceCreated = true;
-    }
-
-    private Location BuildLocation()
-    {
-        var location = new Location();
-        address.LocationId = location.Id;
-        location.Physical_Addresses = new List<PhysicalAddress> { address };
-        location.Name = service.Name;
-        return location;
-    }
-
-    private ServiceAtLocation BuildServiceAtLocation(Location location)
-    {
-        var serviceAtLocation = new ServiceAtLocation();
-        serviceAtLocation.Location_Id = location.Id;
-        serviceAtLocation.Service_Id = service.Id;
-
-        return serviceAtLocation;
     }
 
     protected override async Task OnInitializedAsync()
