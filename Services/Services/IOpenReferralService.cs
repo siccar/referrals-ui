@@ -12,6 +12,7 @@ namespace OpenReferralPOV.Services
         Task<IEnumerable<Service>> GetServicesAsync();
 
         Task<Service> GetServiceById(string id);
+        Task<Location> GetLocationById(string id);
 
         Task<IEnumerable<TagEnum>> GetServiceTagsAsync(string serviceId);
         Task<Service> UpdateService(Service service);
