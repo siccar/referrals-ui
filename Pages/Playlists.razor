@@ -47,7 +47,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var service in services)
+            @foreach (var service in services.Where(x => !Playlist.Services.Contains(x.Id)))
             {
                 <tr>
                     <td>@service.Name</td>
