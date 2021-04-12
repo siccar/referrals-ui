@@ -15,6 +15,10 @@
 {
     <h3>Service Created</h3>
 }
+else if (creatingService)
+{
+    <p><em>Creating Service...</em></p>
+}
 else
 {
     <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
@@ -26,6 +30,24 @@ else
 
         <label for="Description">Description</label>
         <InputText id="Description" @bind-Value="@service.Description" type="text" />
+
+        <label for="Address">Address</label>
+        <InputText id="Address" @bind-Value="@address.Address_1" type="text" />
+
+        <label for="City">City</label>
+        <InputText id="City" @bind-Value="@address.City" type="text" />
+
+        <label for="County">County</label>
+        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+
+        <label for="PostCode">Post Code</label>
+        <InputText id="PostCode" @bind-Value="@address.Postal_Code" type="text" />
+
+        <label for="Email">Email</label>
+        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+
+        <label for="Url">Url</label>
+        <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
         <label for="Org">Organisation</label>
         <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
@@ -42,12 +64,40 @@ else
 @code {
     public IEnumerable<Organization> organisations { get; set; } = new List<Organization>();
     public Service service { get; set; } = new Service();
+    public PhysicalAddress address { get; set; } = new PhysicalAddress();
     public bool serviceCreated { get; set; } = false;
+    public bool creatingService { get; set; } = false;
 
     private async Task HandleValidSubmit()
     {
+        creatingService = true;
+
+        var location = BuildLocation();
+        location = await ReferralService.AddLocation(location);
+
+        var serviceAtLocation = BuildServiceAtLocation(location);
+        service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+
         service = await ReferralService.AddService(service);
         serviceCreated = true;
+    }
+
+    private Location BuildLocation()
+    {
+        var location = new Location();
+        address.LocationId = location.Id;
+        location.Physical_Addresses = new List<PhysicalAddress> { address };
+        location.Name = service.Name;
+        return location;
+    }
+
+    private ServiceAtLocation BuildServiceAtLocation(Location location)
+    {
+        var serviceAtLocation = new ServiceAtLocation();
+        serviceAtLocation.Location_Id = location.Id;
+        serviceAtLocation.Service_Id = service.Id;
+
+        return serviceAtLocation;
     }
 
     protected override async Task OnInitializedAsync()
