@@ -1,6 +1,115 @@
 ﻿@page "/"
 
-<h1>Catalyst App</h1>
-<p>Starting page for Catalyst App.  Something else to be placed here</p>
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Data.Requests
+@using OpenReferralPOV.Services
+@using Blazored.Typeahead
+
+@inject IOpenReferralOrganisationService OrgService
+
+
+<span class="alpha">Alpha</span> This is a new service - your <a>feedback</a> will help us improve it.
+
+
+<EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
+    <table width="100%">
+        <tr>
+            <td>
+                Search for an organisation:
+            </td>
+            <td>
+                <BlazoredTypeahead SearchMethod="SearchOrgs"
+                                   placeholder="Search by Org Name"
+                                   TItem="Organization"
+                                   TValue="Organization"
+                                   @bind-Value="SelectedOrg">
+                    <SelectedTemplate Context="org">
+                        @{ var selectedOrg = LoadSelectedOrg(org.Name);
+                            <text>@selectedOrg.Name</text> }
+                    </SelectedTemplate>
+                    <ResultTemplate Context="org">
+                        @org.Name
+                    </ResultTemplate>
+                </BlazoredTypeahead>
+            </td>
+        </tr>
+        <tr>
+            <th>Make me an admin</th>
+            <td>
+                Help text explaining what rights the admin has.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Request admin rights: 
+                <InputCheckbox  @bind-Value="@request.IsAdmin" class="form-control"/>
+            </td>
+            <td>
+                <button type="submit">Verify Submit</button>
+            </td>
+        </tr>
+    </table>
+</EditForm>
+
+@*<td>
+            <table>
+                <tr>
+                    <th>
+                        Who can add an organisation?
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        Info regaurding who can add an organisation.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        I have read and accept the <a href="">Terms and conditions</a>
+                    </td>
+                    <td>
+                        <button>Add Organisation </button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        </tr>
+    </table>*@
+
+@code { private IEnumerable<Organization> organizations;
+    private Organization SelectedOrg;
+    public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            organizations = await OrgService.GetAllOrganisations();
+        }
+        catch (Exception)
+        {
+            organizations = new List<Organization>() { new Organization() { Name = "Please start typing " } };
+        }
+
+    }
+
+    private Organization LoadSelectedOrg(string name) => organizations.FirstOrDefault(p => p.Name == name);
+
+
+    private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
+    {
+        return await Task.FromResult(organizations.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+
+    private async Task HandleValidSubmit()
+    {
+        
+        var i = 0;
+    }
+}
+
 
 
