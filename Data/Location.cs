@@ -7,12 +7,16 @@ namespace OpenReferralPOV.Data
 {
     public class Location
     {
-        public string Description { get; set; }
+        public Location()
+        {
+            Id = Guid.NewGuid().ToString();
+            Physical_Addresses = new List<PhysicalAddress>();
+        }
         public string Id { get; set; }
+        public string Description { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Name { get; set; }
-        public IEnumerable<string> Physical_Addresses_Ids { get; set; }
-        public IEnumerable<string> Service_At_Locations_Ids { get; set; }
+        public IEnumerable<PhysicalAddress> Physical_Addresses { get; set; }
     }
 }
