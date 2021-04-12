@@ -22,10 +22,9 @@
                                    placeholder="Search by Org Name"
                                    TItem="Organization"
                                    TValue="Organization"
-                                   @bind-Value="SelectedOrg">
+                                   @bind-Value="request.Org">
                     <SelectedTemplate Context="org">
-                        @{ var selectedOrg = LoadSelectedOrg(org.Name);
-                            <text>@selectedOrg.Name</text> }
+                            <text>@org.Name</text>
                     </SelectedTemplate>
                     <ResultTemplate Context="org">
                         @org.Name
@@ -77,9 +76,7 @@
     </table>*@
 
 @code { private IEnumerable<Organization> organizations;
-    private Organization SelectedOrg;
-    public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin();
-
+    public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
 
 
     protected override async Task OnInitializedAsync()
@@ -90,13 +87,10 @@
         }
         catch (Exception)
         {
-            organizations = new List<Organization>() { new Organization() { Name = "Please start typing " } };
+            organizations = new List<Organization>();
         }
 
     }
-
-    private Organization LoadSelectedOrg(string name) => organizations.FirstOrDefault(p => p.Name == name);
-
 
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
     {
@@ -106,7 +100,7 @@
 
     private async Task HandleValidSubmit()
     {
-        
+
         var i = 0;
     }
 }
