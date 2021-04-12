@@ -6,11 +6,16 @@
 @using Blazored.Typeahead
 
 @inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralMembershipRequestsService MembershipRequestService
 
 
 <span class="alpha">Alpha</span> This is a new service - your <a>feedback</a> will help us improve it.
 
+<AuthorizeView>
+    <Authorized Context="ctx">
 
+        @if (!RequestSent)
+        {
 <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
     <table width="100%">
         <tr>
@@ -24,7 +29,7 @@
                                    TValue="Organization"
                                    @bind-Value="request.Org">
                     <SelectedTemplate Context="org">
-                            <text>@org.Name</text>
+                        <text>@org.Name</text>
                     </SelectedTemplate>
                     <ResultTemplate Context="org">
                         @org.Name
@@ -40,15 +45,26 @@
         </tr>
         <tr>
             <td>
-                Request admin rights: 
-                <InputCheckbox  @bind-Value="@request.IsAdmin" class="form-control"/>
+                Request admin rights:
+                <InputCheckbox @bind-Value="@request.IsAdmin" class="form-control" />
             </td>
             <td>
-                <button type="submit">Verify Submit</button>
+                <button type="submit">Verify Association</button>
             </td>
         </tr>
     </table>
-</EditForm>
+</EditForm> }
+                else
+                {
+<h3><em>Request Sent.</em></h3>
+        
+        }
+
+
+
+
+    </Authorized>
+</AuthorizeView>
 
 @*<td>
             <table>
@@ -77,7 +93,7 @@
 
 @code { private IEnumerable<Organization> organizations;
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
-
+    private bool RequestSent;
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,10 +116,21 @@
 
     private async Task HandleValidSubmit()
     {
-
-        var i = 0;
-    }
-}
+        if (request.Org == null || request.Org.Id == null)
+        {
+            return;
+        }
+        if (request.IsAdmin)
+        {
+            await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
+            RequestSent = true;
+        }
+        else
+        {
+            await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
+            RequestSent = true;
+        }
+    } }
 
 
 
