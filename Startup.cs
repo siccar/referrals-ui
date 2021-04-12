@@ -58,7 +58,7 @@ namespace OpenReferralPOV
             services.AddTransient<IOpenReferralMembershipRequestsService, OpenReferralMembershipRequestsService>();
             services.AddTransient<IOpenReferralPlaylistService, OpenReferralPlaylistService>();
             services.AddTransient<IOpenReferralServiceFilterService, OpenReferralMockServiceFilterService>();
-            services.AddTransient<IOpenReferralService, OpenReferralMockService>();
+            services.AddTransient<IOpenReferralService, OpenReferralService>();
             services.AddHttpContextAccessor();
             services.AddTransient<IHttpClientAdapter, HttpClientAdapter>();
         }
