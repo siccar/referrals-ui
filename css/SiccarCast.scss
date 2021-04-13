@@ -4,6 +4,10 @@
 @import '_weights.scss';
 @import "_responsive.scss";
 @import '_borders.scss';
+@import "./fontawesome/fontawesome.scss";
+@import "./fontawesome/solid.scss";
+@import "./fontawesome/regular.scss";
+@import "./fontawesome/brands.scss";
 
 body {
     background: $white;
