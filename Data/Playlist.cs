@@ -8,7 +8,7 @@ namespace OpenReferralPOV.Data
         {
             Services = new List<string>();
         }
-        public string Id { get; set; }
+        public string UserId { get; set; }
         public List<string> Services { get; set; }
     }
 }
