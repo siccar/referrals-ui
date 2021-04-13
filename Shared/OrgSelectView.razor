@@ -1,0 +1,53 @@
+﻿
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralKeyContactService KeyContactService
+
+<AuthorizeView>
+    <Authorized>
+        <label for="org">Please select an org</label>
+        <EditForm Model="keyContact " Context="ctx">
+            <InputSelect id="org" @bind-Value="@selected">
+                @foreach (var kc in KeyContacts)
+                {
+                    <option value="@kc.OrgId" >@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
+                }
+            </InputSelect>
+        </EditForm>
+    </Authorized>
+
+    <NotAuthorized>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    public Organization organization { get; set; } = new Organization();
+    public KeyContact keyContact { get; set; } = new KeyContact();
+    private string selected = "";
+
+
+    private IEnumerable<KeyContact> KeyContacts { get; set; } = new List<KeyContact>();
+    private IEnumerable<Organization> organizations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            organizations = await OrgService.GetAllOrganisations();
+            KeyContacts = await KeyContactService.GetOrgsICanManage();
+        }
+        catch(Exception)
+        {
+            organizations = new List<Organization>();
+            KeyContacts = new List<KeyContact>();
+        }
+    }
+
+
+    void OnValueChanged(string str)
+    {
+    }
+}
