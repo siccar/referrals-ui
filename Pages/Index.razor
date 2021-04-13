@@ -8,77 +8,45 @@
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralMembershipRequestsService MembershipRequestService
 
-
-<span class="alpha">Alpha</span> This is a new service - your <a>feedback</a> will help us improve it.
-
 <AuthorizeView>
     <Authorized Context="ctx">
 
         @if (!NewOrgRequest)
         {
-    <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
-        <table width="100%">
-            <tr>
-                <td>
-                    Search for an organisation:
-                </td>
-                <td>
-                    <BlazoredTypeahead SearchMethod="SearchOrgs"
-                                       placeholder="Search by Org Name"
-                                       TItem="Organization"
-                                       TValue="Organization"
-                                       @bind-Value="request.Org">
-                        <SelectedTemplate Context="org">
-                            <text>@org.Name</text>
-                        </SelectedTemplate>
-                        <ResultTemplate Context="org">
-                            @org.Name
-                        </ResultTemplate>
-                    </BlazoredTypeahead>
-                </td>
-            </tr>
-            <tr>
-                <th>Make me an admin</th>
-                <td>
-                    Help text explaining what rights the admin has.
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Request admin rights:
-                    <InputCheckbox @bind-Value="@request.IsAdmin" class="form-control" />
-                </td>
-                <td>
-                    <button type="submit">Verify Association</button>
-                </td>
-            </tr>
-        </table>
-    </EditForm> }
-else
-{
-    <h3><em>Request Sent.</em></h3>}
+            <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
 
-        <table>
-            <tr>
-                <th>
-                    Who can add an organisation?
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    Info regaurding who can add an organisation.
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <NavLink href="add-organization">
-                        Add Organization
-                    </NavLink>
-                </td>
-            </tr>
-        </table>
+                <label for="search">Search for an organisation:</label>
+                <BlazoredTypeahead SearchMethod="SearchOrgs"
+                                   placeholder="Search by Org Name"
+                                   TItem="Organization"
+                                   TValue="Organization"
+                                   @bind-Value="request.Org"
+                                   id="search">
+                    <SelectedTemplate Context="org">
+                        <text>@org.Name</text>
+                    </SelectedTemplate>
+                    <ResultTemplate Context="org">
+                        @org.Name
+                    </ResultTemplate>
+                </BlazoredTypeahead>
+                <h4>Make me an admin</h4>
+                <h4>Help text explaining what rights the admin has.</h4>
+                <label for="admin">Request admin rights:</label>
+                <InputCheckbox @bind-Value="@request.IsAdmin" class="form-control" id="admin" />
+                <button type="submit">Verify Association</button>
+            </EditForm>
 
-
+            <p></p>
+            <h3>Who can add an organisation?</h3>
+            <h4>Info regaurding who can add an organisation.</h4>
+            <NavLink href="add-organization">
+                Add Organization
+            </NavLink>
+        }
+        else
+        {
+            <h3><em>Request Sent.</em></h3>
+        }
     </Authorized>
 </AuthorizeView>
 
