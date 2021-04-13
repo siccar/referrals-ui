@@ -119,7 +119,8 @@ else
     private async Task HandleSearchService()
     {
         // Does this reload
-        Playlist.Services = new List<string>();
+        // todo: bind properly the categories to the different services, 
+        // do not empty list of services in playlist as it is confusing for the user seeing his/her playlist removed
     }
 
 }
