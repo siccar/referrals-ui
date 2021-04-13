@@ -125,6 +125,18 @@ h3 {
   font-size: 2rem;
   line-height: 5rem; }
 
+#alpha {
+  margin-top: 1.3rem;
+  margin-bottom: 1.3rem; }
+  #alpha a {
+    color: #0a0039; }
+  #alpha span {
+    border-radius: 100px;
+    background: #fbd0e9;
+    color: #990059;
+    padding: 0.2rem 1rem;
+    margin-right: 0.5rem; }
+
 /* Form Controls */
 label {
   color: #0a0039;
