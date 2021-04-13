@@ -1,12 +1,10 @@
 ﻿
 @using OpenReferralPOV.Data
-@using OpenReferralPOV.Data.State
 @using OpenReferralPOV.Services
 
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralKeyContactService KeyContactService
 @inject NavigationManager NavManager
-@inject IAppState AppState
 
 <AuthorizeView>
     <Authorized>
@@ -17,23 +15,7 @@
                 <option value="-1">Please select</option>
                 @foreach (var kc in KeyContacts)
                 {
-                    if (AppState != null && AppState.SelectedOrgs != null && AppState.SelectedOrgs.ContainsKey(UserId))
-                    {
-                        if (kc.OrgId == AppState.SelectedOrgs[UserId])
-                        {
-                            <option value="@kc.OrgId" selected>@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
-                        }
-                        else
-                        {
-                            <option value="@kc.OrgId">@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
-                        }
-                    }
-                    else
-                    {
-                        <option value="@kc.OrgId">@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
-                    }
-
-
+                    <option value="@kc.OrgId">@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
                 }
             </select>
 
@@ -53,24 +35,7 @@
 
 
     private IEnumerable<KeyContact> KeyContacts { get; set; } = new List<KeyContact>();
-    private IEnumerable<Organization> organizations;
-
-    private System.Security.Claims.ClaimsPrincipal principal;
-
-    private string UserId { get; set; }
-    [CascadingParameter]
-    private Task<AuthenticationState> authState { get; set; }
-
-
-    protected async override void OnParametersSet()
-    {
-        if (authState != null)
-        {
-            principal = (await authState).User;
-            UserId = principal.Claims.First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-        }
-    }
-
+    private IEnumerable<Organization> organizations = new List<Organization>();
 
 
     protected override async Task OnInitializedAsync()
@@ -80,19 +45,19 @@
             organizations = await OrgService.GetAllOrganisations();
             KeyContacts = await KeyContactService.GetOrgsICanManage();
         }
-        catch (Exception)
+        catch(Exception e)
         {
             organizations = new List<Organization>();
             KeyContacts = new List<KeyContact>();
         }
     }
 
+
     void DoStuff(ChangeEventArgs e)
     {
         var selected = e.Value.ToString();
         if (selected != "-1")
         {
-            AppState.SetSelectedOrg(UserId, selected);
             NavManager.NavigateTo($"manage-organisation/{e.Value.ToString()}", true);
         }
 
