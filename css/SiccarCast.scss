@@ -86,6 +86,23 @@ footer {
 // Headings
 h3 { font-size: $h3-font-size-desktop; line-height: $lh-desktop}
 
+// Alpha warning
+#alpha {
+    margin-top: $mid;
+    margin-bottom: $mid;
+    a{
+        color:$darkblue
+    }
+
+    span {
+        border-radius: 100px;
+        background: $red;
+        color: $dark-red;
+        padding: 0.2rem 1rem;
+        margin-right:0.5rem;
+    }
+}
+
 /* Form Controls */
 label {
     color:$darkblue;
