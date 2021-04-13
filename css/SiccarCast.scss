@@ -3,6 +3,7 @@
 @import '_sizes.scss';
 @import '_weights.scss';
 @import "_responsive.scss";
+@import '_borders.scss';
 
 body {
     background: $white;
@@ -82,3 +83,61 @@ footer {
      margin: auto;
   }
 
+// Headings
+h3 { font-size: $h3-font-size-desktop; line-height: $lh-desktop}
+
+// Alpha warning
+#alpha {
+    margin-top: $mid;
+    margin-bottom: $mid;
+    a{
+        color:$darkblue
+    }
+
+    span {
+        border-radius: 100px;
+        background: $red;
+        color: $dark-red;
+        padding: 0.2rem 1rem;
+        margin-right:0.5rem;
+    }
+}
+
+/* Form Controls */
+label {
+    color:$darkblue;
+    font-weight:500;
+    line-height:2rem;
+}
+label::after {
+        content: " : "
+}
+input, button[type=submit] {
+    margin-bottom: $mid
+}
+input, select, input[type=text], input[type=number], button[type=submit], input[type=button] {
+    border: $border-1 $darkblue solid;
+    font-size: $mid;
+    padding: 0.3rem;
+    width: 100%;
+}
+
+button[type=submit], input[type=button] {
+    background: $darkblue;
+    border: none;
+    color: $white;
+    padding: 0.3rem 2.5rem;
+    width: 100%;
+    border-bottom: $border-2 solid $darkblue;
+    margin-top: $mid;
+
+    &:hover {
+        background: $minty;
+        color: $darkblue;
+        cursor: pointer;
+    }
+}
+
+.btn-sml {
+    font-size: $sml!important
+}

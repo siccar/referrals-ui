@@ -1,6 +1,95 @@
 ﻿@page "/"
 
-<h1>Catalyst App</h1>
-<p>Starting page for Catalyst App.  Something else to be placed here</p>
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Data.Requests
+@using OpenReferralPOV.Services
+@using Blazored.Typeahead
+
+@inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralMembershipRequestsService MembershipRequestService
+
+<AuthorizeView>
+    <Authorized Context="ctx">
+
+        @if (!NewOrgRequest)
+        {
+            <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
+
+                <label for="search">Search for an organisation:</label>
+                <BlazoredTypeahead SearchMethod="SearchOrgs"
+                                   placeholder="Search by Org Name"
+                                   TItem="Organization"
+                                   TValue="Organization"
+                                   @bind-Value="request.Org"
+                                   id="search">
+                    <SelectedTemplate Context="org">
+                        <text>@org.Name</text>
+                    </SelectedTemplate>
+                    <ResultTemplate Context="org">
+                        @org.Name
+                    </ResultTemplate>
+                </BlazoredTypeahead>
+                <h4>Make me an admin</h4>
+                <h4>Help text explaining what rights the admin has.</h4>
+                <label for="admin">Request admin rights:</label>
+                <InputCheckbox @bind-Value="@request.IsAdmin" class="form-control" id="admin" />
+                <button type="submit">Verify Association</button>
+            </EditForm>
+
+            <p></p>
+            <h3>Who can add an organisation?</h3>
+            <h4>Info regaurding who can add an organisation.</h4>
+            <NavLink href="add-organization">
+                Add Organization
+            </NavLink>
+        }
+        else
+        {
+            <h3><em>Request Sent.</em></h3>
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code { private IEnumerable<Organization> organizations;
+    public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
+    private bool NewOrgRequest;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            organizations = await OrgService.GetAllOrganisations();
+        }
+        catch (Exception)
+        {
+            organizations = new List<Organization>();
+        }
+
+    }
+
+    private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
+    {
+        return await Task.FromResult(organizations.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+
+    private async Task HandleValidSubmit()
+    {
+        if (request.Org == null || request.Org.Id == null)
+        {
+            return;
+        }
+        if (request.IsAdmin)
+        {
+            await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
+            NewOrgRequest = true;
+        }
+        else
+        {
+            await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
+            NewOrgRequest = true;
+        }
+    } }
+
 
 
