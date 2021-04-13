@@ -1,17 +1,10 @@
-﻿
-
-
-
-
-@page "/add-service"
+﻿@page "/add-service/{OrgId}"
 
 @using OpenReferralPOV.Data
-@using OpenReferralPOV.Data.State
 @using OpenReferralPOV.Services
 
 @inject IOpenReferralService ReferralService
 @inject IOpenReferralOrganisationService OrgService
-@inject IAppState AppState
 
 
 @if (serviceCreated)
@@ -56,16 +49,9 @@ else
         <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
             @foreach (var org in organisations)
                 {
-                    if (AppState != null && AppState.SelectedOrgs != null && AppState.SelectedOrgs.ContainsKey(UserId))
+                    if (org.Id == OrgId)
                     {
-                        if (org.Id == AppState.SelectedOrgs[UserId])
-                        {
-                        <option value="@org.Id" selected>@org.Name</option>
-                        }
-                        else
-                        {
-                        <option value="@org.Id">@org.Name</option>
-                        }
+                    <option value="@org.Id" selected>@org.Name</option>
                     }
                     else
                     {
@@ -80,24 +66,8 @@ else
 
 @code {
 
-
-    private System.Security.Claims.ClaimsPrincipal principal;
-
-    private string UserId { get; set; }
-    [CascadingParameter]
-    private Task<AuthenticationState> authState { get; set; }
-
-    protected async override void OnParametersSet()
-    {
-        if (authState != null)
-        {
-            principal = (await authState).User;
-            UserId = principal.Claims.First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-        }
-    }
-
-
-
+    [Parameter]
+    public string OrgId { get; set; }
     public IEnumerable<Organization> organisations { get; set; } = new List<Organization>();
     public Service service { get; set; } = new Service();
     public PhysicalAddress address { get; set; } = new PhysicalAddress();
