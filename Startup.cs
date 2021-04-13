@@ -10,12 +10,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using OpenReferralPOV.Data;
+using OpenReferralPOV.Data.State;
 using OpenReferralPOV.Services;
 using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OpenReferralPOV
 {
@@ -59,6 +57,7 @@ namespace OpenReferralPOV
             services.AddTransient<IOpenReferralPlaylistService, OpenReferralPlaylistService>();
             services.AddTransient<IOpenReferralServiceFilterService, OpenReferralMockServiceFilterService>();
             services.AddTransient<IOpenReferralService, OpenReferralService>();
+            services.AddSingleton<IAppState, AppState>();
             services.AddHttpContextAccessor();
             services.AddTransient<IHttpClientAdapter, HttpClientAdapter>();
         }
