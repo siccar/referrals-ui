@@ -17,6 +17,8 @@ body {
     display: grid;
     grid-template-rows: auto 1fr auto;
     font-family: Poppins,sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500
 }
 
 header {
@@ -88,7 +90,8 @@ footer {
   }
 
 // Headings
-h3 { font-size: $h3-font-size-desktop; line-height: $lh-desktop}
+h3 { line-height: $lh-desktop}
+h4 { margin-top:$h4-spacing; margin-bottom:$h4-spacing}
 
 // Alpha warning
 #alpha {
@@ -146,7 +149,6 @@ button[type=submit], input[type=button] {
 [type="checkbox"]:checked {
     @extend %fa-icon;
     @extend .far;
-    position: absolute;
     width:0px;
 }
 
@@ -160,4 +162,34 @@ input[type=checkbox]:checked::before {
 
 .btn-sml {
     font-size: $sml !important
+}
+
+
+/* Grid Layout */
+main .gridder {
+
+    .col {
+        width: 70%;
+    }
+
+    .two-cols {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+
+    .headspace{
+        margin-top:5rem;
+    }
+
+    .col-left {
+        justify-self: start
+    }
+
+    .col-mid {
+        justify-self: center
+    }
+
+    .col-right {
+        justify-self: end
+    }
 }

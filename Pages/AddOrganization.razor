@@ -12,9 +12,10 @@
 }
 else
 {
+
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
 
-        <h3>Add Organization</h3>
+        <h2>Add Organization</h2>
 
         <label for="Name">Name</label>
         <InputText id="Name" @bind-Value="@organization.Name" type="text"/> 
