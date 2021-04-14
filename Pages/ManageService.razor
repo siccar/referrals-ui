@@ -30,7 +30,7 @@ else
         <InputText id="Description" @bind-Value="@service.Description" />
 
         <label for="Address">Address</label>
-        <InputText id="Address" @bind-Value="@address.Address_1" type="text" />
+        <InputText id="Address" @bind-Value="@service.Address" type="text" />
 
         <label for="City">City</label>
         <InputText id="City" @bind-Value="@address.City" type="text" />
@@ -39,7 +39,7 @@ else
         <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
         <label for="PostCode">Post Code</label>
-        <InputText id="PostCode" @bind-Value="@address.Postal_Code" type="text" />
+        <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
         <label for="Email">Email</label>
         <InputText id="Email" @bind-Value="@service.Email" type="text" />
@@ -47,6 +47,8 @@ else
         <label for="Url">Url</label>
         <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <button type="submit">Submit</button>
     </EditForm>
 }
@@ -71,8 +73,10 @@ else
         service = await ServiceService.GetServiceById(Id);
         var location = await ServiceService.GetLocationById(service.Service_At_Locations.First().Location_Id);
         address = location.Physical_Addresses.First();
+        service._Postcode = address.Postal_Code;
+        service.Address = address.Address_1;
 
-        //Doing this to check if the postcode has changed.
+    //Doing this to check if the postcode has changed.
         originalAddress = new PhysicalAddress { Postal_Code = address.Postal_Code };
         loading = false;
     }
@@ -80,7 +84,7 @@ else
     private async Task HandleValidSubmit()
     {
         updatingService = true;
-        if (originalAddress.Postal_Code != address.Postal_Code)
+        if (originalAddress.Postal_Code != service._Postcode)
         {
             var location = ServiceHelperFunctions.BuildLocation(service, address);
             location = await ServiceService.AddLocation(location);

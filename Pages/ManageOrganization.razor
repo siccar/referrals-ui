@@ -1,8 +1,10 @@
 ﻿@page "/manage-organisation/{OrgId}"
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
+@using System.Linq
 
 @inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralService ServiceService
 @inject IOpenReferralMembershipRequestsService MemberService
 @inject IOpenReferralKeyContactService KeyContactService
 @inject NavigationManager NavManager
@@ -16,8 +18,6 @@ else
 
     <h3>Manage Organization</h3>
 
-    <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
-    <a class="" href="manage-organisation/{@organization.Id}">Manage Org</a>
 
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
         <label for="Name">Name</label>
@@ -32,11 +32,35 @@ else
         <label for="Url">Url</label>
         <InputText id="Url" @bind-Value="@organization.Url" />
 
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <button type="submit">Submit</button>
     </EditForm>
 
+    <h3>Services</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Service URL</th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Services)
+            {
+                <tr>
+                    <td>@service.Name</td>
+                    <td>@service.Url</td>
+                    <a class="" href="manage-service/@service.Id">Manage Service</a>
+                </tr>
 
-    <p>Admins/Key Contacts of the Organisation</p>
+            }
+        </tbody>
+    </table>
+    <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
+
+    <h3>Admins/Key Contacts of the Organisation</h3>
     <table class="table">
         <thead>
             <tr>
@@ -62,7 +86,8 @@ else
         </tbody>
     </table>
 
-    <p>Members of the  Organisation</p>
+    <p></p>
+    <h3>Members of the  Organisation</h3>
     <table class="table">
         <thead>
             <tr>
@@ -101,12 +126,15 @@ else
 
     public IEnumerable<MembershipRequests> Memberships = new List<MembershipRequests>();
 
+    public IEnumerable<Service> Services = new List<Service>();
+
 
     protected override async Task OnInitializedAsync()
     {
         organization = await OrgService.GetOrganisation(OrgId);
         keyContacts = await KeyContactService.GetKeyContactsForOrg(OrgId);
         Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
+        Services = (await ServiceService.GetServicesAsync()).Where(x => x.OrganizationId == OrgId);
     }
 
     protected async Task HandleDenyRequest(MembershipRequests request)

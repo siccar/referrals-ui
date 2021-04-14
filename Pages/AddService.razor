@@ -8,7 +8,6 @@
 @inject IOpenReferralOrganisationService OrgService
 
 
-
 @if (serviceCreated)
 {
     <h3>Service Created</h3>
@@ -19,9 +18,9 @@ else if (creatingService)
 }
 else
 {
-<EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
 
-    <h3>Add Service</h3>
+        <h3>Add Service</h3>
 
     <label for="Name">Name</label>
     <InputText id="Name" @bind-Value="@service.Name" type="text" />
@@ -30,7 +29,7 @@ else
     <InputText id="Description" @bind-Value="@service.Description" type="text" />
 
     <label for="Address">Address</label>
-    <InputText id="Address" @bind-Value="@address.Address_1" type="text" />
+    <InputText id="Address" @bind-Value="@service.Address" type="text" />
 
     <label for="City">City</label>
     <InputText id="City" @bind-Value="@address.City" type="text" />
@@ -39,7 +38,7 @@ else
     <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
     <label for="PostCode">Post Code</label>
-    <InputText id="PostCode" @bind-Value="@address.Postal_Code" type="text" />
+    <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
     <label for="Email">Email</label>
     <InputText id="Email" @bind-Value="@service.Email" type="text" />
@@ -105,6 +104,9 @@ else
             }
         }
     </InputSelect>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
     <button type="submit">Submit</button>
 </EditForm>
 }
