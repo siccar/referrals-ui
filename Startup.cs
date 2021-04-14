@@ -12,7 +12,6 @@ using Microsoft.Identity.Web.UI;
 using OpenReferralPOV.Services;
 using OpenReferralPOV.Services.HttpClientAdapter;
 using System;
-using OpenReferralPOV.Services.ServiceTags;
 
 namespace OpenReferralPOV
 {
@@ -54,7 +53,6 @@ namespace OpenReferralPOV
             services.AddTransient<IOpenReferralKeyContactService, OpenReferralKeyContactService>();
             services.AddTransient<IOpenReferralMembershipRequestsService, OpenReferralMembershipRequestsService>();
             services.AddTransient<IOpenReferralPlaylistService, OpenReferralPlaylistService>();
-            services.AddTransient<IOpenReferralServiceTagsService, OpenReferralsServiceTagsService>();
             services.AddTransient<IOpenReferralServiceFilterService, OpenReferralMockServiceFilterService>();
             services.AddTransient<IOpenReferralService, OpenReferralService>();
             services.AddHttpContextAccessor();
