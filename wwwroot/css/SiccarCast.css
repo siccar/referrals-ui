@@ -4708,7 +4708,9 @@ body {
   margin: 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  font-family: Poppins,sans-serif; }
+  font-family: Poppins,sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500; }
 
 header {
   border-bottom: 1px solid #e6e5eb;
@@ -4759,8 +4761,11 @@ footer {
       padding: 1rem; } }
 
 h3 {
-  font-size: 2rem;
   line-height: 5rem; }
+
+h4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem; }
 
 #alpha {
   margin-top: 1.3rem;
@@ -4807,7 +4812,6 @@ button[type=submit], input[type=button] {
 
 [type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {
-  position: absolute;
   width: 0px; }
 
 input[type=checkbox]::before {
@@ -4818,3 +4822,23 @@ input[type=checkbox]:checked::before {
 
 .btn-sml {
   font-size: 0.8rem !important; }
+
+/* Grid Layout */
+main .gridder .col {
+  width: 70%; }
+
+main .gridder .two-cols {
+  display: grid;
+  grid-template-columns: 50% 50%; }
+
+main .gridder .headspace {
+  margin-top: 5rem; }
+
+main .gridder .col-left {
+  justify-self: start; }
+
+main .gridder .col-mid {
+  justify-self: center; }
+
+main .gridder .col-right {
+  justify-self: end; }
