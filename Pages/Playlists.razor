@@ -106,14 +106,23 @@
 
     public IEnumerable<Service> services { get; set; }
     public IEnumerable<Service> searchServices { get; set; }
+    [CascadingParameter]
+    public Error Error { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Playlist = new Playlist();
-        Playlist = await PlaylistService.Get();
-        services = await ServiceService.GetServicesAsync();
-        searchServices = new List<Service>();
-        SearchService = await ServiceFilterService.GetSearchFIlter();
+        try
+        {
+            Playlist = new Playlist();
+            Playlist = await PlaylistService.Get();
+            services = await ServiceService.GetServicesAsync();
+            searchServices = new List<Service>();
+            SearchService = await ServiceFilterService.GetSearchFIlter();
+        }
+        catch(Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
     private async Task AddToPlaylist(string id)
     {
