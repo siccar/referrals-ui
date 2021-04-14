@@ -122,14 +122,14 @@ label::after {
 input, button[type=submit] {
     margin-bottom: $mid
 }
-input, select, input[type=text], input[type=number], button[type=submit], input[type=button] {
+input, select, input[type=text], input[type=number], button[type=submit], input[type=button], button {
     border: $border-1 $darkblue solid;
     font-size: $mid;
     padding: 0.3rem;
     width: 100%;
 }
 
-button[type=submit], input[type=button] {
+button[type=submit], input[type=button], button {
     background: $darkblue;
     border: none;
     color: $white;
@@ -191,5 +191,40 @@ main .gridder {
 
     .col-right {
         justify-self: end
+    }
+}
+.signed-out {
+    h1, h2, h3, h4, p, div {
+        margin-bottom: 2rem
+    }
+
+    .yellowbg {
+        background: $yellow;
+        padding: 3rem;
+        margin-bottom: 2rem;
+
+        a {
+            color: $darkblue;
+        }
+
+        h2 {
+            width: 60%
+        }
+    }
+
+    .flexer {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 0;
+
+
+        div {
+            margin-bottom: 0;
+        }
+
+        .buttondiv {
+            width: 30%;
+            margin-right: 1rem
+        }
     }
 }

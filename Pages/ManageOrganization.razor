@@ -8,13 +8,8 @@
 @inject IOpenReferralMembershipRequestsService MemberService
 @inject IOpenReferralKeyContactService KeyContactService
 @inject NavigationManager NavManager
-@if (orgUpdated)
-{
-    <h3>Organization Updated</h3>
-}
-else
-{
 
+<<<<<<< HEAD
 
     <h3>Manage Organization</h3>
 
@@ -72,17 +67,15 @@ else
         </thead>
         <tbody>
             @foreach (var contact in keyContacts)
+=======
+    <div class="content-container">
+        <div class="gridder">
+            @if (orgUpdated)
+>>>>>>> 44247b6 (Added signed out homepage styling and made html updates to layout on other pages)
             {
-                <tr>
-                    <td>@contact.UserEmail</td>
-                    <td>@contact.IsAdmin</td>
-                    <td>@contact.IsPending</td>
-                    <td>
-                        <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
-                    </td>
-                </tr>
-
+                <h3>Organization Updated</h3>
             }
+<<<<<<< HEAD
         </tbody>
     </table>
 
@@ -97,38 +90,106 @@ else
         </thead>
         <tbody>
             @foreach (var member in Memberships)
+=======
+            else
+>>>>>>> 44247b6 (Added signed out homepage styling and made html updates to layout on other pages)
             {
-                <tr>
-                    <td>@member.Email</td>
-                    <td>@member.Status</td>
-                    <td>
-                        <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => HandleDenyRequest(member))" disabled="@member.DisableButton" />
-                    </td>
-                </tr>
+
+
+                <h3>Manage Organization</h3>
+
+                <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
+                <a class="" href="manage-organisation/{@organization.Id}">Manage Org</a>
+
+                <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
+                    <label for="Name">Name</label>
+                    <InputText id="Name" @bind-Value="@organization.Name" />
+
+                    <label for="Description">Description</label>
+                    <InputText id="Description" @bind-Value="@organization.Description" />
+
+                    <label for="Charity Number">Charity Number</label>
+                    <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
+
+                    <label for="Url">Url</label>
+                    <InputText id="Url" @bind-Value="@organization.Url" />
+
+                    <button type="submit">Submit</button>
+                </EditForm>
+
+
+                <p>Admins/Key Contacts of the Organisation</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User Email</th>
+                            <th>Is Admin</th>
+                            <th>Is Pending</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var contact in keyContacts)
+                        {
+                            <tr>
+                                <td>@contact.UserEmail</td>
+                                <td>@contact.IsAdmin</td>
+                                <td>@contact.IsPending</td>
+                                <td>
+                                    <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+                <p>Members of the  Organisation</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User Email</th>
+                            <th>Membership Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var member in Memberships)
+                        {
+                            <tr>
+                                <td>@member.Email</td>
+                                <td>@member.Status</td>
+                                <td>
+                                    <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => HandleDenyRequest(member))" disabled="@member.DisableButton" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
             }
-        </tbody>
-    </table>
 
-}
+            </div>
+        </div>
 
-@code {
+            @code {
 
-    [Parameter]
-    public string OrgId { get; set; }
+                [Parameter]
+                public string OrgId { get; set; }
 
-    public bool orgUpdated { get; set; } = false;
+                public bool orgUpdated { get; set; } = false;
 
-    public KeyContact keyContact { get; set; } = new KeyContact() { IsAdmin = true, IsPending = false };
+                public KeyContact keyContact { get; set; } = new KeyContact() { IsAdmin = true, IsPending = false };
 
-    public Organization organization { get; set; } = new Organization();
+                public Organization organization { get; set; } = new Organization();
 
-    public IEnumerable<KeyContact> keyContacts = new List<KeyContact>();
+                public IEnumerable<KeyContact> keyContacts = new List<KeyContact>();
 
-    public IEnumerable<MembershipRequests> Memberships = new List<MembershipRequests>();
+                public IEnumerable<MembershipRequests> Memberships = new List<MembershipRequests>();
 
     public IEnumerable<Service> Services = new List<Service>();
 
 
+<<<<<<< HEAD
     protected override async Task OnInitializedAsync()
     {
         organization = await OrgService.GetOrganisation(OrgId);
@@ -136,28 +197,36 @@ else
         Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
         Services = (await ServiceService.GetServicesAsync()).Where(x => x.OrganizationId == OrgId);
     }
+=======
+                protected override async Task OnInitializedAsync()
+                {
+                    organization = await OrgService.GetOrganisation(OrgId);
+                    keyContacts = await KeyContactService.GetKeyContactsForOrg(OrgId);
+                    Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
+                }
+>>>>>>> 44247b6 (Added signed out homepage styling and made html updates to layout on other pages)
 
-    protected async Task HandleDenyRequest(MembershipRequests request)
-    {
-        request.DisableButton = true;
-        await MemberService.HandleDenyRequestForJoiningOrg(request);
-    }
+                protected async Task HandleDenyRequest(MembershipRequests request)
+                {
+                    request.DisableButton = true;
+                    await MemberService.HandleDenyRequestForJoiningOrg(request);
+                }
 
-    private async Task RemoveKeyContact(KeyContact contact)
-    {
-        contact.DisabledButton = true;
-        await KeyContactService.RemoveKeyContact(contact);
-    }
+                private async Task RemoveKeyContact(KeyContact contact)
+                {
+                    contact.DisabledButton = true;
+                    await KeyContactService.RemoveKeyContact(contact);
+                }
 
-    private async Task HandleValidSubmit()
-    {
-        organization = await OrgService.UpdateOrganisation(organization);
-        orgUpdated = true;
-    }
+                private async Task HandleValidSubmit()
+                {
+                    organization = await OrgService.UpdateOrganisation(organization);
+                    orgUpdated = true;
+                }
 
-    private async Task NavigateToAddService(string orgId)
-    {
-        NavManager.NavigateTo($"add-service/{orgId}");
+                private async Task NavigateToAddService(string orgId)
+                {
+                    NavManager.NavigateTo($"add-service/{orgId}");
 
-    }
-}
+                }
+            }
