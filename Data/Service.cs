@@ -13,6 +13,8 @@ namespace OpenReferralPOV.Data
             Regular_Schedules = new List<RegularSchedule>();
             Service_At_Locations = new List<ServiceAtLocation>();
             Contacts = new List<string>();
+
+            Tags = new List<int>();
         }
 
         public string Description { get; set; }
@@ -25,5 +27,8 @@ namespace OpenReferralPOV.Data
         public IEnumerable<string> Contacts { get; set; }
         public string Status { get; set; }
         public string Url { get; set; }
+
+        public IEnumerable<int> Tags { get; set; }
+        public int? Category { get; set; }
     }
 }

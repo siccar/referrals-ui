@@ -2,9 +2,11 @@
 
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
+@using OpenReferralPOV.Data.Enums;  
 
 @inject IOpenReferralService ReferralService
 @inject IOpenReferralOrganisationService OrgService
+
 
 
 @if (serviceCreated)
@@ -17,52 +19,94 @@ else if (creatingService)
 }
 else
 {
-    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
 
-        <h3>Add Service</h3>
+    <h3>Add Service</h3>
 
-        <label for="Name">Name</label>
-        <InputText id="Name" @bind-Value="@service.Name" type="text" />
+    <label for="Name">Name</label>
+    <InputText id="Name" @bind-Value="@service.Name" type="text" />
 
-        <label for="Description">Description</label>
-        <InputText id="Description" @bind-Value="@service.Description" type="text" />
+    <label for="Description">Description</label>
+    <InputText id="Description" @bind-Value="@service.Description" type="text" />
 
-        <label for="Address">Address</label>
-        <InputText id="Address" @bind-Value="@address.Address_1" type="text" />
+    <label for="Address">Address</label>
+    <InputText id="Address" @bind-Value="@address.Address_1" type="text" />
 
-        <label for="City">City</label>
-        <InputText id="City" @bind-Value="@address.City" type="text" />
+    <label for="City">City</label>
+    <InputText id="City" @bind-Value="@address.City" type="text" />
 
-        <label for="County">County</label>
-        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+    <label for="County">County</label>
+    <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
-        <label for="PostCode">Post Code</label>
-        <InputText id="PostCode" @bind-Value="@address.Postal_Code" type="text" />
+    <label for="PostCode">Post Code</label>
+    <InputText id="PostCode" @bind-Value="@address.Postal_Code" type="text" />
 
-        <label for="Email">Email</label>
-        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+    <label for="Email">Email</label>
+    <InputText id="Email" @bind-Value="@service.Email" type="text" />
 
-        <label for="Url">Url</label>
-        <InputText id="Url" @bind-Value="@service.Url" type="text" />
+    <label for="Url">Url</label>
+    <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
-        <label for="Org">Organisation</label>
-        <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
-            @foreach (var org in organisations)
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>Add tag</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tag in Tags)
+            {
+                <tr>
+                    <td>
+                        <input type="button" name="Add To ServiceTags" class="button1" value="@((TagEnum)tag)"
+                               @onclick="@(e => AddToServiceTags(tag))" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+@if (TagList.ToList().Count != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>Remove tag</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tag in TagList.ToList())
+            {
+                <tr>
+                    <td>
+                        <input type="button" name="Remove from ServiceTags" class="button2" value="@((TagEnum)tag)"
+                               @onclick="@(e => RemoveFromServiceTags(tag))" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+
+    <label for="Org">Organisation</label>
+    <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
+        @foreach (var org in organisations)
+            {
+                if (org.Id == OrgId)
                 {
-                    if (org.Id == OrgId)
-                    {
                     service.OrganizationId = org.Id;
-                    <option value="@org.Id" selected>@org.Name</option>
-                    }
-                    else
-                    {
-                    <option value="@org.Id">@org.Name</option>
-                    }
+                <option value="@org.Id" selected>@org.Name</option>
+                }
+                else
+                {
+                <option value="@org.Id">@org.Name</option>
                 }
             }
-        </InputSelect>
-        <button type="submit">Submit</button>
-    </EditForm>
+        }
+    </InputSelect>
+    <button type="submit">Submit</button>
+</EditForm>
 }
 
 @code {
@@ -74,6 +118,8 @@ else
     public PhysicalAddress address { get; set; } = new PhysicalAddress();
     public bool serviceCreated { get; set; } = false;
     public bool creatingService { get; set; } = false;
+    public int[] Tags = (int[])Enum.GetValues(typeof(TagEnum));
+    public List<int> TagList { get; set; } = new List<int>();
 
     private async Task HandleValidSubmit()
     {
@@ -84,9 +130,21 @@ else
 
         var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
         service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+        service.Tags = TagList;
 
         service = await ReferralService.AddService(service);
         serviceCreated = true;
+
+    }
+
+    private void AddToServiceTags(int tag)
+    {
+        TagList.Add(tag);
+    }
+
+    private void RemoveFromServiceTags(int tag)
+    {
+        TagList.Remove(tag);
     }
 
     protected override async Task OnInitializedAsync()
