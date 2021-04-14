@@ -18,11 +18,8 @@ else
 
     <h3>Manage Organization</h3>
 
-    <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
 
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
         <label for="Name">Name</label>
         <InputText id="Name" @bind-Value="@organization.Name" />
 
@@ -40,7 +37,6 @@ else
         <button type="submit">Submit</button>
     </EditForm>
 
-    <p></p>
     <h3>Services</h3>
     <table class="table">
         <thead>
@@ -62,7 +58,8 @@ else
             }
         </tbody>
     </table>
-    <p></p>
+    <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
+
     <h3>Admins/Key Contacts of the Organisation</h3>
     <table class="table">
         <thead>
