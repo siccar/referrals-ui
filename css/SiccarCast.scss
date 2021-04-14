@@ -142,6 +142,22 @@ button[type=submit], input[type=button] {
     }
 }
 
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    @extend %fa-icon;
+    @extend .far;
+    position: absolute;
+    width:0px;
+}
+
+input[type=checkbox]::before {
+   content: fa-content($fa-var-square);
+}
+input[type=checkbox]:checked::before {
+    @extend .fas;
+    content: fa-content($fa-var-check-square);
+}
+
 .btn-sml {
-    font-size: $sml!important
+    font-size: $sml !important
 }

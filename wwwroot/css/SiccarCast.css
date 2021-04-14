@@ -70,7 +70,10 @@ select {
  */
 .fa,
 .fas,
+input[type=checkbox]:checked::before,
 .far,
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked,
 .fal,
 .fad,
 .fab {
@@ -80,6 +83,16 @@ select {
   font-style: normal;
   font-variant: normal;
   text-rendering: auto;
+  line-height: 1; }
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
   line-height: 1; }
 
 .fa-lg {
@@ -154,14 +167,20 @@ select {
 
 .fa.fa-pull-left,
 .fas.fa-pull-left,
+input.fa-pull-left[type=checkbox]:checked::before,
 .far.fa-pull-left,
+.fa-pull-left[type="checkbox"]:not(:checked),
+.fa-pull-left[type="checkbox"]:checked,
 .fal.fa-pull-left,
 .fab.fa-pull-left {
   margin-right: .3em; }
 
 .fa.fa-pull-right,
 .fas.fa-pull-right,
+input.fa-pull-right[type=checkbox]:checked::before,
 .far.fa-pull-right,
+.fa-pull-right[type="checkbox"]:not(:checked),
+.fa-pull-right[type="checkbox"]:checked,
 .fal.fa-pull-right,
 .fab.fa-pull-right {
   margin-left: .3em; }
@@ -4644,7 +4663,8 @@ readers do not read off random characters that represent icons */
   src: url("../../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../../webfonts/fa-solid-900.woff2") format("woff2"), url("../../webfonts/fa-solid-900.woff") format("woff"), url("../../webfonts/fa-solid-900.ttf") format("truetype"), url("../../webfonts/fa-solid-900.svg#fontawesome") format("svg"); }
 
 .fa,
-.fas {
+.fas,
+input[type=checkbox]:checked::before {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900; }
 
@@ -4660,7 +4680,8 @@ readers do not read off random characters that represent icons */
   src: url("../../webfonts/fa-regular-400.eot");
   src: url("../../webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("../../webfonts/fa-regular-400.woff2") format("woff2"), url("../../webfonts/fa-regular-400.woff") format("woff"), url("../../webfonts/fa-regular-400.ttf") format("truetype"), url("../../webfonts/fa-regular-400.svg#fontawesome") format("svg"); }
 
-.far {
+.far, [type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
   font-family: 'Font Awesome 5 Free';
   font-weight: 400; }
 
@@ -4783,6 +4804,17 @@ button[type=submit], input[type=button] {
     background: #09CA77;
     color: #0a0039;
     cursor: pointer; }
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  width: 0px; }
+
+input[type=checkbox]::before {
+  content: "\f0c8"; }
+
+input[type=checkbox]:checked::before {
+  content: "\f14a"; }
 
 .btn-sml {
   font-size: 0.8rem !important; }
