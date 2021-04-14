@@ -34,7 +34,7 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             var response = await _httpClient.GetAsync(endpoint);
             if ((int)response.StatusCode >= 400)
             {
-                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.", null, response.StatusCode);
             }
             var responseString = await response.Content.ReadAsStringAsync();
             return responseString;
@@ -52,7 +52,7 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             var response = await _httpClient.SendAsync(message);
             if ((int)response.StatusCode >= 400)
             {
-                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.", null, response.StatusCode);
             }
             var responseString = await response.Content.ReadAsStringAsync();
             return responseString;
