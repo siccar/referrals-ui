@@ -47,6 +47,14 @@ namespace OpenReferralPOV.Services
             return services;
         }
 
+        public async Task<IEnumerable<Service>> GetServicesAsync(string postcode, double proximity)
+        {
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/Services?postcode={postcode}&proximity={proximity}"));
+            var services = JsonConvert.DeserializeObject<IEnumerable<Service>>(responseString);
+
+            return services;
+        }
+
         public async Task<IEnumerable<TagEnum>> GetServiceTagsAsync(string serviceId)
         {
             //var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/tags/{serviceId}"));

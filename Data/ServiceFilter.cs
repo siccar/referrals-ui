@@ -12,6 +12,7 @@ namespace OpenReferralPOV.Data
             Categories = new List<string>();
         }
         public string Postcode { get; set; }
+        public double Proximity { get; set; }
 
         public List<string> Categories { get; set; }
 

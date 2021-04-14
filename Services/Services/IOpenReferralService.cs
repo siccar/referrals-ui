@@ -10,6 +10,7 @@ namespace OpenReferralPOV.Services
         Task<Location> AddLocation(Location location);        
         Task<Service> AddService(Service service);
         Task<IEnumerable<Service>> GetServicesAsync();
+        Task<IEnumerable<Service>> GetServicesAsync(string postcode, double proximity);
 
         Task<Service> GetServiceById(string id);
         Task<Location> GetLocationById(string id);

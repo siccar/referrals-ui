@@ -13,7 +13,8 @@
 <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
 
 
-    <label for="Postcode">Enter Postcode:</label><InputText id="Name" @bind-Value="@SearchService.Postcode" />
+    <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
+    <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
     <label for="Category">or </label>
     <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
         @foreach (var cat in SearchService.Categories)
@@ -25,9 +26,9 @@
     <label for="SearchFor">Searching For</label>
     Services
     <input type="checkbox" checked />
-    
+
     Organisations
-    <input type="checkbox" disabled/>
+    <input type="checkbox" disabled />
     <button type="submit">Search</button>
 </EditForm>
 
@@ -38,7 +39,7 @@
 }
 else
 {
-    <p><em>Playlist Options...</em></p>
+    <p><em>Search Results...</em></p>
     <table class="table">
         <thead>
             <tr>
@@ -47,7 +48,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var service in services.Where(x => !Playlist.Services.Contains(x.Id)))
+            @foreach (var service in searchServices.Where(x => !Playlist.Services.Contains(x.Id)))
             {
                 <tr>
                     <td>@service.Name</td>
@@ -93,15 +94,18 @@ else
 
 @code {
 
-    public Playlist Playlist { get; set; } = new Playlist();
+    public Playlist Playlist { get; set; }
     public ServiceFilter SearchService { get; set; } = new ServiceFilter();
 
-    public IEnumerable<Service> services { get; set; } = new List<Service>();
+    public IEnumerable<Service> services { get; set; }
+    public IEnumerable<Service> searchServices { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        Playlist = new Playlist();
         Playlist = await PlaylistService.Get();
         services = await ServiceService.GetServicesAsync();
+        searchServices = new List<Service>();
         SearchService = await ServiceFilterService.GetSearchFIlter();
     }
     private async Task AddToPlaylist(string id)
@@ -118,9 +122,7 @@ else
 
     private async Task HandleSearchService()
     {
-        // Does this reload
-        // todo: bind properly the categories to the different services, 
-        // do not empty list of services in playlist as it is confusing for the user seeing his/her playlist removed
+        searchServices = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
     }
 
 }
