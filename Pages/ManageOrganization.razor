@@ -20,6 +20,8 @@ else
     <a class="" href="manage-organisation/{@organization.Id}">Manage Org</a>
 
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <label for="Name">Name</label>
         <InputText id="Name" @bind-Value="@organization.Name" />
 
@@ -32,6 +34,8 @@ else
         <label for="Url">Url</label>
         <InputText id="Url" @bind-Value="@organization.Url" />
 
+        <DataAnnotationsValidator />
+        <ValidationSummary />
         <button type="submit">Submit</button>
     </EditForm>
 

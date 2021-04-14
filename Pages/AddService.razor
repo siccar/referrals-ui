@@ -17,52 +17,54 @@ else if (creatingService)
 }
 else
 {
-    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+    <h3>Add Service</h3>
 
-        <h3>Add Service</h3>
+    <label for="Name">Name</label>
+    <InputText id="Name" @bind-Value="@service.Name" type="text" />
 
-        <label for="Name">Name</label>
-        <InputText id="Name" @bind-Value="@service.Name" type="text" />
+    <label for="Description">Description</label>
+    <InputText id="Description" @bind-Value="@service.Description" type="text" />
 
-        <label for="Description">Description</label>
-        <InputText id="Description" @bind-Value="@service.Description" type="text" />
+    <label for="Address">Address</label>
+    <InputText id="Address" @bind-Value="@service.Address" type="text" />
 
-        <label for="Address">Address</label>
-        <InputText id="Address" @bind-Value="@address.Address_1" type="text" />
+    <label for="City">City</label>
+    <InputText id="City" @bind-Value="@address.City" type="text" />
 
-        <label for="City">City</label>
-        <InputText id="City" @bind-Value="@address.City" type="text" />
+    <label for="County">County</label>
+    <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
-        <label for="County">County</label>
-        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+    <label for="PostCode">Post Code</label>
+    <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
-        <label for="PostCode">Post Code</label>
-        <InputText id="PostCode" @bind-Value="@address.Postal_Code" type="text" />
+    <label for="Email">Email</label>
+    <InputText id="Email" @bind-Value="@service.Email" type="text" />
 
-        <label for="Email">Email</label>
-        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+    <label for="Url">Url</label>
+    <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
-        <label for="Url">Url</label>
-        <InputText id="Url" @bind-Value="@service.Url" type="text" />
-
-        <label for="Org">Organisation</label>
-        <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
-            @foreach (var org in organisations)
+    <label for="Org">Organisation</label>
+    <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
+        @foreach (var org in organisations)
+            {
+                if (org.Id == OrgId)
                 {
-                    if (org.Id == OrgId)
-                    {
                     service.OrganizationId = org.Id;
-                    <option value="@org.Id" selected>@org.Name</option>
-                    }
-                    else
-                    {
-                    <option value="@org.Id">@org.Name</option>
-                    }
+                <option value="@org.Id" selected>@org.Name</option>
+                }
+                else
+                {
+                <option value="@org.Id">@org.Name</option>
                 }
             }
-        </InputSelect>
-        <button type="submit">Submit</button>
-    </EditForm>
+        }
+    </InputSelect>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <button type="submit">Submit</button>
+</EditForm>
 }
 
 @code {
