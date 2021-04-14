@@ -6,93 +6,98 @@
 @inject IOpenReferralServiceFilterService ServiceFilterService
 @inject IOpenReferralService ServiceService  // This needs replaced with the service collection once its ine
 
-<h1>PlayLists</h1>
+<div class="content-container">
+    <div class="gridder">
+        <h1>PlayLists</h1>
 
-<p>This component will return the current Users Playlists.</p>
+        <p>This component will return the current Users Playlists.</p>
 
-<EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
+        <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
 
 
-    <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
-    <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
-    <label for="Category">or </label>
-    <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
-        @foreach (var cat in SearchService.Categories)
+            <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
+            <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
+            <label for="Category">or </label>
+            <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
+                @foreach (var cat in SearchService.Categories)
+                {
+                    <option value="@cat">@cat</option>
+                }
+                }
+            </InputSelect>
+            <label for="SearchFor">Searching For</label>
+            Services
+            <input type="checkbox" checked />
+
+            Organisations
+            <input type="checkbox" disabled />
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <button type="submit">Search</button>
+        </EditForm>
+
+
+        @if (services == null)
         {
-            <option value="@cat">@cat</option>
+            <p><em>Loading...</em></p>
         }
+        else
+        {
+            <p><em>Search Results...</em></p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Add To Playlist</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var service in searchServices.Where(x => !Playlist.Services.Contains(x.Id)))
+                    {
+                        <tr>
+                            <td>@service.Name</td>
+                            <td>
+                                <input type="button" name="Add To Playlist" class="button1" value="Add"
+                                       @onclick="@(e => AddToPlaylist(service.Id))" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
-    </InputSelect>
-    <label for="SearchFor">Searching For</label>
-    Services
-    <input type="checkbox" checked />
-
-    Organisations
-    <input type="checkbox" disabled />
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <button type="submit">Search</button>
-</EditForm>
 
 
-@if (services == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <p><em>Search Results...</em></p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Add To Playlist</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var service in searchServices.Where(x => !Playlist.Services.Contains(x.Id)))
-            {
-                <tr>
-                    <td>@service.Name</td>
-                    <td>
-                        <input type="button" name="Add To Playlist" class="button1" value="Add"
-                               @onclick="@(e => AddToPlaylist(service.Id))" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        @if (Playlist == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <p><em>Your Playlist...</em></p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Remove From Playlist</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Playlist.Services)
+                    {
+                        <tr>
+                            <td>@services.First(x => x.Id == s).Name</td>
+                            <td>
+                                <input type="button" name="Remove From Playlist" class="button1" value="Remove"
+                                       @onclick="@(e => RemoveFromPlaylist(s))" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
 
-
-@if (Playlist == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <p><em>Your Playlist...</em></p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Service Name</th>
-                <th>Remove From Playlist</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var s in Playlist.Services)
-            {
-                <tr>
-                    <td>@services.First(x => x.Id == s).Name</td>
-                    <td>
-                        <input type="button" name="Remove From Playlist" class="button1" value="Remove"
-                               @onclick="@(e => RemoveFromPlaylist(s))" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+    </div>
+</div>
 
 @code {
 

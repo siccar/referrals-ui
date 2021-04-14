@@ -1,58 +1,60 @@
 ﻿@page "/manage-service/{Id}"
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
-@using Newtonsoft.Json;
 
 @inject IOpenReferralService ServiceService
 
-@if (serviceUpdated)
-{
-    <h3>Service Updated</h3>
-}
-else if (loading)
-{
-    <p><em>Loading...</em></p>
-}
-else if (updatingService)
-{
-    <p><em>Updating...</em></p>
-}
-else
-{
-    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+<div class="content-container">
+    <div class="gridder">
+        @if (serviceUpdated)
+        {
+            <h3>Service Updated</h3>
+        }
+        else if (loading)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (updatingService)
+        {
+            <p><em>Updating...</em></p>
+        }
+        else
+        {
+            <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
 
-        <h3>Manage Service</h3>
+                <h3>Manage Service</h3>
 
-        <label for="Name">Name</label>
-        <InputText id="Name" @bind-Value="@service.Name" />
+                <label for="Name">Name</label>
+                <InputText id="Name" @bind-Value="@service.Name" />
 
-        <label for="Description">Description</label>
-        <InputText id="Description" @bind-Value="@service.Description" />
+                <label for="Description">Description</label>
+                <InputText id="Description" @bind-Value="@service.Description" />
 
-        <label for="Address">Address</label>
-        <InputText id="Address" @bind-Value="@service.Address" type="text" />
+                <label for="Address">Address</label>
+                <InputText id="Address" @bind-Value="@service.Address" type="text" />
 
-        <label for="City">City</label>
-        <InputText id="City" @bind-Value="@address.City" type="text" />
+                <label for="City">City</label>
+                <InputText id="City" @bind-Value="@address.City" type="text" />
 
-        <label for="County">County</label>
-        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+                <label for="County">County</label>
+                <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
-        <label for="PostCode">Post Code</label>
-        <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
+                <label for="PostCode">Post Code</label>
+                <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
-        <label for="Email">Email</label>
-        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+                <label for="Email">Email</label>
+                <InputText id="Email" @bind-Value="@service.Email" type="text" />
 
-        <label for="Url">Url</label>
-        <InputText id="Url" @bind-Value="@service.Url" type="text" />
+                <label for="Url">Url</label>
+                <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <button type="submit">Submit</button>
-    </EditForm>
-}
-
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <button type="submit">Submit</button>
+            </EditForm>
+        }
+    </div>
+</div>
 @code {
 
 
@@ -76,7 +78,7 @@ else
         service._Postcode = address.Postal_Code;
         service.Address = address.Address_1;
 
-    //Doing this to check if the postcode has changed.
+        //Doing this to check if the postcode has changed.
         originalAddress = new PhysicalAddress { Postal_Code = address.Postal_Code };
         loading = false;
     }
