@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace OpenReferralPOV.Data.Enums
 {
-    public enum TagEnum : ushort
-    {
-        None = 0, 
+    public enum TagEnum : int
+    { 
         Tag1 = 1,
         Tag2 = 2,
         Tag3 = 3,
-        Tag4 = 4
+        Tag4 = 4,
+        Tag5 = 5
     }
 }
