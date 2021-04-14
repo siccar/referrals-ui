@@ -14,6 +14,7 @@ namespace OpenReferralPOV.Services
             {
                 Postcode = string.Empty,
                 SelectedCategory = string.Empty,
+                Proximity = 5,
                 Categories = new List<string>
                 {
                     "Category A",
