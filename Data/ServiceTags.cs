@@ -9,7 +9,7 @@ namespace OpenReferralPOV.Data
     {
         public ServiceTags()
         {
-            Tags = new List<string>();
+            Tags = new List<int>();
         }
         public string ServiceId { get; set; }
         public List<int> Tags { get; set; }
