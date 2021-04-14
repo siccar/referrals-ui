@@ -2,6 +2,7 @@
 
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
+@using System.Net.Http
 
 @inject IOpenReferralOrganisationService ReferralService
 
@@ -14,44 +15,64 @@
         else
         {
 
-            <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
+    <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
 
-                <h2>Add Organization</h2>
+        <h2>Add Organization</h2>
 
-                <label for="Name">Name</label>
-                <InputText id="Name" @bind-Value="@organization.Name" type="text" />
-                <label for="Name">Name</label>
-                <InputText id="Name" @bind-Value="@organization.Name" type="text" />
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="@organization.Name" type="text" />
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="@organization.Name" type="text" />
 
-                <label for="Description">Description</label>
-                <InputText id="Description" @bind-Value="@organization.Description" type="text" />
-                <label for="Description">Description</label>
-                <InputText id="Description" @bind-Value="@organization.Description" type="text" />
+        <label for="Description">Description</label>
+        <InputText id="Description" @bind-Value="@organization.Description" type="text" />
+        <label for="Description">Description</label>
+        <InputText id="Description" @bind-Value="@organization.Description" type="text" />
 
-                <label for="Charity Number">Charity Number</label>
-                <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
+        <label for="Charity Number">Charity Number</label>
+        <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
 
-                <label for="Url">Url</label>
-                <InputText id="Url" @bind-Value="@organization.Url" type="text" />
-                <label for="Url">Url</label>
-                <InputText id="Url" @bind-Value="@organization.Url" type="text" />
+        <label for="Url">Url</label>
+        <InputText id="Url" @bind-Value="@organization.Url" type="text" />
+        <label for="Url">Url</label>
+        <InputText id="Url" @bind-Value="@organization.Url" type="text" />
 
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <button type="submit">Submit</button>
-            </EditForm>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        @if (@httpError != null)
+        {
+            <warn>There was an error submiting the form</warn>
+            <warn>@httpError.Message</warn>
+        }
+        <button type="submit">Submit</button>
+    </EditForm>
         }
 
     </div>
 </div>
 
 @code {
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
     public Organization organization { get; set; } = new Organization();
     public bool orgCreated { get; set; } = false;
 
     private async Task HandleValidSubmit()
     {
-        organization = await ReferralService.AddOrganization(organization);
-        orgCreated = true;
+        try
+        {
+            httpError = null;
+            organization = await ReferralService.AddOrganization(organization);
+            orgCreated = true;
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 }
