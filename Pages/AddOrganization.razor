@@ -42,7 +42,12 @@
         @if (@httpError != null)
         {
             <warn>There was an error submiting the form</warn>
-            <warn>@httpError.Message</warn>
+            <br />
+            <warn>@httpError.StatusCode - @httpError.Message</warn>
+        }
+        @if (validationError != null)
+        {
+            <ErrorValidationMessage Error=@validationError />
         }
         <button type="submit">Submit</button>
     </EditForm>
@@ -50,11 +55,11 @@
     </div>
 </div>
 
-
 @code {
     [CascadingParameter]
     Error Error { get; set; }
     HttpRequestException httpError { get; set; }
+    ValidationError validationError { get; set; }
     public Organization organization { get; set; } = new Organization();
     public bool orgCreated { get; set; } = false;
 
@@ -65,6 +70,10 @@
             httpError = null;
             organization = await ReferralService.AddOrganization(organization);
             orgCreated = true;
+        }
+        catch (ValidationError e)
+        {
+            validationError = e;
         }
         catch (HttpRequestException e)
         {
