@@ -7,10 +7,14 @@ namespace OpenReferralPOV.Data.Enums
 {
     public enum CategoryEnum : int
     {
-        Cat1 = 1,
-        Cat2 = 2,
-        Cat3 = 3,
-        Cat4 = 4,
-        Cat5 = 5
+        ArtsAndEnvironment = 1,
+        CommunityAndInvolvement = 2,
+        Disabilities = 3,
+        EqualitiesAndInclusion = 4,
+        HealthAndCare = 5,
+        HomeAndWork = 6,
+        InformationAndAdvice = 7,
+        PeopleAndSociety = 8,
+        SportsRecreationAndFitness = 9
     }
 }
