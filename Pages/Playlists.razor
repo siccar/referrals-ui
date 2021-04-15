@@ -1,4 +1,5 @@
 ﻿@page "/playlists"
+@using OpenReferralPOV.Data.Enums
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 
@@ -17,34 +18,42 @@
 
             <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
             <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
-            <label for="Category">or </label>
-            <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
-                @foreach (var cat in SearchService.Categories)
-                {
-                    <option value="@cat">@cat</option>
-                }
-                }
-            </InputSelect>
-            <label for="SearchFor">Searching For</label>
-            Services
-            <input type="checkbox" checked />
-
-            Organisations
-            <input type="checkbox" disabled />
             <DataAnnotationsValidator />
             <ValidationSummary />
-            @if (@httpError != null)
-            {
-                <warn>There was an error.</warn>
-                <br />
-                <warn>@httpError.StatusCode - @httpError.Message</warn>
-            }
-            @if (validationError != null)
-            {
-                <ErrorValidationMessage Error=@validationError />
-            }
             <button type="submit">Search</button>
         </EditForm>
+
+        <EditForm Model="@SearchService" OnValidSubmit="@HandleFilter">
+            <label for="Keyword">Keyword:</label><InputText id="Keyword" @bind-Value="@SearchService.SearchText" />
+            <label for="Category">Category</label>
+            <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
+                @foreach (var cat in Categories)
+                {
+                    if ((int)cat == SearchService.SelectedCategory)
+                    {
+                        <option value="@((int)cat)" selected>@cat</option>
+                    }
+                    else
+                    {
+                        <option value="@((int)cat)">@cat</option>
+                    }
+                }
+            </InputSelect>
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <button type="submit">Search</button>
+        </EditForm>
+
+        @if (@httpError != null)
+        {
+            <warn>There was an error.</warn>
+            <br />
+            <warn>@httpError.StatusCode - @httpError.Message</warn>
+        }
+        @if (validationError != null)
+        {
+            <ErrorValidationMessage Error=@validationError />
+        }
 
 
         @if (services == null)
@@ -117,6 +126,7 @@
     ValidationError validationError { get; set; }
     public Playlist Playlist { get; set; }
     public ServiceFilter SearchService { get; set; } = new ServiceFilter();
+    public int[] Categories = (int[])Enum.GetValues(typeof(CategoryEnum));
 
     public IEnumerable<Service> services { get; set; }
     public IEnumerable<Service> searchServices { get; set; }
@@ -180,6 +190,34 @@
         try
         {
             searchServices = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
+        }
+        catch (ValidationError e)
+        {
+            validationError = e;
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
+    }
+
+    private async Task HandleFilter()
+    {
+        try
+        {
+            var tags = (string[])Enum.GetValues(typeof(TagEnum));
+            var tagsThatMatchText = tags.ToList().FindAll(tag => tag.Contains(SearchService.SearchText));
+
+            var tagInts = tagsThatMatchText.Select(tag =>(int) Enum.Parse(typeof(TagEnum), tag));
+
+            var filtered = services.Where(service => service.Category == SearchService.SelectedCategory);
+            filtered = filtered.Where(service => service.Name.Contains(SearchService.SearchText) || service.Tags.Any(tag => tagInts.Contains(tag) ));
+
+            return filtered;
         }
         catch (ValidationError e)
         {
