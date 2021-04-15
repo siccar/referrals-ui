@@ -209,15 +209,22 @@
     {
         try
         {
-            var tags = (string[])Enum.GetValues(typeof(TagEnum));
-            var tagsThatMatchText = tags.ToList().FindAll(tag => tag.Contains(SearchService.SearchText));
+            services = await ServiceService.GetServicesAsync();
 
-            var tagInts = tagsThatMatchText.Select(tag =>(int) Enum.Parse(typeof(TagEnum), tag));
+
+            var tags = Enum.GetNames(typeof(TagEnum));
+            if (SearchService.SearchText != "")
+            {
+
+                var tagsThatMatchText = tags.ToList().FindAll(tag => tag.Contains(SearchService.SearchText));
+                var tagInts = tagsThatMatchText.Select(tag => (int)Enum.Parse(typeof(TagEnum), tag));
+                filtered = filtered.Where(service => service.Name.Contains(SearchService.SearchText) || service.Tags.Any(tag => tagInts.Contains(tag)));
+            }
+
 
             var filtered = services.Where(service => service.Category == SearchService.SelectedCategory);
-            filtered = filtered.Where(service => service.Name.Contains(SearchService.SearchText) || service.Tags.Any(tag => tagInts.Contains(tag) ));
 
-            return filtered;
+            searchServices = filtered;
         }
         catch (ValidationError e)
         {
