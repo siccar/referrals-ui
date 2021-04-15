@@ -47,9 +47,18 @@
 
                 <label for="Url">Url</label>
                 <InputText id="Url" @bind-Value="@service.Url" type="text" />
-
                 <DataAnnotationsValidator />
                 <ValidationSummary />
+                @if (@httpError != null)
+                {
+                    <warn>There was an error submiting the form</warn>
+                    <br />
+                    <warn>@httpError.StatusCode - @httpError.Message</warn>
+                }
+                @if (validationError != null)
+                {
+                    <ErrorValidationMessage Error=@validationError />
+                }
                 <button type="submit">Submit</button>
             </EditForm>
         }
@@ -57,7 +66,10 @@
 </div>
 @code {
 
-
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    ValidationError validationError { get; set; }
     [Parameter]
     public string Id { get; set; }
 
@@ -85,16 +97,34 @@
 
     private async Task HandleValidSubmit()
     {
-        updatingService = true;
-        if (originalAddress.Postal_Code != service._Postcode)
+        try
         {
-            var location = ServiceHelperFunctions.BuildLocation(service, address);
-            location = await ServiceService.AddLocation(location);
+            updatingService = true;
+            if (originalAddress.Postal_Code != service._Postcode)
+            {
+                var location = ServiceHelperFunctions.BuildLocation(service, address);
+                location = await ServiceService.AddLocation(location);
 
-            var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
-            service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+                var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
+                service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+            }
+            service = await ServiceService.UpdateService(service);
+            serviceUpdated = true;
         }
-        service = await ServiceService.UpdateService(service);
-        serviceUpdated = true;
+        catch (ValidationError e)
+        {
+            updatingService = false;
+            validationError = e;
+        }
+        catch (HttpRequestException e)
+        {
+            updatingService = false;
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            updatingService = false;
+            Error.ProcessError(e);
+        }
     }
 }

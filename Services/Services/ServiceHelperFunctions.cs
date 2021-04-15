@@ -13,6 +13,7 @@ namespace OpenReferralPOV.Services
             var location = new Location();
             address.LocationId = location.Id;
             address.Postal_Code = service._Postcode;
+            address.Address_1 = service.Address;
             location.Physical_Addresses = new List<PhysicalAddress> { address };
             location.Name = service.Name;
             return location;
