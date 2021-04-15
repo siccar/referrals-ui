@@ -11,12 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Debug'
-  name: env
-  value:
-    ${{ if eq(variables['Build.SourceBranchName'], 'master') }}: 
-      env: appsettings.Prod.json
-    ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}: 
-      env: appsettings.Release.json
+  
 
 steps:
 - task: Bash@3
@@ -25,10 +20,8 @@ steps:
     ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
     script: |
       rm appsettings.json -f
-      mv ${env} appsettings.json
-    
-      
-      
+      mv appsettings.Release.json appsettings.json
+
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
