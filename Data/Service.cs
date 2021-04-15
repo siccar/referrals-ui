@@ -16,7 +16,7 @@ namespace OpenReferralPOV.Data
             Service_At_Locations = new List<ServiceAtLocation>();
             Contacts = new List<string>();
         }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Name must be populated")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Description must be populated")]
         [StringLength(200, ErrorMessage = "Description can only be 200 chars long.")]
         public string Description { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email must be populated")]
