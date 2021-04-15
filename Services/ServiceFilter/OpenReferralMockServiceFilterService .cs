@@ -13,14 +13,8 @@ namespace OpenReferralPOV.Services
             return new ServiceFilter()
             {
                 Postcode = string.Empty,
-                SelectedCategory = string.Empty,
-                Proximity = 5,
-                Categories = new List<string>
-                {
-                    "Category A",
-                    "Category B",
-                    "Category C",
-                }
+                SelectedCategory = 0,
+                Proximity = 5
             };
         }
     }
