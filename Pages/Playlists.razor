@@ -33,6 +33,16 @@
             <input type="checkbox" disabled />
             <DataAnnotationsValidator />
             <ValidationSummary />
+            @if (@httpError != null)
+            {
+                <warn>There was an error.</warn>
+                <br />
+                <warn>@httpError.StatusCode - @httpError.Message</warn>
+            }
+            @if (validationError != null)
+            {
+                <ErrorValidationMessage Error=@validationError />
+            }
             <button type="submit">Search</button>
         </EditForm>
 
@@ -101,6 +111,10 @@
 
 @code {
 
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    ValidationError validationError { get; set; }
     public Playlist Playlist { get; set; }
     public ServiceFilter SearchService { get; set; } = new ServiceFilter();
 
@@ -109,27 +123,76 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Playlist = new Playlist();
-        Playlist = await PlaylistService.Get();
-        services = await ServiceService.GetServicesAsync();
-        searchServices = new List<Service>();
-        SearchService = await ServiceFilterService.GetSearchFIlter();
+        try
+        {
+            Playlist = new Playlist();
+            Playlist = await PlaylistService.Get();
+            services = await ServiceService.GetServicesAsync();
+            searchServices = new List<Service>();
+            SearchService = await ServiceFilterService.GetSearchFIlter();
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
     private async Task AddToPlaylist(string id)
     {
-        Playlist.Services.Add(id);
-        Playlist = await PlaylistService.Update(Playlist);
+        try
+        {
+            Playlist.Services.Add(id);
+            Playlist = await PlaylistService.Update(Playlist);
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 
     private async Task RemoveFromPlaylist(string id)
     {
-        Playlist.Services.Remove(id);
-        Playlist = await PlaylistService.Update(Playlist);
+        try
+        {
+
+            Playlist.Services.Remove(id);
+            Playlist = await PlaylistService.Update(Playlist);
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 
     private async Task HandleSearchService()
     {
-        searchServices = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
+        try
+        {
+            searchServices = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
+        }
+        catch (ValidationError e)
+        {
+            validationError = e;
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 
 }

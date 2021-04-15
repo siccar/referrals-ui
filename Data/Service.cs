@@ -18,7 +18,7 @@ namespace OpenReferralPOV.Data
 
             Tags = new List<int>();
         }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Name must be populated")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Description must be populated")]
         [StringLength(200, ErrorMessage = "Description can only be 200 chars long.")]
         public string Description { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Email must be populated")]
