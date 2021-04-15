@@ -113,8 +113,8 @@ else
 
 @code {
 
-    [Parameter]
-    public string OrgId { get; set; }
+        [Parameter]
+        public string OrgId { get; set; }
     public IEnumerable<Organization> organisations { get; set; } = new List<Organization>();
     public Service service { get; set; } = new Service();
     public PhysicalAddress address { get; set; } = new PhysicalAddress();
@@ -141,7 +141,10 @@ else
 
     private void AddToServiceTags(int tag)
     {
-        TagList.Add(tag);
+        if (!TagList.Contains(tag))
+        {
+            TagList.Add(tag);
+        }
     }
 
     private void RemoveFromServiceTags(int tag)
