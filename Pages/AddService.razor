@@ -88,6 +88,24 @@
                     </table>
                 }
 
+
+                <label for="Cat">Category</label>
+                <InputSelect @bind-Value="@service.Category" class="form-control">
+                    @foreach (var cat in CategoryList)
+                        {
+                            if ((int)cat == service.Category)
+                            {
+                                service.Category = (int)cat;
+                            <option value="@((int)cat)" selected>@cat</option>
+                            }
+                            else
+                            {
+                            <option value="@((int)cat)">@cat</option>
+                            }
+                        }
+                    }
+                </InputSelect>
+
                 <label for="Org">Organisation</label>
                 <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
                     @foreach (var org in organisations)
@@ -124,6 +142,8 @@
     public bool creatingService { get; set; } = false;
     public int[] Tags = (int[])Enum.GetValues(typeof(TagEnum));
     public List<int> TagList { get; set; } = new List<int>();
+    public int[] Category = (int[])Enum.GetValues(typeof(CategoryEnum));
+    public List<CategoryEnum> CategoryList { get; set; } = new List<CategoryEnum>();
 
     private async Task HandleValidSubmit()
     {
@@ -157,5 +177,9 @@
     protected override async Task OnInitializedAsync()
     {
         organisations = await OrgService.GetAllOrganisations();
+        foreach (var c in Category)
+        {
+            CategoryList.Add((CategoryEnum)c);
+        }
     }
 }
