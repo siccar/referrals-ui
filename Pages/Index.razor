@@ -56,13 +56,23 @@
         {
             <h3><em>Request Sent.</em></h3>
         }
+        @if (@httpError != null)
+        {
+            <warn>There was an error submiting the form</warn>
+            <br />
+            <warn>@httpError.StatusCode - @httpError.Message</warn>
+        }
     </Authorized>
     <NotAuthorized>
         <SignedOutHome />
     </NotAuthorized>
 </AuthorizeView>
 
-@code { private IEnumerable<Organization> organizations;
+@code {
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    private IEnumerable<Organization> organizations;
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private bool NewOrgRequest;
 
@@ -87,19 +97,31 @@
 
     private async Task HandleValidSubmit()
     {
-        if (request.Org == null || request.Org.Id == null)
+        try
         {
-            return;
+            if (request.Org == null || request.Org.Id == null)
+            {
+                return;
+            }
+            if (request.IsAdmin)
+            {
+                await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
+                NewOrgRequest = true;
+            }
+            else
+            {
+                await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
+                NewOrgRequest = true;
+            }
+
         }
-        if (request.IsAdmin)
+        catch (HttpRequestException e)
         {
-            await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
-            NewOrgRequest = true;
+            httpError = e;
         }
-        else
+        catch (Exception e)
         {
-            await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
-            NewOrgRequest = true;
+            Error.ProcessError(e);
         }
     } }
 

@@ -46,6 +46,23 @@
                 <label for="Url">Url</label>
                 <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
+                <label for="Org">Organisation</label>
+                <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
+                    @foreach (var org in organisations)
+                        {
+                            if (org.Id == OrgId)
+                            {
+                                service.OrganizationId = org.Id;
+                            <option value="@org.Id" selected>@org.Name</option>
+                            }
+                            else
+                            {
+                            <option value="@org.Id">@org.Name</option>
+                            }
+                        }
+                    }
+                </InputSelect>
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -106,25 +123,18 @@
                     }
                 </InputSelect>
 
-                <label for="Org">Organisation</label>
-                <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
-                    @foreach (var org in organisations)
-                        {
-                            if (org.Id == OrgId)
-                            {
-                                service.OrganizationId = org.Id;
-                            <option value="@org.Id" selected>@org.Name</option>
-                            }
-                            else
-                            {
-                            <option value="@org.Id">@org.Name</option>
-                            }
-                        }
-                    }
-                </InputSelect>
-
                 <DataAnnotationsValidator />
                 <ValidationSummary />
+                @if (@httpError != null)
+                {
+                    <warn>There was an error submiting the form</warn>
+                    <br />
+                    <warn>@httpError.StatusCode - @httpError.Message</warn>
+                }
+                @if (validationError != null)
+                {
+                    <ErrorValidationMessage Error=@validationError />
+                }
                 <button type="submit">Submit</button>
             </EditForm>
         }
@@ -132,7 +142,10 @@
 </div>
 
 @code {
-
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    ValidationError validationError { get; set; }
     [Parameter]
     public string OrgId { get; set; }
     public IEnumerable<Organization> organisations { get; set; } = new List<Organization>();
@@ -147,18 +160,38 @@
 
     private async Task HandleValidSubmit()
     {
-        creatingService = true;
 
-        var location = ServiceHelperFunctions.BuildLocation(service, address);
-        location = await ReferralService.AddLocation(location);
+        try
+        {
+            creatingService = true;
 
-        var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
-        service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
-        service.Tags = TagList;
+            var location = ServiceHelperFunctions.BuildLocation(service, address);
+            location = await ReferralService.AddLocation(location);
 
-        service = await ReferralService.AddService(service);
-        serviceCreated = true;
+            var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
+            service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+            service.Tags = TagList;
 
+            service = await ReferralService.AddService(service);
+            serviceCreated = true;
+
+        }
+        catch (ValidationError e)
+        {
+            validationError = e;
+            creatingService = false;
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+            creatingService = false;
+
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+            creatingService = false;
+        }
     }
 
     private void AddToServiceTags(int tag)
@@ -176,10 +209,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        organisations = await OrgService.GetAllOrganisations();
-        foreach (var c in Category)
+        try
         {
-            CategoryList.Add((CategoryEnum)c);
+            organisations = await OrgService.GetAllOrganisations();
+            foreach (var c in Category)
+            {
+                CategoryList.Add((CategoryEnum)c);
+            }
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
         }
     }
 }
