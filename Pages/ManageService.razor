@@ -1,7 +1,7 @@
 ﻿@page "/manage-service/{Id}"
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
-@using OpenReferralPOV.Data.Enums 
+@using OpenReferralPOV.Data.Enums
 
 @inject IOpenReferralService ServiceService
 
@@ -21,84 +21,89 @@
         }
         else
         {
-    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+            <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
 
-        <h3>Manage Service</h3>
+                <h3>Manage Service</h3>
 
-        <label for="Name">Name</label>
-        <InputText id="Name" @bind-Value="@service.Name" />
+                <label for="Name">Name</label>
+                <InputText id="Name" @bind-Value="@service.Name" />
 
-        <label for="Description">Description</label>
-        <InputText id="Description" @bind-Value="@service.Description" />
+                <label for="Description">Description</label>
+                <InputText id="Description" @bind-Value="@service.Description" />
 
-        <label for="Address">Address</label>
-        <InputText id="Address" @bind-Value="@service.Address" type="text" />
+                <label for="Address">Address</label>
+                <InputText id="Address" @bind-Value="@service.Address" type="text" />
 
-        <label for="City">City</label>
-        <InputText id="City" @bind-Value="@address.City" type="text" />
+                <label for="City">City</label>
+                <InputText id="City" @bind-Value="@address.City" type="text" />
 
-        <label for="County">County</label>
-        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+                <label for="County">County</label>
+                <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
-        <label for="PostCode">Post Code</label>
-        <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
+                <label for="PostCode">Post Code</label>
+                <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
-        <label for="Email">Email</label>
-        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+                <label for="Email">Email</label>
+                <InputText id="Email" @bind-Value="@service.Email" type="text" />
 
-        <label for="Url">Url</label>
-        <InputText id="Url" @bind-Value="@service.Url" type="text" />
+                <label for="Url">Url</label>
+                <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
-        @if (TagList.ToList().Count != 0)
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-
-                        <th>Remove tag</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var tag in TagList.ToList())
-                    {
-                        <tr>
-                            <td>
-                                <input type="button" name="Remove from ServiceTags" class="button2" value="@((TagEnum)tag)"
-                                       @onclick="@(e => RemoveFromServiceTags(tag))" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-
-
-        <label for="Cat">Category</label>
-        <InputSelect @bind-Value="@service.Category" class="form-control">
-            @foreach (var cat in CategoryList)
+                @if (TagList.ToList().Count != 0)
                 {
-                    if ((int)cat == service.Category)
-                    {
-                        service.Category = (int)cat;
-                    <option value="@((int)cat)" selected>@cat</option>
-                    }
-                    else
-                    {
-                    <option value="@((int)cat)">@cat</option>
-                    }
-                }
-            }
-        </InputSelect>
+                    <table class="table">
+                     
+                        <tbody>
+                            <tr>
+                                <td>Remove Tags</td>
+                                @foreach (var tag in TagList.ToList())
+                                {
 
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <button type="submit">Submit</button>
-    </EditForm>
+                                    <td>
+                                        <input type="button" name="Remove from ServiceTags" class="button2" value="@((TagEnum)tag)"
+                                               @onclick="@(e => RemoveFromServiceTags(tag))" />
+                                    </td>
+
+                                }
+                            </tr>
+                            <tr>
+                                <td>Add Tag</td>
+                                @foreach (var t in Tags) { 
+                                <td>
+                                    <input type="button" name="Add To ServiceTags" class="button1" value="@((TagEnum)t)"
+                                           @onclick="@(e => AddToServiceTags(t))" />
+                                </td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+                <label for="Cat">Category</label>
+                <InputSelect @bind-Value="@service.Category" class="form-control">
+                    @foreach (var cat in CategoryList)
+                        {
+                            if ((int)cat == service.Category)
+                            {
+                                service.Category = (int)cat;
+                            <option value="@((int)cat)" selected>@cat</option>
+                            }
+                            else
+                            {
+                            <option value="@((int)cat)">@cat</option>
+                            }
+                        }
+                    }
+                </InputSelect>
+
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <button type="submit">Submit</button>
+            </EditForm>
         }
     </div>
 </div>
 @code {
-
 
     [Parameter]
     public string Id { get; set; }
@@ -153,7 +158,6 @@
         service = await ServiceService.UpdateService(service);
         serviceUpdated = true;
     }
-
 
     private void AddToServiceTags(int tag)
     {
