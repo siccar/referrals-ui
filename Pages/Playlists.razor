@@ -29,13 +29,13 @@
             <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
                 @foreach (var cat in Categories)
                 {
-                    if ((int)cat == SearchService.SelectedCategory)
+                    if (cat == SearchService.SelectedCategory)
                     {
-                        <option value="@((int)cat)" selected>@cat</option>
+                        <option value="@cat" selected>@((CategoryEnum)cat)</option>
                     }
                     else
                     {
-                        <option value="@((int)cat)">@cat</option>
+                        <option value="@cat">@((CategoryEnum)cat)</option>
                     }
                 }
             </InputSelect>
