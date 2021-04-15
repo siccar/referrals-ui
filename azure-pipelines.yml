@@ -18,7 +18,7 @@ steps:
     targetType: 'inline'
     script: |
       rm appsettings.json -f
-      mv appsettings.Release.json appsettings.json
+      mv appsettings.Prod.json appsettings.json
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
