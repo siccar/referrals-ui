@@ -7,88 +7,94 @@
 @inject IOpenReferralMembershipRequestsService MembershipRequests
 @inject IOpenReferralKeyContactService KeyContactRequests
 
-<h1>Membership Requests</h1>
+<div class="content-container">
+    <div class="gridder">
 
-@if (myrequeststojoin == null)
-{
-    <p><em>Loading...</em></p>
-}
-else if (ActionTaken)
-{
-    <h3><em>Action submitted</em></h3>
-}
-else
-{
-    <p>My Requests to Join Organisations and there status</p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Organisation</th>
-                <th>Request Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var membership in myrequeststojoin)
-            {
-                <tr>
-                    <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
-                    <td>@membership.Status</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        <h1>Membership Requests</h1>
 
-    <p>Join Requests for Orgs I am a Key Contact For</p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Organisation</th>
-                <th>User Email</th>
-                <th>Accept</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var membership in joinRequestsICanAuthorise)
-            {
-                <tr>
-                    <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
-                    <td>@membership.Email</td>
+        @if (myrequeststojoin == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (ActionTaken)
+        {
+            <h3><em>Action submitted</em></h3>
+        }
+        else
+        {
+            <p>My Requests to Join Organisations and there status</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Organisation</th>
+                        <th>Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var membership in myrequeststojoin)
+                    {
+                        <tr>
+                            <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
+                            <td>@membership.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-                    <td>
-                        <input type="button" name="Accept" class="button1" value="Accept" disabled ="@membership.DisableButton"  @onclick="@(e => HandleGrantRequest(membership))" />
+            <p>Join Requests for Orgs I am a Key Contact For</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Organisation</th>
+                        <th>User Email</th>
+                        <th>Accept</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var membership in joinRequestsICanAuthorise)
+                    {
+                        <tr>
+                            <td>@organizations.First(x => x.Id == membership.OrgId).Name</td>
+                            <td>@membership.Email</td>
 
-                        <input type="button" name="Reject" class="button1" value="Reject" disabled ="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                            <td>
+                                <input type="button" name="Accept" class="button1" value="Accept" disabled="@membership.DisableButton" @onclick="@(e => HandleGrantRequest(membership))" />
 
-    <p>Admin Requests for Orgs I am a Key Contact For</p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Organisation</th>
-                <th>User Email</th>
-                <th>Accept / Reject</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var ar in adminRequestsICanAuthorise)
-            {
-                <tr>
-                    <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
-                    <td>@ar.UserEmail</td>
-                    <td>
-                        <input type="button" name="Accept" class="button1" disabled ="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
-                        <input type="button" name="Reject" class="button1" disabled ="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
+                                <input type="button" name="Reject" class="button1" value="Reject" disabled="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+            <p>Admin Requests for Orgs I am a Key Contact For</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Organisation</th>
+                        <th>User Email</th>
+                        <th>Accept / Reject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ar in adminRequestsICanAuthorise)
+                    {
+                        <tr>
+                            <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
+                            <td>@ar.UserEmail</td>
+                            <td>
+                                <input type="button" name="Accept" class="button1" disabled="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
+                                <input type="button" name="Reject" class="button1" disabled="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
 
 @code {
 
