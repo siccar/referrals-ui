@@ -7,10 +7,110 @@
 
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralMembershipRequestsService MembershipRequestService
+@inject IOpenReferralKeyContactService KeyContactService
+@inject IOpenReferralPlaylistService PlaylistService
+@inject IOpenReferralServiceFilterService ServiceFilterService
+@inject IOpenReferralService ServiceService  // This needs replaced with the service collection once its ine
 <AuthorizeView>
     <Authorized Context="ctx">
 
-        @if (!NewOrgRequest)
+        @if (IsAPotentialMemberOfAtLeastOneOrg)
+        {
+            // Show playlist
+            <div class="content-container">
+                <div class="gridder">
+                    <h1>PlayLists</h1>
+
+                    <p>This component will return the current Users Playlists.</p>
+
+                    <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
+
+
+                        <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
+                        <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
+                        <label for="Category">or </label>
+                        <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
+                            @foreach (var cat in SearchService.Categories)
+                                {
+                                <option value="@cat">@cat</option>
+                                }
+                            }
+                        </InputSelect>
+                        <label for="SearchFor">Searching For</label>
+                        Services
+                        <input type="checkbox" checked />
+
+                        Organisations
+                        <input type="checkbox" disabled />
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <button type="submit">Search</button>
+                    </EditForm>
+
+
+                    @if (services == null)
+                    {
+                        <p><em>Loading...</em></p>
+                    }
+                    else
+                    {
+                        <p><em>Search Results...</em></p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Add To Playlist</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var service in searchServices.Where(x => !Playlist.Services.Contains(x.Id)))
+                                {
+                                    <tr>
+                                        <td>@service.Name</td>
+                                        <td>
+                                            <input type="button" name="Add To Playlist" class="button1" value="Add"
+                                                   @onclick="@(e => AddToPlaylist(service.Id))" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+
+                    @if (Playlist == null)
+                    {
+                        <p><em>Loading...</em></p>
+                    }
+                    else
+                    {
+                        <p><em>Your Playlist...</em></p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Service Name</th>
+                                    <th>Remove From Playlist</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var s in Playlist.Services)
+                                {
+                                    <tr>
+                                        <td>@services.First(x => x.Id == s).Name</td>
+                                        <td>
+                                            <input type="button" name="Remove From Playlist" class="button1" value="Remove"
+                                                   @onclick="@(e => RemoveFromPlaylist(s))" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        }
+        else if (!NewOrgRequest)
         {
             <div class="content-container">
                 <div class="gridder">
@@ -62,21 +162,56 @@
     </NotAuthorized>
 </AuthorizeView>
 
-@code { private IEnumerable<Organization> organizations;
+@code {
+
+    private IEnumerable<Organization> organizations;
+    private bool IsAPotentialMemberOfAtLeastOneOrg = false;
+    private IEnumerable<MembershipRequests> MembershipRequests;
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private bool NewOrgRequest;
+
+    public Playlist Playlist { get; set; }
+    public ServiceFilter SearchService { get; set; } = new ServiceFilter();
+
+    public IEnumerable<Service> services { get; set; }
+    public IEnumerable<Service> searchServices { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             organizations = await OrgService.GetAllOrganisations();
+            var requests = await MembershipRequestService.GetAllMemebershipRequestsThatCanBeActioned();
+            var keycontacts = await KeyContactService.GetOrgsICanManage();
+            IsAPotentialMemberOfAtLeastOneOrg = requests.Count() > 0 || keycontacts.Count() > 0;
+            Playlist = new Playlist();
+            Playlist = await PlaylistService.Get();
+            services = await ServiceService.GetServicesAsync();
+            searchServices = new List<Service>();
+            SearchService = await ServiceFilterService.GetSearchFIlter();
         }
         catch (Exception)
         {
             organizations = new List<Organization>();
         }
 
+    }
+
+    private async Task AddToPlaylist(string id)
+    {
+        Playlist.Services.Add(id);
+        Playlist = await PlaylistService.Update(Playlist);
+    }
+
+    private async Task RemoveFromPlaylist(string id)
+    {
+        Playlist.Services.Remove(id);
+        Playlist = await PlaylistService.Update(Playlist);
+    }
+
+    private async Task HandleSearchService()
+    {
+        searchServices = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
     }
 
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
