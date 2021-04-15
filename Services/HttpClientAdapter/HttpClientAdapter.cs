@@ -33,7 +33,12 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             await PrepareAuthenticatedClient();
 
             var response = await _httpClient.GetAsync(endpoint);
-            if ((int)response.StatusCode >= 400)
+            if ((int)response.StatusCode == 400)
+            {
+                var error = JsonConvert.DeserializeObject<ValidationError>(await response.Content.ReadAsStringAsync());
+                throw error;
+            }
+            if ((int)response.StatusCode > 400)
             {
                 throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.", null, response.StatusCode);
             }

@@ -18,60 +18,73 @@
         }
         else
         {
-            <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
-                <h3>Add Service</h3>
+    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+        <h3>Add Service</h3>
 
-                <label for="Name">Name</label>
-                <InputText id="Name" @bind-Value="@service.Name" type="text" />
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="@service.Name" type="text" />
 
-                <label for="Description">Description</label>
-                <InputText id="Description" @bind-Value="@service.Description" type="text" />
+        <label for="Description">Description</label>
+        <InputText id="Description" @bind-Value="@service.Description" type="text" />
 
-                <label for="Address">Address</label>
-                <InputText id="Address" @bind-Value="@service.Address" type="text" />
+        <label for="Address">Address</label>
+        <InputText id="Address" @bind-Value="@service.Address" type="text" />
 
-                <label for="City">City</label>
-                <InputText id="City" @bind-Value="@address.City" type="text" />
+        <label for="City">City</label>
+        <InputText id="City" @bind-Value="@address.City" type="text" />
 
-                <label for="County">County</label>
-                <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+        <label for="County">County</label>
+        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
-                <label for="PostCode">Post Code</label>
-                <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
+        <label for="PostCode">Post Code</label>
+        <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
-                <label for="Email">Email</label>
-                <InputText id="Email" @bind-Value="@service.Email" type="text" />
+        <label for="Email">Email</label>
+        <InputText id="Email" @bind-Value="@service.Email" type="text" />
 
-                <label for="Url">Url</label>
-                <InputText id="Url" @bind-Value="@service.Url" type="text" />
+        <label for="Url">Url</label>
+        <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
-                <label for="Org">Organisation</label>
-                <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
-                    @foreach (var org in organisations)
-                        {
-                            if (org.Id == OrgId)
-                            {
-                                service.OrganizationId = org.Id;
-                            <option value="@org.Id" selected>@org.Name</option>
-                            }
-                            else
-                            {
-                            <option value="@org.Id">@org.Name</option>
-                            }
-                        }
+        <label for="Org">Organisation</label>
+        <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
+            @foreach (var org in organisations)
+                {
+                    if (org.Id == OrgId)
+                    {
+                        service.OrganizationId = org.Id;
+                    <option value="@org.Id" selected>@org.Name</option>
                     }
-                </InputSelect>
+                    else
+                    {
+                    <option value="@org.Id">@org.Name</option>
+                    }
+                }
+            }
+        </InputSelect>
 
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                <button type="submit">Submit</button>
-            </EditForm>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        @if (@httpError != null)
+        {
+            <warn>There was an error submiting the form</warn>
+            <br />
+            <warn>@httpError.StatusCode - @httpError.Message</warn>
+        }
+        @if (validationError != null)
+        {
+            <ErrorValidationMessage Error=@validationError />
+        }
+        <button type="submit">Submit</button>
+    </EditForm>
         }
     </div>
 </div>
 
 @code {
-
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    ValidationError validationError { get; set; }
     [Parameter]
     public string OrgId { get; set; }
     public IEnumerable<Organization> organisations { get; set; } = new List<Organization>();
@@ -82,20 +95,48 @@
 
     private async Task HandleValidSubmit()
     {
-        creatingService = true;
 
-        var location = ServiceHelperFunctions.BuildLocation(service, address);
-        location = await ReferralService.AddLocation(location);
+        try
+        {
+            creatingService = true;
 
-        var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
-        service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+            var location = ServiceHelperFunctions.BuildLocation(service, address);
+            location = await ReferralService.AddLocation(location);
 
-        service = await ReferralService.AddService(service);
-        serviceCreated = true;
+            var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
+            service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+
+            service = await ReferralService.AddService(service);
+            serviceCreated = true;
+
+        }
+        catch (ValidationError e)
+        {
+            validationError = e;
+            creatingService = false;
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+            creatingService = false;
+
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+            creatingService = false;
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        organisations = await OrgService.GetAllOrganisations();
+        try
+        {
+            organisations = await OrgService.GetAllOrganisations();
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 }

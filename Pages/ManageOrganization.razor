@@ -8,7 +8,6 @@
 @inject IOpenReferralMembershipRequestsService MemberService
 @inject IOpenReferralKeyContactService KeyContactService
 @inject NavigationManager NavManager
-
 <div class="content-container">
     <div class="gridder">
         @if (orgUpdated)
@@ -37,6 +36,16 @@
 
                 <DataAnnotationsValidator />
                 <ValidationSummary />
+                @if (@httpError != null)
+                {
+                    <warn>There was an error.</warn>
+                    <br />
+                    <warn>@httpError.StatusCode - @httpError.Message</warn>
+                }
+                @if (validationError != null)
+                {
+                    <ErrorValidationMessage Error=@validationError />
+                }
                 <button type="submit">Submit</button>
             </EditForm>
 
@@ -117,6 +126,10 @@
 
 @code {
 
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    ValidationError validationError { get; set; }
     [Parameter]
     public string OrgId { get; set; }
 
@@ -143,20 +156,58 @@
 
     protected async Task HandleDenyRequest(MembershipRequests request)
     {
-        request.DisableButton = true;
-        await MemberService.HandleDenyRequestForJoiningOrg(request);
+        try
+        {
+            request.DisableButton = true;
+            await MemberService.HandleDenyRequestForJoiningOrg(request);
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 
     private async Task RemoveKeyContact(KeyContact contact)
     {
-        contact.DisabledButton = true;
-        await KeyContactService.RemoveKeyContact(contact);
+        try
+        {
+            contact.DisabledButton = true;
+            await KeyContactService.RemoveKeyContact(contact);
+        }
+
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 
     private async Task HandleValidSubmit()
     {
-        organization = await OrgService.UpdateOrganisation(organization);
-        orgUpdated = true;
+        try
+        {
+            organization = await OrgService.UpdateOrganisation(organization);
+            orgUpdated = true;
+        }
+        catch (ValidationError e)
+        {
+            validationError = e;
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 
     private async Task NavigateToAddService(string orgId)
