@@ -20,147 +20,55 @@
         }
         else if (IsAPotentialMemberOfAtLeastOneOrg)
         {
-            // Show playlist
-            <div class="content-container">
-                <div class="gridder">
-                    <h1>PlayLists</h1>
-
-                    <p>This component will return the current Users Playlists.</p>
-
-                    <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
-
-
-                        <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
-                        <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
-                        <label for="Category">or </label>
-                        <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
-                            @foreach (var cat in SearchService.Categories)
-                                {
-                                <option value="@cat">@cat</option>
-                                }
-                            }
-                        </InputSelect>
-                        <label for="SearchFor">Searching For</label>
-                        Services
-                        <input type="checkbox" checked />
-
-                        Organisations
-                        <input type="checkbox" disabled />
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                        <button type="submit">Search</button>
-                    </EditForm>
-
-
-                    @if (services == null)
-                    {
-                        <p><em>Loading...</em></p>
-                    }
-                    else
-                    {
-                        <p><em>Search Results...</em></p>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Add To Playlist</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var service in searchServices.Where(x => !Playlist.Services.Contains(x.Id)))
-                                {
-                                    <tr>
-                                        <td>@service.Name</td>
-                                        <td>
-                                            <input type="button" name="Add To Playlist" class="button1" value="Add"
-                                                   @onclick="@(e => AddToPlaylist(service.Id))" />
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-
-
-                    @if (Playlist == null)
-                    {
-                        <p><em>Loading...</em></p>
-                    }
-                    else
-                    {
-                        <p><em>Your Playlist...</em></p>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Service Name</th>
-                                    <th>Remove From Playlist</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var s in Playlist.Services)
-                                {
-                                    <tr>
-                                        <td>@services.First(x => x.Id == s).Name</td>
-                                        <td>
-                                            <input type="button" name="Remove From Playlist" class="button1" value="Remove"
-                                                   @onclick="@(e => RemoveFromPlaylist(s))" />
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-
-                </div>
-            </div>
+    <OpenReferralPOV.Pages.Playlists />
         }
         else if (!NewOrgRequest)
         {
-            <div class="content-container">
-                <div class="gridder">
-                    <div class="two-cols headspace">
-                        <div class="col col-left">
-                            <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
+        <div class="content-container">
+            <div class="gridder">
+                <div class="two-cols headspace">
+                    <div class="col col-left">
+                        <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
 
-                                <label for="search">Search for an organisation</label>
-                                <BlazoredTypeahead SearchMethod="SearchOrgs"
-                                                   placeholder="Search by Org Name"
-                                                   TItem="Organization"
-                                                   TValue="Organization"
-                                                   @bind-Value="request.Org"
-                                                   id="search">
-                                    <SelectedTemplate Context="org">
-                                        <text>@org.Name</text>
-                                    </SelectedTemplate>
-                                    <ResultTemplate Context="org">
-                                        @org.Name
-                                    </ResultTemplate>
-                                </BlazoredTypeahead>
-                                <h4>Make me an admin</h4>
-                                <p>Help text explaining what rights the admin has.</p>
-                                <div>
-                                    <label for="admin">Request admin rights</label>
-                                    <InputCheckbox @bind-Value="@request.IsAdmin" id="admin" />
-                                </div>
-                                <button type="submit">Verify Association</button>
-                            </EditForm>
-                        </div>
-                        <div class="col col-right">
-                            <h3>Who can add an organisation?</h3>
-                            <p>Info regaurding who can add an organisation.</p>
-                            <NavLink href="add-organization">
-                                Add Organization
-                            </NavLink>
-                        </div>
+                            <label for="search">Search for an organisation</label>
+                            <BlazoredTypeahead SearchMethod="SearchOrgs"
+                                               placeholder="Search by Org Name"
+                                               TItem="Organization"
+                                               TValue="Organization"
+                                               @bind-Value="request.Org"
+                                               id="search">
+                                <SelectedTemplate Context="org">
+                                    <text>@org.Name</text>
+                                </SelectedTemplate>
+                                <ResultTemplate Context="org">
+                                    @org.Name
+                                </ResultTemplate>
+                            </BlazoredTypeahead>
+                            <h4>Make me an admin</h4>
+                            <p>Help text explaining what rights the admin has.</p>
+                            <div>
+                                <label for="admin">Request admin rights</label>
+                                <InputCheckbox @bind-Value="@request.IsAdmin" id="admin" />
+                            </div>
+                            <button type="submit">Verify Association</button>
+                        </EditForm>
+                    </div>
+                    <div class="col col-right">
+                        <h3>Who can add an organisation?</h3>
+                        <p>Info regaurding who can add an organisation.</p>
+                        <NavLink href="add-organization">
+                            Add Organization
+                        </NavLink>
                     </div>
                 </div>
             </div>
+        </div>
         }
         else
         {
-            <h3><em>Request Sent.</em></h3>
+        <h3><em>Request Sent.</em></h3>
         }
-    </Authorized>
+</Authorized>
     <NotAuthorized>
         <SignedOutHome />
     </NotAuthorized>
@@ -175,11 +83,6 @@
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private bool NewOrgRequest;
 
-    public Playlist Playlist { get; set; }
-    public ServiceFilter SearchService { get; set; } = new ServiceFilter();
-
-    public IEnumerable<Service> services { get; set; }
-    public IEnumerable<Service> searchServices { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -189,11 +92,6 @@
             var requests = await MembershipRequestService.GetAllMemebershipRequestsThatCanBeActioned();
             var keycontacts = await KeyContactService.GetOrgsICanManage();
             IsAPotentialMemberOfAtLeastOneOrg = requests.Count() > 0 || keycontacts.Count() > 0;
-            Playlist = new Playlist();
-            Playlist = await PlaylistService.Get();
-            services = await ServiceService.GetServicesAsync();
-            searchServices = new List<Service>();
-            SearchService = await ServiceFilterService.GetSearchFIlter();
             isLoading = false;
         }
         catch (Exception)
@@ -204,22 +102,6 @@
 
     }
 
-    private async Task AddToPlaylist(string id)
-    {
-        Playlist.Services.Add(id);
-        Playlist = await PlaylistService.Update(Playlist);
-    }
-
-    private async Task RemoveFromPlaylist(string id)
-    {
-        Playlist.Services.Remove(id);
-        Playlist = await PlaylistService.Update(Playlist);
-    }
-
-    private async Task HandleSearchService()
-    {
-        searchServices = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
-    }
 
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
     {
