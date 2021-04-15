@@ -10,6 +10,7 @@ namespace OpenReferralPOV.Data
     {
         public Organization()
         {
+            Id = Guid.NewGuid().ToString();
             JoinAsMemberButtonDisabled = false;
             RequestToJoinStatusMessage = "Request to join";
             RequestToAdminister = "Request to Administer";
