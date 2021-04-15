@@ -14,7 +14,11 @@
 <AuthorizeView>
     <Authorized Context="ctx">
 
-        @if (IsAPotentialMemberOfAtLeastOneOrg)
+        @if (isLoading)
+        {
+            <h3><em>Loading.</em></h3>
+        }
+        else if (IsAPotentialMemberOfAtLeastOneOrg)
         {
             // Show playlist
             <div class="content-container">
@@ -164,6 +168,7 @@
 
 @code {
 
+    private bool isLoading = true;
     private IEnumerable<Organization> organizations;
     private bool IsAPotentialMemberOfAtLeastOneOrg = false;
     private IEnumerable<MembershipRequests> MembershipRequests;
@@ -189,10 +194,12 @@
             services = await ServiceService.GetServicesAsync();
             searchServices = new List<Service>();
             SearchService = await ServiceFilterService.GetSearchFIlter();
+            isLoading = false;
         }
         catch (Exception)
         {
             organizations = new List<Organization>();
+            isLoading = false;
         }
 
     }
