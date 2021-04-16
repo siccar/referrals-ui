@@ -17,7 +17,7 @@
         <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
 
 
-            <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
+            <label for="Postcode">Enter Postcode</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
             <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -25,7 +25,7 @@
         </EditForm>
 
         <EditForm Model="@SearchService" OnValidSubmit="@HandleFilter">
-            <label for="Keyword">Keyword:</label><InputText id="Keyword" @bind-Value="@SearchService.SearchText" />
+            <label for="Keyword">Keyword</label><InputText id="Keyword" @bind-Value="@SearchService.SearchText" />
             <label for="Category">Category</label>
             <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
                 @foreach (var cat in Categories)
