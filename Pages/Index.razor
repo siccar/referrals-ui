@@ -24,11 +24,11 @@
         }
         else if (!NewOrgRequest)
         {
-        <div class="content-container">
-            <div class="gridder">
-                <div class="two-cols headspace">
-                    <div class="col col-left">
-                        <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
+            <div class="content-container">
+                <div class="gridder">
+                    <div class="two-cols headspace">
+                        <div class="col col-left">
+                            <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
 
                                 <label for="search">Search for an organisation</label>
                                 <BlazoredTypeahead SearchMethod="SearchOrgs"
@@ -45,7 +45,7 @@
                                     </ResultTemplate>
                                 </BlazoredTypeahead>
                                 <h4>Make me an admin</h4>
-                                <p>Help text explaining what rights the admin has.</p>
+                                <p>An admin has the ability to add/remove services and update all oragnisation information</p>
                                 <div>
                                     <label for="admin">Request admin rights</label>
                                     <InputCheckbox @bind-Value="@request.IsAdmin" id="admin" />
@@ -66,7 +66,7 @@
         }
         else
         {
-        <h3><em>Request Sent.</em></h3>
+            <h3><em>Request Sent.</em></h3>
         }
         @if (@httpError != null)
         {
@@ -114,6 +114,7 @@
 
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
     {
+        organizations = await OrgService.GetAllOrganisations();
         return await Task.FromResult(organizations.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
     }
 
@@ -146,7 +147,8 @@
         {
             Error.ProcessError(e);
         }
-    } }
+    }
+}
 
 
 
