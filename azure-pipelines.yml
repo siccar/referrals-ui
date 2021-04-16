@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- develop
+- master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -19,7 +19,7 @@ steps:
     targetType: 'inline'
     script: |
       rm appsettings.json -f
-      mv appsettings.Release.json appsettings.json
+      mv appsettings.Prod.json appsettings.json
 
 - task: DotNetCoreCLI@2
   inputs:
