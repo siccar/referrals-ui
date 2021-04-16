@@ -20,6 +20,8 @@ namespace OpenReferralPOV.Services
 
         Task<IEnumerable<KeyContact>> GetOrgsICanManage();
 
+        Task<IEnumerable<KeyContact>> GetOrgsIHaveRequestedToJoin();
+
         Task<IEnumerable<KeyContact>> GetKeyContactsForOrg(string orgId);
     }
 }
