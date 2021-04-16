@@ -20,7 +20,7 @@
         }
         else if (IsAPotentialMemberOfAtLeastOneOrg)
         {
-    <OpenReferralPOV.Pages.Playlists />
+            <OpenReferralPOV.Pages.Playlists />
         }
         else if (!NewOrgRequest)
         {
@@ -89,7 +89,6 @@
     private bool IsAPotentialMemberOfAtLeastOneOrg = false;
     private IEnumerable<MembershipRequests> MembershipRequests;
     HttpRequestException httpError { get; set; }
-    private IEnumerable<Organization> organizations;
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private bool NewOrgRequest;
 
