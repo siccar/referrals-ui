@@ -7,11 +7,7 @@
 
 <div class="content-container">
     <div class="gridder">
-        @if (serviceUpdated)
-        {
-            <h3>Service Updated</h3>
-        }
-        else if (loading)
+        @if (loading)
         {
             <p><em>Loading...</em></p>
         }
@@ -24,6 +20,11 @@
             <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
 
                 <h3>Manage Service</h3>
+
+                @if (serviceUpdated)
+                {
+                    <h3>Service Updated</h3>
+                }
 
                 <label for="Name">Name</label>
                 <InputText id="Name" @bind-Value="@service.Name" />
@@ -49,11 +50,10 @@
                 <label for="Url">Url</label>
                 <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
-                @if (TagList.ToList().Count != 0)
-                {
-                    <table class="table">
-                     
-                        <tbody>
+                <table class="table">
+                    <tbody>
+                        @if (TagList.ToList().Count != 0)
+                        {
                             <tr>
                                 <td>Remove Tags</td>
                                 @foreach (var tag in TagList.ToList())
@@ -66,18 +66,19 @@
 
                                 }
                             </tr>
-                            <tr>
-                                <td>Add Tag</td>
-                                @foreach (var t in Tags) { 
+                        }
+                        <tr>
+                            <td>Add Tag</td>
+                            @foreach (var t in Tags)
+                            {
                                 <td>
                                     <input type="button" name="Add To ServiceTags" class="button1" value="@((TagEnum)t)"
                                            @onclick="@(e => AddToServiceTags(t))" />
                                 </td>
-                                }
-                            </tr>
-                        </tbody>
-                    </table>
-                }
+                            }
+                        </tr>
+                    </tbody>
+                </table>
 
                 <label for="Cat">Category</label>
                 <InputSelect @bind-Value="@service.Category" class="form-control">
@@ -170,6 +171,7 @@
             }
             service.Tags = TagList;
             service = await ServiceService.UpdateService(service);
+            updatingService = false;
             serviceUpdated = true;
         }
         catch (ValidationError e)
@@ -189,7 +191,7 @@
         }
     }
 
-     private void AddToServiceTags(int tag)
+    private void AddToServiceTags(int tag)
     {
         if (!TagList.Contains(tag))
         {
