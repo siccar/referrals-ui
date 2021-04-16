@@ -32,7 +32,12 @@ namespace OpenReferralPOV.Services
             var keycontacts = JsonConvert.DeserializeObject<IEnumerable<KeyContact>>(responseString);
             return keycontacts;
         }
-
+        public async Task<IEnumerable<KeyContact>> GetOrgsIHaveRequestedToJoin()
+        {
+            var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/KeyContact/orgs-i-have-requested-to-join"));
+            var keycontacts = JsonConvert.DeserializeObject<IEnumerable<KeyContact>>(responseString);
+            return keycontacts;
+        }
 
         public async Task RemoveKeyContact(KeyContact keycontact)
         {

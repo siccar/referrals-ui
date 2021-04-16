@@ -8,19 +8,20 @@
 
 <AuthorizeView>
     <Authorized>
-        <label for="org">Please select an org</label>
-        <EditForm Model="keyContact " Context="ctx">
+        @if (KeyContacts != null && KeyContacts.Count() > 0)
+        {
+            <EditForm Model="keyContact " Context="ctx">
 
-            <select @onchange="DoStuff">
-                <option value="-1">Please select</option>
-                @foreach (var kc in KeyContacts)
-                {
-                    <option value="@kc.OrgId">@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
-                }
-            </select>
+                <select @onchange="DoStuff">
+                    <option value="-1">Manage Organisation...</option>
+                    @foreach (var kc in KeyContacts)
+                    {
+                        <option value="@kc.OrgId">@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
+                    }
+                </select>
+            </EditForm>
+        }
 
-
-        </EditForm>
     </Authorized>
 
     <NotAuthorized>

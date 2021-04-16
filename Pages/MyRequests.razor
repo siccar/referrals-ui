@@ -24,6 +24,8 @@
         }
         else
         {
+            <p></p>
+            <p></p>
             <p>My Requests to Join Organisations and there status</p>
             <table class="table">
                 <thead>
@@ -42,7 +44,28 @@
                     }
                 </tbody>
             </table>
-
+            <p></p>
+            <p></p>
+            <p>My Requests to Join Organisations as an admin</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Organisation</th>
+                        <th>Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ar in myrequeststojoinAsAdmin)
+                    {
+                    <tr>
+                        <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
+                        <td>Pending</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <p></p>
+            <p></p>
             <p>Join Requests for Orgs I am a Key Contact For</p>
             <table class="table">
                 <thead>
@@ -70,7 +93,8 @@
                     }
                 </tbody>
             </table>
-
+            <p></p>
+            <p></p>
             <p>Admin Requests for Orgs I am a Key Contact For</p>
             <table class="table">
                 <thead>
@@ -116,6 +140,7 @@
     private IEnumerable<MembershipRequests> joinRequestsICanAuthorise;
 
     private IEnumerable<KeyContact> adminRequestsICanAuthorise;
+    private IEnumerable<KeyContact> myrequeststojoinAsAdmin;
     private bool ActionTaken;
 
 
@@ -125,6 +150,7 @@
         {
             organizations = await OrgService.GetAllOrganisations();
             myrequeststojoin = await MembershipRequests.GetAllMemebershipRequestsThatCanBeActioned();
+            myrequeststojoinAsAdmin = await KeyContactRequests.GetOrgsIHaveRequestedToJoin();
             joinRequestsICanAuthorise = (await MembershipRequests.GetOrgJoinRequests());
             adminRequestsICanAuthorise = await KeyContactRequests.GetPendingAdminRequests();
 
