@@ -74,7 +74,7 @@
                     @foreach (var service in searchServices.Where(x => !Playlist.Services.Contains(x.Id)))
                     {
                         <tr>
-                            <td>@service.Name</td>
+                            <td><NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink></td>
                             <td>
                                 <input type="button" name="Add To Playlist" class="button1" value="Add"
                                        @onclick="@(e => AddToPlaylist(service.Id))" />
@@ -103,13 +103,13 @@
                 <tbody>
                     @foreach (var s in Playlist.Services)
                     {
-                        <tr>
-                            <td>@services.First(x => x.Id == s).Name</td>
-                            <td>
-                                <input type="button" name="Remove From Playlist" class="button1" value="Remove"
-                                       @onclick="@(e => RemoveFromPlaylist(s))" />
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><NavLink href=@($"view-service/{@services.First(x => x.Id == s).Id}")>@services.First(x => x.Id == s).Name</NavLink></td>
+                        <td>
+                            <input type="button" name="Remove From Playlist" class="button1" value="Remove"
+                                   @onclick="@(e => RemoveFromPlaylist(s))" />
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
