@@ -48,6 +48,7 @@
                         <th>Organisation</th>
                         <th>User Email</th>
                         <th>Accept</th>
+                        <th>Reject</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,7 +60,7 @@
 
                             <td>
                                 <input type="button" name="Accept" class="button1" value="Accept" disabled="@membership.DisableButton" @onclick="@(e => HandleGrantRequest(membership))" />
-
+                                </td><td>
                                 <input type="button" name="Reject" class="button1" value="Reject" disabled="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
                             </td>
                         </tr>
