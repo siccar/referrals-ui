@@ -6,12 +6,15 @@
 
 @inject IOpenReferralService ReferralService
 @inject IOpenReferralOrganisationService OrgService
+@inject NavigationManager NavManager
+
 
 <div class="content-container">
     <div class="gridder">
         @if (serviceCreated)
         {
             <h3>Service Created</h3>
+            NavManager.NavigateTo($"manage-organisation/{service.OrganizationId}", true);
         }
         else if (creatingService)
         {
