@@ -46,7 +46,7 @@
                                     </ResultTemplate>
                                 </BlazoredTypeahead>
                                 <h4>Make me an admin</h4>
-                                <p>Help text explaining what rights the admin has.</p>
+                                <p>An admin has the ability to add/remove services and update all oragnisation information</p>
                                 <div>
                                     <label for="admin">Request admin rights</label>
                                     <InputCheckbox @bind-Value="@request.IsAdmin" id="admin" />
@@ -115,6 +115,7 @@
 
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
     {
+        organizations = await OrgService.GetAllOrganisations();
         return await Task.FromResult(organizations.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
     }
 
@@ -147,7 +148,8 @@
         {
             Error.ProcessError(e);
         }
-    } }
+    }
+}
 
 
 
