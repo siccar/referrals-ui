@@ -32,6 +32,22 @@
                     }
                 </div>
                 <div class="col col-right">
+                    @if (AssociationRequestSent)
+                    {
+                        <h4>Association Request Sent</h4>
+                    }
+                    else
+                    {
+                        <EditForm Model="@isAdmin" OnValidSubmit="@HandleValidSubmit">
+                            <h4>Make me an admin</h4>
+                            <p>An admin has the ability to add/remove services and update all oragnisation information</p>
+                            <div>
+                                <label for="admin">Request admin rights</label>
+                                <InputCheckbox @bind-Value="@isAdmin" id="admin" />
+                            </div>
+                            <button type="submit">Request Association</button>
+                        </EditForm>
+                    }
 
                     <h3>Services</h3>
                     <table class="table">
@@ -72,6 +88,8 @@
     public PhysicalAddress address;
     public PhysicalAddress originalAddress;
     public Organization serviceOrg;
+    public bool isAdmin { get; set; } = false;
+    public bool AssociationRequestSent { get; set; } = false;
 
 
     protected override async Task OnInitializedAsync()
@@ -82,5 +100,32 @@
 
         //Doing this to check if the postcode has changed.
         loading = false;
+    }
+
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            if (isAdmin)
+            {
+                await OrgService.RequestToJoinOrganisationAsAdmin(Id);
+                AssociationRequestSent = true;
+            }
+            else
+            {
+                await OrgService.RequestToJoinOrganisationAsMember(Id);
+                AssociationRequestSent = true;
+            }
+
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 }
