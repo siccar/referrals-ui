@@ -197,6 +197,7 @@
     {
         try
         {
+            validationError = null;
             var postcodeResults = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
             searchServices = RemovePlaylistServices(postcodeResults);
         }
@@ -218,6 +219,7 @@
     {
         try
         {
+            validationError = null;
             services = await ServiceService.GetServicesAsync();
 
             if (SearchService.SearchText != "" && SearchService.SearchText != null)
