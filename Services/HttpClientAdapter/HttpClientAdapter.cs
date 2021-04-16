@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
 using Newtonsoft.Json;
+using OpenReferralPOV.Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,9 +33,14 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             await PrepareAuthenticatedClient();
 
             var response = await _httpClient.GetAsync(endpoint);
-            if ((int)response.StatusCode >= 400)
+            if ((int)response.StatusCode == 400)
             {
-                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+                var error = JsonConvert.DeserializeObject<ValidationError>(await response.Content.ReadAsStringAsync());
+                throw error;
+            }
+            if ((int)response.StatusCode > 400)
+            {
+                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.", null, response.StatusCode);
             }
             var responseString = await response.Content.ReadAsStringAsync();
             return responseString;
@@ -50,9 +56,14 @@ namespace OpenReferralPOV.Services.HttpClientAdapter
             message.Method = method;
 
             var response = await _httpClient.SendAsync(message);
-            if ((int)response.StatusCode >= 400)
+            if ((int)response.StatusCode == 400)
             {
-                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.");
+                var error = JsonConvert.DeserializeObject<ValidationError>(await response.Content.ReadAsStringAsync());
+                throw error;
+            }
+            if ((int)response.StatusCode > 400)
+            {
+                throw new HttpRequestException($"Invalid status code in the HttpResponseMessage: {response.StatusCode}.", null, response.StatusCode);
             }
             var responseString = await response.Content.ReadAsStringAsync();
             return responseString;
