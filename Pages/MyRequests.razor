@@ -57,10 +57,10 @@
                 <tbody>
                     @foreach (var ar in myrequeststojoinAsAdmin)
                     {
-                    <tr>
-                        <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
-                        <td>Pending</td>
-                    </tr>
+                        <tr>
+                            <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
+                            <td>Pending</td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -112,6 +112,8 @@
                             <td>@ar.UserEmail</td>
                             <td>
                                 <input type="button" name="Accept" class="button1" disabled="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
+                            </td>
+                            <td>
                                 <input type="button" name="Reject" class="button1" disabled="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
 
                             </td>
