@@ -190,8 +190,13 @@ main .gridder {
         grid-template-columns: 50% 50%;
     }
 
-    .headspace{
-        margin-top:5rem;
+    .two-cols-70-30 {
+        display: grid;
+        grid-template-columns: 70% 30%;
+    }
+
+    .headspace {
+        margin-top: 5rem;
     }
 
     .col-left {
@@ -293,5 +298,63 @@ main .gridder {
     .switch:checked + .hours {
         display: inline-block;
         margin-left: 2rem
+    }
+}
+
+/* Service Providers */
+.serviceprovider {
+    h3 {
+        line-height: 0;
+        font-weight: 500;
+        font-size: 1rem; 
+        margin-bottom:2rem;
+        a {
+            text-decoration: underline;
+            color: $darkblue;
+            font-weight: 500;
+        }
+    }
+
+    div {
+        margin-bottom: .5rem;
+    }
+
+    a {
+        color: $black;
+        text-decoration: none;
+    }
+
+    .contactinfo {
+        a {
+            margin-right: 1rem;
+            font-weight: 700;
+        }
+    }
+
+    .serviceinfo {
+        span {
+            font-weight: 700;
+        }
+    }
+}
+
+.otherorgs {
+    h3 {line-height:0; font-weight:500; font-size:1rem; margin-bottom:1rem}
+    ul {
+        list-style-type:none;
+        padding:0;
+        li{
+            border:1px solid $darkblue;
+            text-align:center;
+            padding: 1rem;
+            margin-bottom:1rem;
+            &:hover {
+                background: $light-grey;
+            }
+            a{
+                text-decoration:none;
+                color:$darkblue;
+            }
+        }
     }
 }

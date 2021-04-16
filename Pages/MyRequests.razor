@@ -6,6 +6,7 @@
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralMembershipRequestsService MembershipRequests
 @inject IOpenReferralKeyContactService KeyContactRequests
+@inject NavigationManager NavManager
 
 <div class="content-container">
     <div class="gridder">
@@ -19,9 +20,12 @@
         else if (ActionTaken)
         {
             <h3><em>Action submitted</em></h3>
+            <a href="myrequests">Reload</a>
         }
         else
         {
+            <p></p>
+            <p></p>
             <p>My Requests to Join Organisations and there status</p>
             <table class="table">
                 <thead>
@@ -40,7 +44,28 @@
                     }
                 </tbody>
             </table>
-
+            <p></p>
+            <p></p>
+            <p>My Requests to Join Organisations as an admin</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Organisation</th>
+                        <th>Request Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ar in myrequeststojoinAsAdmin)
+                    {
+                        <tr>
+                            <td>@organizations.First(x => x.Id == ar.OrgId).Name</td>
+                            <td>Pending</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p></p>
+            <p></p>
             <p>Join Requests for Orgs I am a Key Contact For</p>
             <table class="table">
                 <thead>
@@ -48,6 +73,7 @@
                         <th>Organisation</th>
                         <th>User Email</th>
                         <th>Accept</th>
+                        <th>Reject</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,14 +85,16 @@
 
                             <td>
                                 <input type="button" name="Accept" class="button1" value="Accept" disabled="@membership.DisableButton" @onclick="@(e => HandleGrantRequest(membership))" />
-
+                            </td>
+                            <td>
                                 <input type="button" name="Reject" class="button1" value="Reject" disabled="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
-
+            <p></p>
+            <p></p>
             <p>Admin Requests for Orgs I am a Key Contact For</p>
             <table class="table">
                 <thead>
@@ -84,6 +112,8 @@
                             <td>@ar.UserEmail</td>
                             <td>
                                 <input type="button" name="Accept" class="button1" disabled="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
+                            </td>
+                            <td>
                                 <input type="button" name="Reject" class="button1" disabled="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
 
                             </td>
@@ -112,6 +142,7 @@
     private IEnumerable<MembershipRequests> joinRequestsICanAuthorise;
 
     private IEnumerable<KeyContact> adminRequestsICanAuthorise;
+    private IEnumerable<KeyContact> myrequeststojoinAsAdmin;
     private bool ActionTaken;
 
 
@@ -121,6 +152,7 @@
         {
             organizations = await OrgService.GetAllOrganisations();
             myrequeststojoin = await MembershipRequests.GetAllMemebershipRequestsThatCanBeActioned();
+            myrequeststojoinAsAdmin = await KeyContactRequests.GetOrgsIHaveRequestedToJoin();
             joinRequestsICanAuthorise = (await MembershipRequests.GetOrgJoinRequests());
             adminRequestsICanAuthorise = await KeyContactRequests.GetPendingAdminRequests();
 
@@ -143,6 +175,7 @@
             request.DisableButton = true;
             await MembershipRequests.HandleGrantRequestForJoiningOrg(request);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
 
         }
         catch (HttpRequestException e)
@@ -162,6 +195,8 @@
             request.DisableButton = true;
             await MembershipRequests.HandleDenyRequestForJoiningOrg(request);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
+
 
         }
         catch (HttpRequestException e)
@@ -181,6 +216,8 @@
             kc.DisabledButton = true;
             await KeyContactRequests.HandleAdminGrantRequest(kc.OrgId, kc.UserId);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
+
         }
         catch (HttpRequestException e)
         {
@@ -200,6 +237,8 @@
             kc.DisabledButton = true;
             await KeyContactRequests.HandleAdminDenyRequest(kc.OrgId, kc.UserId);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
+
         }
         catch (HttpRequestException e)
         {
