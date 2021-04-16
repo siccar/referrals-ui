@@ -4864,3 +4864,38 @@ main .gridder .col-right {
   .signed-out .flexer .buttondiv {
     width: 30%;
     margin-right: 1rem; }
+
+/* Service Availablity*/
+#service-availability {
+  margin-top: 1rem; }
+  #service-availability .service {
+    display: flex;
+    justify-content: space-between; }
+  #service-availability .top {
+    margin-bottom: 1rem; }
+  #service-availability .dayofweek {
+    display: flex;
+    height: 1.8rem;
+    font-size: 0.8rem;
+    align-items: baseline; }
+  #service-availability .day {
+    flex: 0 0 120px;
+    text-transform: uppercase;
+    font-weight: 900; }
+  #service-availability .times {
+    flex: 1; }
+  #service-availability .hours {
+    display: none; }
+    #service-availability .hours span {
+      border: 1px solid #0a0039;
+      width: 1.8rem; }
+      #service-availability .hours span input {
+        border: none;
+        text-align: center;
+        font-size: 0.8em;
+        padding: 0;
+        width: inherit;
+        outline: none; }
+  #service-availability .switch:checked + .hours {
+    display: inline-block;
+    margin-left: 2rem; }

@@ -228,3 +228,57 @@ main .gridder {
         }
     }
 }
+
+/* Service Availablity*/
+#service-availability {
+    margin-top:1rem;
+    .service {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .top {
+        margin-bottom: 1rem;
+    }
+
+    .dayofweek {
+        display: flex;
+        height:1.8rem;
+        font-size:0.8rem;
+        align-items:baseline;
+    }
+
+    .day {
+        flex: 0 0 120px;
+        text-transform: uppercase;
+        font-weight:900;
+    }
+
+    .times {
+        flex:1
+    }
+
+    .hours {
+        display: none;
+
+        span {
+            border: 1px solid $darkblue;
+            width: 1.8rem;
+
+            input {
+                border: none;
+                text-align: center;
+                font-size: 0.8em;
+                padding: 0;
+                width: inherit;
+                outline: none;
+            }
+        }
+    }
+
+
+    .switch:checked + .hours {
+        display: inline-block;
+        margin-left: 2rem
+    }
+}
