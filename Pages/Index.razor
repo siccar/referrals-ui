@@ -7,16 +7,28 @@
 
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralMembershipRequestsService MembershipRequestService
+@inject IOpenReferralKeyContactService KeyContactService
+@inject IOpenReferralPlaylistService PlaylistService
+@inject IOpenReferralServiceFilterService ServiceFilterService
+@inject IOpenReferralService ServiceService  // This needs replaced with the service collection once its ine
 <AuthorizeView>
     <Authorized Context="ctx">
 
-        @if (!NewOrgRequest)
+        @if (isLoading)
         {
-            <div class="content-container">
-                <div class="gridder">
-                    <div class="two-cols headspace">
-                        <div class="col col-left">
-                            <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
+            <h3><em>Loading.</em></h3>
+        }
+        else if (IsAPotentialMemberOfAtLeastOneOrg)
+        {
+            <OpenReferralPOV.Pages.Playlists />
+        }
+        else if (!NewOrgRequest)
+        {
+        <div class="content-container">
+            <div class="gridder">
+                <div class="two-cols headspace">
+                    <div class="col col-left">
+                        <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
 
                                 <label for="search">Search for an organisation</label>
                                 <BlazoredTypeahead SearchMethod="SearchOrgs"
@@ -43,7 +55,7 @@
                         </div>
                         <div class="col col-right">
                             <h3>Who can add an organisation?</h3>
-                            <p>Info regaurding who can add an organisation.</p>
+                            <p>Info regarding who can add an organisation.</p>
                             <NavLink href="add-organization">
                                 Add Organization
                             </NavLink>
@@ -54,7 +66,7 @@
         }
         else
         {
-            <h3><em>Request Sent.</em></h3>
+        <h3><em>Request Sent.</em></h3>
         }
         @if (@httpError != null)
         {
@@ -69,25 +81,36 @@
 </AuthorizeView>
 
 @code {
+
     [CascadingParameter]
     Error Error { get; set; }
-    HttpRequestException httpError { get; set; }
+    private bool isLoading = true;
     private IEnumerable<Organization> organizations;
+    private bool IsAPotentialMemberOfAtLeastOneOrg = false;
+    private IEnumerable<MembershipRequests> MembershipRequests;
+    HttpRequestException httpError { get; set; }
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private bool NewOrgRequest;
+
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             organizations = await OrgService.GetAllOrganisations();
+            var requests = await MembershipRequestService.GetAllMemebershipRequestsThatCanBeActioned();
+            var keycontacts = await KeyContactService.GetOrgsICanManage();
+            IsAPotentialMemberOfAtLeastOneOrg = requests.Count() > 0 || keycontacts.Count() > 0;
+            isLoading = false;
         }
         catch (Exception)
         {
             organizations = new List<Organization>();
+            isLoading = false;
         }
 
     }
+
 
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
     {
