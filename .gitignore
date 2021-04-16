@@ -5,7 +5,6 @@
 
 # Config files
 appsettings.Development.json
-azure-pipelines.yml
 
 # User-specific files
 *.rsuser
