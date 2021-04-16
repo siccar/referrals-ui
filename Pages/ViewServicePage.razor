@@ -1,0 +1,102 @@
+﻿@page "/view-service/{Id}"
+@using OpenReferralPOV.Data
+@using OpenReferralPOV.Services
+
+@inject IOpenReferralService ServiceService
+@inject IOpenReferralOrganisationService OrgService
+
+<div class="content-container">
+    <div class="gridder">
+
+        @if (loading)
+        {
+            <p><em>Loading...</em></p>
+        }
+
+        else
+        {
+            <div class="two-cols">
+                <div class="col col-left">
+                    <h3>Povided By: <NavLink href=@($"view-organisation/{serviceOrg.Id}")> @serviceOrg.Name</NavLink> </h3>
+
+                    <h2 for="Name">@service.Name</h2>
+
+                    <h4 for="Description">@service.Description</h4>
+
+                    <h4 for="Address">@address.Address_1</h4>
+
+                    <h4 for="City">@address.City</h4>
+
+                    <h4 for="County">@address.Country</h4>
+
+                    <h4 for="PostCode">@address.Postal_Code</h4>
+
+                    <h4 for="Email">@service.Email</h4>
+
+                    <h4 for="Url"><a href="@service.Url">@service.Url</a></h4>
+                    @if (@httpError != null)
+                    {
+                        <warn>There was an error.</warn>
+                        <br />
+                        <warn>@httpError.StatusCode - @httpError.Message</warn>
+                    }
+
+                </div>
+                <div class="col col-right">
+
+                    <h3>Services</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Service Name</th>
+                                <th>Service URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var service in services)
+                            {
+                                <tr>
+                                    <td><NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink></td>
+                                    <td>@service.Url</td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@code {
+
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    [Parameter]
+    public string Id { get; set; }
+
+    public bool loading { get; set; } = true;
+
+    public Service service { get; set; }
+    public IEnumerable<Service> services { get; set; } = new List<Service>();
+    public PhysicalAddress address;
+    public PhysicalAddress originalAddress;
+    public Organization serviceOrg;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        service = await ServiceService.GetServiceById(Id);
+        var location = await ServiceService.GetLocationById(service.Service_At_Locations.First().Location_Id);
+        address = location.Physical_Addresses.First();
+
+
+        serviceOrg = await OrgService.GetOrganisation(service.OrganizationId);
+
+        services = (await ServiceService.GetServicesAsync()).Where(x => x.OrganizationId == service.OrganizationId);
+
+        //Doing this to check if the postcode has changed.
+        loading = false;
+    }
+}

@@ -2,6 +2,7 @@
 
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
+@using OpenReferralPOV.Data.Enums;
 
 @inject IOpenReferralService ReferralService
 @inject IOpenReferralOrganisationService OrgService
@@ -62,8 +63,78 @@
                     }
                 </InputSelect>
 
+                <table class="table">
+                    <thead>
+                        <tr>
+
+                            <th>Add tag</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tag in Tags)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="button" name="Add To ServiceTags" class="button1" value="@((TagEnum)tag)"
+                                           @onclick="@(e => AddToServiceTags(tag))" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @if (TagList.ToList().Count != 0)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+
+                                <th>Remove tag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tag in TagList.ToList())
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="button" name="Remove from ServiceTags" class="button2" value="@((TagEnum)tag)"
+                                               @onclick="@(e => RemoveFromServiceTags(tag))" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+
+                <label for="Cat">Category</label>
+                <InputSelect @bind-Value="@service.Category" class="form-control">
+                    @foreach (var cat in CategoryList)
+                        {
+                            if ((int)cat == service.Category)
+                            {
+                                service.Category = (int)cat;
+                            <option value="@((int)cat)" selected>@cat</option>
+                            }
+                            else
+                            {
+                            <option value="@((int)cat)">@cat</option>
+                            }
+                        }
+                    }
+                </InputSelect>
+
                 <DataAnnotationsValidator />
                 <ValidationSummary />
+                @if (@httpError != null)
+                {
+                    <warn>There was an error submiting the form</warn>
+                    <br />
+                    <warn>@httpError.StatusCode - @httpError.Message</warn>
+                }
+                @if (validationError != null)
+                {
+                    <ErrorValidationMessage Error=@validationError />
+                }
                 <button type="submit">Submit</button>
             </EditForm>
         }
@@ -71,7 +142,10 @@
 </div>
 
 @code {
-
+    [CascadingParameter]
+    Error Error { get; set; }
+    HttpRequestException httpError { get; set; }
+    ValidationError validationError { get; set; }
     [Parameter]
     public string OrgId { get; set; }
     public IEnumerable<Organization> organisations { get; set; } = new List<Organization>();
@@ -79,23 +153,73 @@
     public PhysicalAddress address { get; set; } = new PhysicalAddress();
     public bool serviceCreated { get; set; } = false;
     public bool creatingService { get; set; } = false;
+    public int[] Tags = (int[])Enum.GetValues(typeof(TagEnum));
+    public List<int> TagList { get; set; } = new List<int>();
+    public int[] Category = (int[])Enum.GetValues(typeof(CategoryEnum));
+    public List<CategoryEnum> CategoryList { get; set; } = new List<CategoryEnum>();
 
     private async Task HandleValidSubmit()
     {
-        creatingService = true;
 
-        var location = ServiceHelperFunctions.BuildLocation(service, address);
-        location = await ReferralService.AddLocation(location);
+        try
+        {
+            creatingService = true;
 
-        var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
-        service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+            var location = ServiceHelperFunctions.BuildLocation(service, address);
+            location = await ReferralService.AddLocation(location);
 
-        service = await ReferralService.AddService(service);
-        serviceCreated = true;
+            var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
+            service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
+            service.Tags = TagList;
+
+            service = await ReferralService.AddService(service);
+            serviceCreated = true;
+
+        }
+        catch (ValidationError e)
+        {
+            validationError = e;
+            creatingService = false;
+        }
+        catch (HttpRequestException e)
+        {
+            httpError = e;
+            creatingService = false;
+
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+            creatingService = false;
+        }
+    }
+
+    private void AddToServiceTags(int tag)
+    {
+        if (!TagList.Contains(tag))
+        {
+            TagList.Add(tag);
+        }
+    }
+
+    private void RemoveFromServiceTags(int tag)
+    {
+        TagList.Remove(tag);
     }
 
     protected override async Task OnInitializedAsync()
     {
-        organisations = await OrgService.GetAllOrganisations();
+        try
+        {
+            organisations = await OrgService.GetAllOrganisations();
+            foreach (var c in Category)
+            {
+                CategoryList.Add((CategoryEnum)c);
+            }
+        }
+        catch (Exception e)
+        {
+            Error.ProcessError(e);
+        }
     }
 }

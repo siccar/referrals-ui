@@ -30,45 +30,51 @@
                     <div class="col col-left">
                         <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
 
-                            <label for="search">Search for an organisation</label>
-                            <BlazoredTypeahead SearchMethod="SearchOrgs"
-                                               placeholder="Search by Org Name"
-                                               TItem="Organization"
-                                               TValue="Organization"
-                                               @bind-Value="request.Org"
-                                               id="search">
-                                <SelectedTemplate Context="org">
-                                    <text>@org.Name</text>
-                                </SelectedTemplate>
-                                <ResultTemplate Context="org">
-                                    @org.Name
-                                </ResultTemplate>
-                            </BlazoredTypeahead>
-                            <h4>Make me an admin</h4>
-                            <p>Help text explaining what rights the admin has.</p>
-                            <div>
-                                <label for="admin">Request admin rights</label>
-                                <InputCheckbox @bind-Value="@request.IsAdmin" id="admin" />
-                            </div>
-                            <button type="submit">Verify Association</button>
-                        </EditForm>
-                    </div>
-                    <div class="col col-right">
-                        <h3>Who can add an organisation?</h3>
-                        <p>Info regaurding who can add an organisation.</p>
-                        <NavLink href="add-organization">
-                            Add Organization
-                        </NavLink>
+                                <label for="search">Search for an organisation</label>
+                                <BlazoredTypeahead SearchMethod="SearchOrgs"
+                                                   placeholder="Search by Org Name"
+                                                   TItem="Organization"
+                                                   TValue="Organization"
+                                                   @bind-Value="request.Org"
+                                                   id="search">
+                                    <SelectedTemplate Context="org">
+                                        <text>@org.Name</text>
+                                    </SelectedTemplate>
+                                    <ResultTemplate Context="org">
+                                        @org.Name
+                                    </ResultTemplate>
+                                </BlazoredTypeahead>
+                                <h4>Make me an admin</h4>
+                                <p>Help text explaining what rights the admin has.</p>
+                                <div>
+                                    <label for="admin">Request admin rights</label>
+                                    <InputCheckbox @bind-Value="@request.IsAdmin" id="admin" />
+                                </div>
+                                <button type="submit">Verify Association</button>
+                            </EditForm>
+                        </div>
+                        <div class="col col-right">
+                            <h3>Who can add an organisation?</h3>
+                            <p>Info regarding who can add an organisation.</p>
+                            <NavLink href="add-organization">
+                                Add Organization
+                            </NavLink>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
         else
         {
         <h3><em>Request Sent.</em></h3>
         }
-</Authorized>
+        @if (@httpError != null)
+        {
+            <warn>There was an error submiting the form</warn>
+            <br />
+            <warn>@httpError.StatusCode - @httpError.Message</warn>
+        }
+    </Authorized>
     <NotAuthorized>
         <SignedOutHome />
     </NotAuthorized>
@@ -76,10 +82,14 @@
 
 @code {
 
+    [CascadingParameter]
+    Error Error { get; set; }
     private bool isLoading = true;
     private IEnumerable<Organization> organizations;
     private bool IsAPotentialMemberOfAtLeastOneOrg = false;
     private IEnumerable<MembershipRequests> MembershipRequests;
+    HttpRequestException httpError { get; set; }
+    private IEnumerable<Organization> organizations;
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private bool NewOrgRequest;
 
@@ -111,19 +121,31 @@
 
     private async Task HandleValidSubmit()
     {
-        if (request.Org == null || request.Org.Id == null)
+        try
         {
-            return;
+            if (request.Org == null || request.Org.Id == null)
+            {
+                return;
+            }
+            if (request.IsAdmin)
+            {
+                await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
+                NewOrgRequest = true;
+            }
+            else
+            {
+                await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
+                NewOrgRequest = true;
+            }
+
         }
-        if (request.IsAdmin)
+        catch (HttpRequestException e)
         {
-            await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
-            NewOrgRequest = true;
+            httpError = e;
         }
-        else
+        catch (Exception e)
         {
-            await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
-            NewOrgRequest = true;
+            Error.ProcessError(e);
         }
     } }
 
