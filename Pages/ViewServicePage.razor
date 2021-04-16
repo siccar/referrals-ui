@@ -15,25 +15,18 @@
 
         else
         {
-            <div class="two-cols">
-                <div class="col col-left">
-                    <h3>Povided By: <NavLink href=@($"view-organisation/{serviceOrg.Id}")> @serviceOrg.Name</NavLink> </h3>
-
-                    <h2 for="Name">@service.Name</h2>
-
-                    <h4 for="Description">@service.Description</h4>
-
-                    <h4 for="Address">@address.Address_1</h4>
-
-                    <h4 for="City">@address.City</h4>
-
-                    <h4 for="County">@address.Country</h4>
-
-                    <h4 for="PostCode">@address.Postal_Code</h4>
-
-                    <h4 for="Email">@service.Email</h4>
-
-                    <h4 for="Url"><a href="@service.Url">@service.Url</a></h4>
+            <div class="two-cols-70-30">
+                <div class="serviceprovider">
+                    <h3>Provided by: <NavLink href=@($"view-organisation/{serviceOrg.Id}")> @serviceOrg.Name</NavLink> </h3>
+                    <div class="address"><i class="fas fa-map-marker-alt"></i> <span>@address.Address_1, @address.City @address.Country, @address.Postal_Code</span> [<a href="https://www.google.com/maps/place/@address.Postal_Code" target="_blank" title="Find  @serviceOrg.Name on a map">find us on the map</a>]</div>
+                    <div class="contactinfo"><i class="fas fa-envelope-open-text"></i> <a href="mailto:@service.Email" title="Email @serviceOrg.Name">Email</a> <i class="fas fa-desktop"></i> <a href="@service.Url" target="_blank" title="Go to @serviceOrg.Name website">Visit the website</a></div>
+                    <div class="serviceinfo">
+                        <p><span>Service availability:</span> TBC</p>
+                        <p><span>Closed:</span> TBC</p>
+                    </div>
+                    <div class="descn">
+                        <p>@service.Description</p>
+                    </div>
                     @if (@httpError != null)
                     {
                         <warn>There was an error.</warn>
@@ -42,27 +35,19 @@
                     }
 
                 </div>
-                <div class="col col-right">
+                <div class="otherorgs">
+                    <h3>Other services for this organisation</h3>
+                    <ul>
+                        @foreach (var service in services)
+                        {
+                            <li>
+                                <NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink>
+                            </li>
 
-                    <h3>Services</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Service Name</th>
-                                <th>Service URL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var service in services)
-                            {
-                                <tr>
-                                    <td><NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink></td>
-                                    <td>@service.Url</td>
-                                </tr>
-
-                            }
-                        </tbody>
-                    </table>
+                        }
+                    </ul>
+                   
+                   
                 </div>
             </div>
         }

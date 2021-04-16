@@ -77,8 +77,6 @@
                 <thead>
                     <tr>
                         <th>User Email</th>
-                        <th>Is Admin</th>
-                        <th>Is Pending</th>
                         <th>Remove</th>
                     </tr>
                 </thead>
@@ -87,8 +85,6 @@
                     {
                         <tr>
                             <td>@contact.UserEmail</td>
-                            <td>@contact.IsAdmin</td>
-                            <td>@contact.IsPending</td>
                             <td>
                                 <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
                             </td>
