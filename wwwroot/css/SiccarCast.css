@@ -4840,6 +4840,10 @@ main .gridder .two-cols {
   display: grid;
   grid-template-columns: 50% 50%; }
 
+main .gridder .two-cols-70-30 {
+  display: grid;
+  grid-template-columns: 70% 30%; }
+
 main .gridder .headspace {
   margin-top: 5rem; }
 
@@ -4908,3 +4912,48 @@ main .gridder .col-right {
   #service-availability .switch:checked + .hours {
     display: inline-block;
     margin-left: 2rem; }
+
+/* Service Providers */
+.serviceprovider h3 {
+  line-height: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 2rem; }
+  .serviceprovider h3 a {
+    text-decoration: underline;
+    color: #0a0039;
+    font-weight: 500; }
+
+.serviceprovider div {
+  margin-bottom: .5rem; }
+
+.serviceprovider a {
+  color: #000000;
+  text-decoration: none; }
+
+.serviceprovider .contactinfo a {
+  margin-right: 1rem;
+  font-weight: 700; }
+
+.serviceprovider .serviceinfo span {
+  font-weight: 700; }
+
+.otherorgs h3 {
+  line-height: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 1rem; }
+
+.otherorgs ul {
+  list-style-type: none;
+  padding: 0; }
+  .otherorgs ul li {
+    border: 1px solid #0a0039;
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 1rem; }
+    .otherorgs ul li:hover {
+      background: #e6e5eb; }
+    .otherorgs ul li a {
+      text-decoration: none;
+      color: #0a0039; }

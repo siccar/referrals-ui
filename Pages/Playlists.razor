@@ -17,7 +17,7 @@
         <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
 
 
-            <label for="Postcode">Enter Postcode:</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
+            <label for="Postcode">Enter Postcode</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
             <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -25,7 +25,7 @@
         </EditForm>
 
         <EditForm Model="@SearchService" OnValidSubmit="@HandleFilter">
-            <label for="Keyword">Keyword:</label><InputText id="Keyword" @bind-Value="@SearchService.SearchText" />
+            <label for="Keyword">Keyword</label><InputText id="Keyword" @bind-Value="@SearchService.SearchText" />
             <label for="Category">Category</label>
             <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
                 @foreach (var cat in Categories)
@@ -57,43 +57,51 @@
         }
 
 
+        <p><em>Search Results...</em></p>
         @if (services == null)
         {
             <p><em>Loading...</em></p>
         }
+        else if (searchServices.Count() == 0)
+        {
+            <p>0 Search Results</p>
+        }
         else
         {
-            <p><em>Search Results...</em></p>
-            <table class="table">
-                <thead>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Add To Playlist</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in searchServices)
+                {
                     <tr>
-                        <th>Name</th>
-                        <th>Add To Playlist</th>
+                        <td><NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink></td>
+                        <td>
+                            <input type="button" name="Add To Playlist" class="button1" value="Add"
+                                   @onclick="@(e => AddToPlaylist(service.Id))" />
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var service in searchServices.Where(x => !Playlist.Services.Contains(x.Id)))
-                    {
-                        <tr>
-                            <td><NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink></td>
-                            <td>
-                                <input type="button" name="Add To Playlist" class="button1" value="Add"
-                                       @onclick="@(e => AddToPlaylist(service.Id))" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
+        </table>
         }
 
-
+        <br />
+        <p><em>Your Playlist...</em></p>
         @if (Playlist == null)
         {
             <p><em>Loading...</em></p>
         }
+        else if (Playlist.Services.Count == 0)
+        {
+            <p>You have no services in you playlist.</p>
+        }
         else
         {
-            <p><em>Your Playlist...</em></p>
             <table class="table">
                 <thead>
                     <tr>
@@ -104,18 +112,17 @@
                 <tbody>
                     @foreach (var s in Playlist.Services)
                     {
-                    <tr>
-                        <td><NavLink href=@($"view-service/{@services.First(x => x.Id == s).Id}")>@services.First(x => x.Id == s).Name</NavLink></td>
-                        <td>
-                            <input type="button" name="Remove From Playlist" class="button1" value="Remove"
-                                   @onclick="@(e => RemoveFromPlaylist(s))" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><NavLink href=@($"view-service/{@services.First(x => x.Id == s).Id}")>@services.First(x => x.Id == s).Name</NavLink></td>
+                            <td>
+                                <input type="button" name="Remove From Playlist" class="button1" value="Remove"
+                                       @onclick="@(e => RemoveFromPlaylist(s))" />
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         }
-
     </div>
 </div>
 
@@ -190,7 +197,9 @@
     {
         try
         {
-            searchServices = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
+            validationError = null;
+            var postcodeResults = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
+            searchServices = RemovePlaylistServices(postcodeResults);
         }
         catch (ValidationError e)
         {
@@ -210,6 +219,7 @@
     {
         try
         {
+            validationError = null;
             services = await ServiceService.GetServicesAsync();
 
             if (SearchService.SearchText != "" && SearchService.SearchText != null)
@@ -224,11 +234,12 @@
 
                 var filtered = services.Where(service => service.Name.ToLower().Contains(SearchService.SearchText.ToLower())
                 || service.Tags.Any(tag => tagInts.Contains(tag))).ToList();
-                searchServices = filtered;
+                searchServices = RemovePlaylistServices(filtered);
             }
             else if (SearchService.SelectedCategory > 0)
             {
-                searchServices = services.Where(service => service.Category == SearchService.SelectedCategory);
+                var categoryServices = services.Where(service => service.Category == SearchService.SelectedCategory).ToList();
+                searchServices = RemovePlaylistServices(categoryServices);
             }
             else
             {
@@ -247,6 +258,10 @@
         {
             Error.ProcessError(e);
         }
+    }
+    private IEnumerable<Service> RemovePlaylistServices(IEnumerable<Service> services)
+    {
+        return services.Where(x => !Playlist.Services.Contains(x.Id));
     }
 
 }
