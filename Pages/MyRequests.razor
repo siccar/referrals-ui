@@ -6,6 +6,7 @@
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralMembershipRequestsService MembershipRequests
 @inject IOpenReferralKeyContactService KeyContactRequests
+@inject NavigationManager NavManager
 
 <div class="content-container">
     <div class="gridder">
@@ -19,6 +20,7 @@
         else if (ActionTaken)
         {
             <h3><em>Action submitted</em></h3>
+            <a href="myrequests">Reload</a>
         }
         else
         {
@@ -60,7 +62,8 @@
 
                             <td>
                                 <input type="button" name="Accept" class="button1" value="Accept" disabled="@membership.DisableButton" @onclick="@(e => HandleGrantRequest(membership))" />
-                                </td><td>
+                            </td>
+                            <td>
                                 <input type="button" name="Reject" class="button1" value="Reject" disabled="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
                             </td>
                         </tr>
@@ -144,6 +147,7 @@
             request.DisableButton = true;
             await MembershipRequests.HandleGrantRequestForJoiningOrg(request);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
 
         }
         catch (HttpRequestException e)
@@ -163,6 +167,8 @@
             request.DisableButton = true;
             await MembershipRequests.HandleDenyRequestForJoiningOrg(request);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
+
 
         }
         catch (HttpRequestException e)
@@ -182,6 +188,8 @@
             kc.DisabledButton = true;
             await KeyContactRequests.HandleAdminGrantRequest(kc.OrgId, kc.UserId);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
+
         }
         catch (HttpRequestException e)
         {
@@ -201,6 +209,8 @@
             kc.DisabledButton = true;
             await KeyContactRequests.HandleAdminDenyRequest(kc.OrgId, kc.UserId);
             ActionTaken = true;
+            NavManager.NavigateTo($"myrequests", true);
+
         }
         catch (HttpRequestException e)
         {
