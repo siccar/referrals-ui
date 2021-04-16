@@ -13,7 +13,7 @@
             <EditForm Model="keyContact " Context="ctx">
 
                 <select @onchange="DoStuff">
-                    <option value="-1">Please select an org to view</option>
+                    <option value="-1">Manage Organisation...</option>
                     @foreach (var kc in KeyContacts)
                     {
                         <option value="@kc.OrgId">@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
