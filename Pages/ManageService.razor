@@ -17,100 +17,108 @@
         }
         else
         {
-            <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+            <div class="two-cols">
+                <div class="col col-left">
 
-                <h3>Manage Service</h3>
+                    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
 
-                @if (serviceUpdated)
-                {
-                    <h3>Service Updated</h3>
-                }
+                        <h3>Manage Service</h3>
 
-                <label for="Name">Name</label>
-                <InputText id="Name" @bind-Value="@service.Name" />
-
-                <label for="Description">Description</label>
-                <InputText id="Description" @bind-Value="@service.Description" />
-
-                <label for="Address">Address</label>
-                <InputText id="Address" @bind-Value="@service.Address" type="text" />
-
-                <label for="City">City</label>
-                <InputText id="City" @bind-Value="@address.City" type="text" />
-
-                <label for="County">County</label>
-                <InputText id="County" @bind-Value="@address.State_Province" type="text" />
-
-                <label for="PostCode">Post Code</label>
-                <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
-
-                <label for="Email">Email</label>
-                <InputText id="Email" @bind-Value="@service.Email" type="text" />
-
-                <label for="Url">Url</label>
-                <InputText id="Url" @bind-Value="@service.Url" type="text" />
-
-                <table class="table">
-                    <tbody>
-                        @if (TagList.ToList().Count != 0)
+                        @if (serviceUpdated)
                         {
-                            <tr>
-                                <td>Remove Tags</td>
-                                @foreach (var tag in TagList.ToList())
+                            <h3>Service Updated</h3>
+                        }
+
+                        <label for="Name">Name</label>
+                        <InputText id="Name" @bind-Value="@service.Name" />
+
+                        <label for="Description">Description</label>
+                        <InputText id="Description" @bind-Value="@service.Description" />
+
+                        <label for="Address">Address</label>
+                        <InputText id="Address" @bind-Value="@service.Address" type="text" />
+
+                        <label for="City">City</label>
+                        <InputText id="City" @bind-Value="@address.City" type="text" />
+
+                        <label for="County">County</label>
+                        <InputText id="County" @bind-Value="@address.State_Province" type="text" />
+
+                        <label for="PostCode">Post Code</label>
+                        <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
+
+                        <label for="Email">Email</label>
+                        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+
+                        <label for="Url">Url</label>
+                        <InputText id="Url" @bind-Value="@service.Url" type="text" />
+
+                        <table class="table">
+                            <tbody>
+                                @if (TagList.ToList().Count != 0)
                                 {
+                                    <tr>
+                                        <td>Remove Tags</td>
+                                        @foreach (var tag in TagList.ToList())
+                                        {
 
-                                    <td>
-                                        <input type="button" name="Remove from ServiceTags" class="button2" value="@((TagEnum)tag)"
-                                               @onclick="@(e => RemoveFromServiceTags(tag))" />
-                                    </td>
+                                            <td>
+                                                <input type="button" name="Remove from ServiceTags" class="button2" value="@((TagEnum)tag)"
+                                                       @onclick="@(e => RemoveFromServiceTags(tag))" />
+                                            </td>
 
+                                        }
+                                    </tr>
                                 }
-                            </tr>
-                        }
-                        <tr>
-                            <td>Add Tag</td>
-                            @foreach (var t in Tags)
-                            {
-                                <td>
-                                    <input type="button" name="Add To ServiceTags" class="button1" value="@((TagEnum)t)"
-                                           @onclick="@(e => AddToServiceTags(t))" />
-                                </td>
-                            }
-                        </tr>
-                    </tbody>
-                </table>
+                                <tr>
+                                    <td>Add Tag</td>
+                                    @foreach (var t in Tags)
+                                    {
+                                        <td>
+                                            <input type="button" name="Add To ServiceTags" class="button1" value="@((TagEnum)t)"
+                                                   @onclick="@(e => AddToServiceTags(t))" />
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
 
-                <label for="Cat">Category</label>
-                <InputSelect @bind-Value="@service.Category" class="form-control">
-                    @foreach (var cat in CategoryList)
+                        <label for="Cat">Category</label>
+                        <InputSelect @bind-Value="@service.Category" class="form-control">
+                            @foreach (var cat in CategoryList)
+                                {
+                                    if ((int)cat == service.Category)
+                                    {
+                                        service.Category = (int)cat;
+                                    <option value="@((int)cat)" selected>@cat</option>
+                                    }
+                                    else
+                                    {
+                                    <option value="@((int)cat)">@cat</option>
+                                    }
+                                }
+                            }
+                        </InputSelect>
+
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        @if (@httpError != null)
                         {
-                            if ((int)cat == service.Category)
-                            {
-                                service.Category = (int)cat;
-                            <option value="@((int)cat)" selected>@cat</option>
-                            }
-                            else
-                            {
-                            <option value="@((int)cat)">@cat</option>
-                            }
+                            <warn>There was an error submiting the form</warn>
+                            <br />
+                            <warn>@httpError.StatusCode - @httpError.Message</warn>
                         }
-                    }
-                </InputSelect>
-
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                @if (@httpError != null)
-                {
-                    <warn>There was an error submiting the form</warn>
-                    <br />
-                    <warn>@httpError.StatusCode - @httpError.Message</warn>
-                }
-                @if (validationError != null)
-                {
-                    <ErrorValidationMessage Error=@validationError />
-                }
-                <button type="submit">Submit</button>
-            </EditForm>
+                        @if (validationError != null)
+                        {
+                            <ErrorValidationMessage Error=@validationError />
+                        }
+                        <button type="submit">Submit</button>
+                    </EditForm>
+                </div>
+                <div class="col col-right">
+                    <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility"/>
+                </div>
+            </div>
         }
     </div>
 </div>
@@ -189,6 +197,11 @@
             updatingService = false;
             Error.ProcessError(e);
         }
+    }
+
+    private void UpdateServiceAvailibility(List<RegularSchedule> regularSchedules)
+    {
+        service.Regular_Schedules = regularSchedules;
     }
 
     private void AddToServiceTags(int tag)
