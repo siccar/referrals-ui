@@ -4,6 +4,8 @@
 
 @inject IOpenReferralService ServiceService
 @inject IOpenReferralOrganisationService OrgService
+@inject IOpenReferralKeyContactService KeyContactsService
+
 
 <div class="content-container">
     <div class="gridder">
@@ -36,7 +38,7 @@
                     {
                         <h4>Association Request Sent</h4>
                     }
-                    else
+                    else if (showRequestToBeAdmin)
                     {
                         <EditForm Model="@isAdmin" OnValidSubmit="@HandleValidSubmit">
                             <h4>Make me an admin</h4>
@@ -47,7 +49,7 @@
                             </div>
                             <button type="submit">Request Association</button>
                         </EditForm>
-                    }
+                    }                    
 
                     <h3>Services</h3>
                     <table class="table">
@@ -91,15 +93,25 @@
     public bool isAdmin { get; set; } = false;
     public bool AssociationRequestSent { get; set; } = false;
 
+    public bool showRequestToBeAdmin { get; set; } = true;
+
 
     protected override async Task OnInitializedAsync()
     {
         organisation = await OrgService.GetOrganisation(Id);
-
         services = (await ServiceService.GetServicesAsync()).Where(x => x.OrganizationId == Id);
-
         //Doing this to check if the postcode has changed.
         loading = false;
+
+
+        var orgs = await KeyContactsService.GetOrgsICanManage();
+        if (orgs.Count() > 0)
+        {
+            if (orgs.FirstOrDefault(x => x.OrgId == Id) != null)
+            {
+                showRequestToBeAdmin = false;
+            }
+        }
     }
 
 
