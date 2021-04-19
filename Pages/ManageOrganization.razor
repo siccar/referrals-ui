@@ -10,113 +10,110 @@
 @inject NavigationManager NavManager
 <div class="content-container">
     <div class="gridder">
+
+
+        <h3>Manage Organization</h3>
         @if (orgUpdated)
         {
             <h3>Organization Updated</h3>
         }
-        else
-        {
 
+        <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
+            <label for="Name">Name</label>
+            <InputText id="Name" @bind-Value="@organization.Name" />
 
-            <h3>Manage Organization</h3>
+            <label for="Description">Description</label>
+            <InputText id="Description" @bind-Value="@organization.Description" />
 
+            <label for="Charity Number">Charity Number</label>
+            <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
 
-            <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
-                <label for="Name">Name</label>
-                <InputText id="Name" @bind-Value="@organization.Name" />
+            <label for="Url">Url</label>
+            <InputText id="Url" @bind-Value="@organization.Url" />
 
-                <label for="Description">Description</label>
-                <InputText id="Description" @bind-Value="@organization.Description" />
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            @if (@httpError != null)
+            {
+                <warn>There was an error.</warn>
+                <br />
+                <warn>@httpError.StatusCode - @httpError.Message</warn>
+            }
+            @if (validationError != null)
+            {
+                <ErrorValidationMessage Error=@validationError />
+            }
+            <button type="submit">Submit</button>
+        </EditForm>
 
-                <label for="Charity Number">Charity Number</label>
-                <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
-
-                <label for="Url">Url</label>
-                <InputText id="Url" @bind-Value="@organization.Url" />
-
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                @if (@httpError != null)
+        <h3>Services</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Service URL</th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var service in Services)
                 {
-                    <warn>There was an error.</warn>
-                    <br />
-                    <warn>@httpError.StatusCode - @httpError.Message</warn>
+                    <tr>
+                        <td>@service.Name</td>
+                        <td>@service.Url</td>
+                        <a class="" href="manage-service/@service.Id">Manage Service</a>
+                    </tr>
+
                 }
-                @if (validationError != null)
+            </tbody>
+        </table>
+        <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
+
+        <h3>Admins/Key Contacts of the Organisation</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Email</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contact in keyContacts)
                 {
-                    <ErrorValidationMessage Error=@validationError />
+                    <tr>
+                        <td>@contact.UserEmail</td>
+                        <td>
+                            <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
+                        </td>
+                    </tr>
+
                 }
-                <button type="submit">Submit</button>
-            </EditForm>
+            </tbody>
+        </table>
 
-            <h3>Services</h3>
-            <table class="table">
-                <thead>
+        <p></p>
+        <h3>Members of the  Organisation</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Email</th>
+                    <th>Membership Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var member in Memberships)
+                {
                     <tr>
-                        <th>Service Name</th>
-                        <th>Service URL</th>
-                        <th>Manage</th>
+                        <td>@member.Email</td>
+                        <td>@member.Status</td>
+                        <td>
+                            <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => HandleDenyRequest(member))" disabled="@member.DisableButton" />
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var service in Services)
-                    {
-                        <tr>
-                            <td>@service.Name</td>
-                            <td>@service.Url</td>
-                            <a class="" href="manage-service/@service.Id">Manage Service</a>
-                        </tr>
+                }
+            </tbody>
+        </table>
 
-                    }
-                </tbody>
-            </table>
-            <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
-
-            <h3>Admins/Key Contacts of the Organisation</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>User Email</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var contact in keyContacts)
-                    {
-                        <tr>
-                            <td>@contact.UserEmail</td>
-                            <td>
-                                <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
-                            </td>
-                        </tr>
-
-                    }
-                </tbody>
-            </table>
-
-            <p></p>
-            <h3>Members of the  Organisation</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>User Email</th>
-                        <th>Membership Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var member in Memberships)
-                    {
-                        <tr>
-                            <td>@member.Email</td>
-                            <td>@member.Status</td>
-                            <td>
-                                <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => HandleDenyRequest(member))" disabled="@member.DisableButton" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
     </div>
 </div>
 
