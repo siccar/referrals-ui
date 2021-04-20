@@ -17,7 +17,7 @@ body {
     display: grid;
     grid-template-rows: auto 1fr auto;
     font-family: Poppins,sans-serif;
-    font-size: 0.9rem;
+    font-size:16px;
     font-weight: 500
 }
 
@@ -28,11 +28,11 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-top: 15px;
-    padding-bottom:10px;
+    padding-bottom: 10px;
 
     img {
         position: absolute;
-        margin-top:5px;
+        margin-top: 5px;
     }
 
     nav {
@@ -61,300 +61,388 @@ header {
                     color: $white;
                 }
             }
-        }
 
-        button {
-            margin-left: 1rem;
-            padding: 0.3rem 1rem;
-        }
-    }
-}
+            @media only screen and (max-width: $width-lge) {
+               font-size:0.6rem;
+               margin-top:0.2rem;
+            }
 
-footer {
-    background: $darkblue;
-    color: $white;
-    padding-top: 40px;
-    padding-bottom: 25px;
+         }
 
-    ul {
-        padding:0;
-        margin-top:2rem;
-        li{
-            display:inline;
-            margin-right:1.5rem;
-            a{
-                color:$white;
-                font-weight:400;
+            button {
+                margin-left: 1rem;
+                padding: 0.3rem 1rem;
             }
         }
     }
-}
 
-.content-container {
-    width: $width-lge;
-    padding-top:10px;
-    padding-bottom:10px;
+    footer {
+        background: $darkblue;
+        color: $white;
+        padding-top: 40px;
+        padding-bottom: 25px;
 
-    @media only screen and (max-width: $width-lge) {
-        width: $width-mid;
-        padding:1rem;
+        ul {
+            padding: 0;
+            margin-top: 2rem;
+
+            li {
+                display: inline;
+                margin-right: 1.5rem;
+
+                a {
+                    color: $white;
+                    font-weight: 400;
+                }
+
+                @media only screen and (max-width: $width-sml) {
+                    display: block
+                }
+            }
+        }
     }
-     margin: auto;
-  }
 
-// Headings
-h3 { line-height: $lh-desktop}
-h4 { margin-top:$h4-spacing; margin-bottom:$h4-spacing}
+    .content-container {
+        width: $width-main;
+        padding-top: 10px;
+        padding-bottom: 10px;
 
-// Alpha warning
-#alpha {
-    margin-top: $mid;
-    margin-bottom: $mid;
-    a{
-        color:$darkblue
+        @media only screen and (max-width: $width-lge) {
+            width: $width-full;
+            padding: 1.5rem;
+        }
+
+        margin: auto;
+    }
+    // Headings
+    h3 {
+        line-height: $lh-desktop
     }
 
-    span {
-        border-radius: 100px;
-        background: $red;
-        color: $dark-red;
-        padding: 0.2rem 1rem;
-        margin-right:0.5rem;
+    h4 {
+        margin-top: $h4-spacing;
+        margin-bottom: $h4-spacing
     }
-}
+    // Alpha warning
+    #alpha {
+        margin-top: $mid;
+        margin-bottom: $mid;
 
-/* Form Controls */
-label {
-    color:$darkblue;
-    font-weight:500;
-    line-height:2rem;
-}
-label::after {
-        content: " : "
-}
-input, button[type=submit] {
-    margin-bottom: $mid
-}
-input, select, input[type=text], input[type=number], button[type=submit], input[type=button], button {
-    border: $border-1 $darkblue solid;
-    font-size: $mid;
-    padding: 0.3rem;
-    width: 100%;
-}
+        a {
+            color: $darkblue
+        }
 
-button[type=submit], input[type=button], button {
-    background: $darkblue;
-    border: none;
-    color: $white;
-    padding: 0.3rem 2.5rem;
-    width: 100%;
-    border-bottom: $border-2 solid $darkblue;
-    margin-top: $mid;
+        span {
+            border-radius: 100px;
+            background: $red;
+            color: $dark-red;
+            padding: 0.2rem 1rem;
+            margin-right: 0.5rem;
+        }
 
-    &:hover {
-        background: $minty;
+        @media only screen and (max-width: $width-sml) {
+            line-height: 2.0rem;
+            margin-top: $sml;
+            margin-bottom: $sml;
+        }
+    }
+    /* Form Controls */
+    label {
         color: $darkblue;
-        cursor: pointer;
+        font-weight: 500;
+        line-height: 2rem;
     }
-}
 
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
-    @extend %fa-icon;
-    @extend .far;
-    width:0px;
-}
+    label::after {
+        content: " : "
+    }
 
-input[type=checkbox]::before {
-   content: fa-content($fa-var-square);
-}
-input[type=checkbox]:checked::before {
-    @extend .fas;
-    content: fa-content($fa-var-check-square);
-}
+    input, button[type=submit] {
+        margin-bottom: $mid
+    }
 
-.btn-sml {
-    font-size: $sml !important
-}
+    input, select, input[type=text], input[type=number], button[type=submit], input[type=button], button {
+        border: $border-1 $darkblue solid;
+        font-size: $mid;
+        padding: 0.3rem;
+        width: 100%;
+    }
 
+    button[type=submit], input[type=button], button {
+        background: $darkblue;
+        border: none;
+        color: $white;
+        padding: 0.3rem 2.5rem;
+        width: 100%;
+        border-bottom: $border-2 solid $darkblue;
+        margin-top: $mid;
 
-/* Grid Layout */
+        &:hover {
+            background: $minty;
+            color: $darkblue;
+            cursor: pointer;
+        }
+    }
+
+    [type="checkbox"]:not(:checked),
+    [type="checkbox"]:checked {
+        @extend %fa-icon;
+        @extend .far;
+        width: 0px;
+    }
+
+    input[type=checkbox]::before {
+        content: fa-content($fa-var-square);
+    }
+
+    input[type=checkbox]:checked::before {
+        @extend .fas;
+        content: fa-content($fa-var-check-square);
+    }
+
+    .btn-sml {
+        font-size: $sml !important
+    }
+    /* Grid Layout */
 main .gridder {
 
-    .col {
-        width: 70%;
+
+    @media only screen and (min-width: $width-lge) {
+
+        .col {
+            width: 90%;
+        }
+
+        .two-cols {
+            display: grid;
+            grid-template-columns: 50% 50%;
+        }
+
+        .two-cols-70-30 {
+            display: grid;
+            grid-template-columns: 70% 30%;
+        }
+
+        .col-left {
+            justify-self: start
+        }
+
+        .col-mid {
+            justify-self: center
+        }
+
+        .col-right {
+            justify-self: end
+        }
     }
 
-    .two-cols {
-        display: grid;
-        grid-template-columns: 50% 50%;
+    @media only screen and (min-width: $width-lge) {
+        .col {
+            width: 90%;
+        }
+
+        .headspace {
+            margin-top: 5rem;
+        }
     }
 
-    .two-cols-70-30 {
-        display: grid;
-        grid-template-columns: 70% 30%;
-    }
+    @media only screen and (min-width: $width-xl) {
+        .col {
+            width: 70%;
+        }
 
-    .headspace {
-        margin-top: 5rem;
-    }
-
-    .col-left {
-        justify-self: start
-    }
-
-    .col-mid {
-        justify-self: center
-    }
-
-    .col-right {
-        justify-self: end
+        .headspace {
+            margin-top: 5rem;
+        }
     }
 }
-.signed-out {
-    h1, h2, h3, h4, p, div {
-        margin-bottom: 2rem
-    }
 
-    .yellowbg {
-        background: $yellow;
-        padding: 3rem;
-        margin-bottom: 2rem;
+    .signed-out {
+        h1, h2, h3, h4, p, div {
+            margin-bottom: 2rem;
 
-        a {
-            color: $darkblue;
+            @media only screen and (max-width: $width-sml) {
+                margin-bottom: 0.8rem;
+            }
         }
 
-        h2 {
-            width: 60%
+        .yellowbg {
+            background: $yellow;
+            padding: 3rem;
+            margin-bottom: 2rem;
+
+            a {
+                color: $darkblue;
+            }
+
+            h2 {
+                width: 60%
+            }
+
+            @media only screen and (max-width: $width-lge) {
+                padding: 0;
+
+                h2 {
+                    width: 100%
+                }
+            }
+
+            @media only screen and (max-width: $width-sml) {
+                padding: 0;
+
+                h2 {
+                    width: 100%;
+                }
+            }
+        }
+
+        .flexer {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 0;
+
+
+            div {
+                margin-bottom: 0;
+            }
+
+            .buttondiv {
+                width: 30%;
+                margin-right: 1rem;
+
+                @media only screen and (max-width: $width-lge) {
+                    width: 50%;
+                }
+            }
+
+            @media only screen and (max-width: $width-sml) {
+                display: block;
+
+                .buttondiv {
+                    width: 100%;
+                    margin-bottom: 1rem;
+                }
+            }
         }
     }
+    /* Service Availablity*/
+    #service-availability {
+        margin-top: 1rem;
 
-    .flexer {
-        display: flex;
-        align-items: baseline;
-        margin-bottom: 0;
+        .service {
+            display: flex;
+            justify-content: space-between;
+        }
 
+        .top {
+            margin-bottom: 1rem;
+        }
+
+        .dayofweek {
+            display: flex;
+            height: 1.8rem;
+            font-size: 0.8rem;
+            align-items: baseline;
+        }
+
+        .day {
+            flex: 0 0 120px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .times {
+            flex: 1
+        }
+
+        .hours {
+            display: none;
+
+            span {
+                border: 1px solid $darkblue;
+                width: 1.8rem;
+
+                input {
+                    border: none;
+                    text-align: center;
+                    font-size: 0.8em;
+                    padding: 0;
+                    width: inherit;
+                    outline: none;
+                }
+            }
+        }
+
+
+        .switch:checked + .hours {
+            display: inline-block;
+            margin-left: 2rem
+        }
+    }
+    /* Service Providers */
+    .serviceprovider {
+        h3 {
+            line-height: 0;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+
+            a {
+                text-decoration: underline;
+                color: $darkblue;
+                font-weight: 500;
+            }
+        }
 
         div {
-            margin-bottom: 0;
+            margin-bottom: .5rem;
         }
 
-        .buttondiv {
-            width: 30%;
-            margin-right: 1rem
+        a {
+            color: $black;
+            text-decoration: none;
         }
-    }
-}
 
-/* Service Availablity*/
-#service-availability {
-    margin-top:1rem;
-    .service {
-        display: flex;
-        justify-content: space-between;
-    }
+        .contactinfo {
+            a {
+                margin-right: 1rem;
+                font-weight: 700;
+            }
+        }
 
-    .top {
-        margin-bottom: 1rem;
-    }
-
-    .dayofweek {
-        display: flex;
-        height:1.8rem;
-        font-size:0.8rem;
-        align-items:baseline;
-    }
-
-    .day {
-        flex: 0 0 120px;
-        text-transform: uppercase;
-        font-weight:900;
-    }
-
-    .times {
-        flex:1
-    }
-
-    .hours {
-        display: none;
-
-        span {
-            border: 1px solid $darkblue;
-            width: 1.8rem;
-
-            input {
-                border: none;
-                text-align: center;
-                font-size: 0.8em;
-                padding: 0;
-                width: inherit;
-                outline: none;
+        .serviceinfo {
+            span {
+                font-weight: 700;
             }
         }
     }
 
-
-    .switch:checked + .hours {
-        display: inline-block;
-        margin-left: 2rem
-    }
-}
-
-/* Service Providers */
-.serviceprovider {
-    h3 {
-        line-height: 0;
-        font-weight: 500;
-        font-size: 1rem; 
-        margin-bottom:2rem;
-        a {
-            text-decoration: underline;
-            color: $darkblue;
+    .otherorgs {
+        h3 {
+            line-height: 0;
             font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 1rem
         }
-    }
 
-    div {
-        margin-bottom: .5rem;
-    }
+        ul {
+            list-style-type: none;
+            padding: 0;
 
-    a {
-        color: $black;
-        text-decoration: none;
-    }
+            li {
+                border: 1px solid $darkblue;
+                text-align: center;
+                padding: 1rem;
+                margin-bottom: 1rem;
 
-    .contactinfo {
-        a {
-            margin-right: 1rem;
-            font-weight: 700;
-        }
-    }
+                &:hover {
+                    background: $light-grey;
+                }
 
-    .serviceinfo {
-        span {
-            font-weight: 700;
-        }
-    }
-}
-
-.otherorgs {
-    h3 {line-height:0; font-weight:500; font-size:1rem; margin-bottom:1rem}
-    ul {
-        list-style-type:none;
-        padding:0;
-        li{
-            border:1px solid $darkblue;
-            text-align:center;
-            padding: 1rem;
-            margin-bottom:1rem;
-            &:hover {
-                background: $light-grey;
-            }
-            a{
-                text-decoration:none;
-                color:$darkblue;
+                a {
+                    text-decoration: none;
+                    color: $darkblue;
+                }
             }
         }
     }
-}
