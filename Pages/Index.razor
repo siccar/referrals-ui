@@ -28,7 +28,7 @@
                 else if (!NewOrgRequest)
                 {
                     <div class="two-cols headspace">
-                        <div class="col col-left">
+                        <div class="col col-sizer col-left">
                             <EditForm Model="@request" OnValidSubmit="@HandleValidSubmit">
 
                                 <label for="search">Search for an organisation</label>
@@ -54,7 +54,7 @@
                                 <button type="submit">Verify Association</button>
                             </EditForm>
                         </div>
-                        <div class="col col-right">
+                        <div class="col col-sizer col-right">
                             <h3>Who can add an organisation?</h3>
                             <p>Info regarding who can add an organisation.</p>
                             <NavLink href="add-organization">
@@ -101,7 +101,7 @@
             organizations = await OrgService.GetAllOrganisations();
             var requests = await MembershipRequestService.GetAllMemebershipRequestsThatCanBeActioned();
             var keycontacts = await KeyContactService.GetOrgsICanManage();
-            IsAPotentialMemberOfAtLeastOneOrg = requests.Count() > 0 || keycontacts.Count() > 0;
+            IsAPotentialMemberOfAtLeastOneOrg = requests.Count() > 0 && requests.Any(request => request.Status != MembershipRequestsStatus.DENIED) || keycontacts.Count() > 0;
             isLoading = false;
         }
         catch (Exception)
