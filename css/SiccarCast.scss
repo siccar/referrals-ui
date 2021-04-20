@@ -249,7 +249,8 @@ main .gridder {
 
 /* Service Availablity*/
 #service-availability {
-    margin-top:1rem;
+    margin-top: 1rem;
+
     .service {
         display: flex;
         justify-content: space-between;
@@ -259,21 +260,26 @@ main .gridder {
         margin-bottom: 1rem;
     }
 
+    .readonly {
+        justify-content: space-between;
+        font-weight: 700;
+    }
+
     .dayofweek {
         display: flex;
-        height:1.8rem;
-        font-size:0.8rem;
-        align-items:baseline;
+        height: 1.8rem;
+        font-size: 0.8rem;
+        align-items: baseline;
     }
 
     .day {
         flex: 0 0 120px;
         text-transform: uppercase;
-        font-weight:900;
+        font-weight: 900;
     }
 
     .times {
-        flex:1
+        flex: 1
     }
 
     .hours {
@@ -335,6 +341,7 @@ main .gridder {
         span {
             font-weight: 700;
         }
+        width:20rem;
     }
 }
 
@@ -350,6 +357,7 @@ main .gridder {
             margin-bottom:1rem;
             &:hover {
                 background: $light-grey;
+                cursor:pointer;
             }
             a{
                 text-decoration:none;
