@@ -23,7 +23,7 @@
         else
         {
             <div class="two-cols">
-                <div class="col col-left">
+                <div class="col col-sizer col-left">
                     <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
                         <h3>Add Service</h3>
 
@@ -130,7 +130,7 @@
                         <button type="submit">Submit</button>
                     </EditForm>
                 </div>
-                <div class="col col-right">
+                <div class="col col-sizer col-right">
                     <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
                 </div>
             </div>

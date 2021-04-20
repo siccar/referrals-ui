@@ -17,7 +17,7 @@ body {
     display: grid;
     grid-template-rows: auto 1fr auto;
     font-family: Poppins,sans-serif;
-    font-size: 0.9rem;
+    font-size: 16px;
     font-weight: 500
 }
 
@@ -28,11 +28,11 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-top: 15px;
-    padding-bottom:10px;
+    padding-bottom: 10px;
 
     img {
         position: absolute;
-        margin-top:5px;
+        margin-top: 5px;
     }
 
     nav {
@@ -61,6 +61,11 @@ header {
                     color: $white;
                 }
             }
+
+            @media only screen and (max-width: $width-lge) {
+                font-size: 0.6rem;
+                margin-top: 0.2rem;
+            }
         }
 
         button {
@@ -77,41 +82,53 @@ footer {
     padding-bottom: 25px;
 
     ul {
-        padding:0;
-        margin-top:2rem;
-        li{
-            display:inline;
-            margin-right:1.5rem;
-            a{
-                color:$white;
-                font-weight:400;
+        padding: 0;
+        margin-top: 2rem;
+
+        li {
+            display: inline;
+            margin-right: 1.5rem;
+
+            a {
+                color: $white;
+                font-weight: 400;
+            }
+
+            @media only screen and (max-width: $width-sml) {
+                display: block
             }
         }
     }
 }
 
 .content-container {
-    width: $width-lge;
-    padding-top:10px;
-    padding-bottom:10px;
+    width: $width-main;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
     @media only screen and (max-width: $width-lge) {
-        width: $width-mid;
-        padding:1rem;
+        width: $width-full;
+        padding: 1.5rem;
     }
-     margin: auto;
-  }
 
+    margin: auto;
+}
 // Headings
-h3 { line-height: $lh-desktop}
-h4 { margin-top:$h4-spacing; margin-bottom:$h4-spacing}
+h3 {
+    line-height: $lh-desktop
+}
 
+h4 {
+    margin-top: $h4-spacing;
+    margin-bottom: $h4-spacing
+}
 // Alpha warning
 #alpha {
     margin-top: $mid;
     margin-bottom: $mid;
-    a{
-        color:$darkblue
+
+    a {
+        color: $darkblue
     }
 
     span {
@@ -119,22 +136,30 @@ h4 { margin-top:$h4-spacing; margin-bottom:$h4-spacing}
         background: $red;
         color: $dark-red;
         padding: 0.2rem 1rem;
-        margin-right:0.5rem;
+        margin-right: 0.5rem;
+    }
+
+    @media only screen and (max-width: $width-sml) {
+        line-height: 2.0rem;
+        margin-top: $sml;
+        margin-bottom: $sml;
     }
 }
-
 /* Form Controls */
 label {
-    color:$darkblue;
-    font-weight:500;
-    line-height:2rem;
+    color: $darkblue;
+    font-weight: 500;
+    line-height: 2rem;
 }
+
 label::after {
-        content: " : "
+    content: " : "
 }
-input, button[type=submit] {
+
+input, button[type=submit], select {
     margin-bottom: $mid
 }
+
 input, select, input[type=text], input[type=number], button[type=submit], input[type=button], button {
     border: $border-1 $darkblue solid;
     font-size: $mid;
@@ -162,12 +187,13 @@ button[type=submit], input[type=button], button {
 [type="checkbox"]:checked {
     @extend %fa-icon;
     @extend .far;
-    width:0px;
+    width: 0px;
 }
 
 input[type=checkbox]::before {
-   content: fa-content($fa-var-square);
+    content: fa-content($fa-var-square);
 }
+
 input[type=checkbox]:checked::before {
     @extend .fas;
     content: fa-content($fa-var-check-square);
@@ -176,45 +202,83 @@ input[type=checkbox]:checked::before {
 .btn-sml {
     font-size: $sml !important
 }
-
-
 /* Grid Layout */
 main .gridder {
 
-    .col {
-        width: 70%;
+
+    @media only screen and (min-width: $width-lge) {
+
+        .col {
+            width: 90%;
+        }
+
+        .two-cols {
+            display: grid;
+            grid-template-columns: 50% 50%;
+        }
+
+        .two-cols-70-30 {
+            display: grid;
+            grid-template-columns: 70% 30%;
+        }
+
+        .two-cols-30-70 {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            column-gap: 2rem;
+        }
+
+        .col {
+            justify-self: start;
+            width: 100%;
+        }
+
+
+
+        .col-left {
+            justify-self: start
+        }
+
+        .col-mid {
+            justify-self: center
+        }
+
+        .col-right {
+            justify-self: end
+        }
     }
 
-    .two-cols {
-        display: grid;
-        grid-template-columns: 50% 50%;
+    @media only screen and (min-width: $width-lge) {
+        .col-sizer {
+            width: 90%;
+        }
+
+        .headspace {
+            margin-top: 5rem;
+        }
     }
 
-    .two-cols-70-30 {
-        display: grid;
-        grid-template-columns: 70% 30%;
-    }
-
-    .headspace {
-        margin-top: 5rem;
-    }
-
-    .col-left {
-        justify-self: start
-    }
-
-    .col-mid {
-        justify-self: center
-    }
-
-    .col-right {
-        justify-self: end
+    @media only screen and (min-width: $width-xl) {
+        .col-sizer {
+            width: 70%;
+        }
     }
 }
-.signed-out {
-    h1, h2, h3, h4, p, div {
-        margin-bottom: 2rem
+
+h1, h2, h4, p {
+    margin-bottom: 2rem;
+
+    @media only screen and (max-width: $width-sml) {
+        margin-bottom: $sml;
     }
+}
+
+.space-sml {
+    margin-bottom: $sml
+}
+
+.signed-out {
+
 
     .yellowbg {
         background: $yellow;
@@ -227,6 +291,22 @@ main .gridder {
 
         h2 {
             width: 60%
+        }
+
+        @media only screen and (max-width: $width-lge) {
+            padding: 0;
+
+            h2 {
+                width: 100%
+            }
+        }
+
+        @media only screen and (max-width: $width-sml) {
+            padding: 0;
+
+            h2 {
+                width: 100%;
+            }
         }
     }
 
@@ -242,11 +322,23 @@ main .gridder {
 
         .buttondiv {
             width: 30%;
-            margin-right: 1rem
+            margin-right: 1rem;
+
+            @media only screen and (max-width: $width-lge) {
+                width: 50%;
+            }
+        }
+
+        @media only screen and (max-width: $width-sml) {
+            display: block;
+
+            .buttondiv {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
         }
     }
 }
-
 /* Service Availablity*/
 #service-availability {
     margin-top: 1rem;
@@ -258,11 +350,6 @@ main .gridder {
 
     .top {
         margin-bottom: 1rem;
-    }
-
-    .readonly {
-        justify-content: space-between;
-        font-weight: 700;
     }
 
     .dayofweek {
@@ -306,14 +393,14 @@ main .gridder {
         margin-left: 2rem
     }
 }
-
 /* Service Providers */
 .serviceprovider {
     h3 {
         line-height: 0;
         font-weight: 500;
-        font-size: 1rem; 
-        margin-bottom:2rem;
+        font-size: 1rem;
+        margin-bottom: 2rem;
+
         a {
             text-decoration: underline;
             color: $darkblue;
@@ -341,27 +428,78 @@ main .gridder {
         span {
             font-weight: 700;
         }
-        width:20rem;
     }
 }
 
 .otherorgs {
-    h3 {line-height:0; font-weight:500; font-size:1rem; margin-bottom:1rem}
+    h3 {
+        line-height: 0;
+        font-weight: 500;
+        font-size: 1rem;
+        margin-bottom: 1rem
+    }
+
     ul {
-        list-style-type:none;
-        padding:0;
-        li{
-            border:1px solid $darkblue;
-            text-align:center;
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            border: 1px solid $darkblue;
+            text-align: center;
             padding: 1rem;
-            margin-bottom:1rem;
+            margin-bottom: 1rem;
+
             &:hover {
                 background: $light-grey;
-                cursor:pointer;
             }
-            a{
-                text-decoration:none;
-                color:$darkblue;
+
+            a {
+                text-decoration: none;
+                color: $darkblue;
+            }
+        }
+    }
+}
+
+/* Playlist */
+.playist-item {
+    display: flex;
+    justify-content: space-between;
+    background: $darkblue;
+    color: $white;
+    padding: 0;
+    margin-bottom: 1rem;
+    align-items: center;
+    height: 3rem;
+
+    a {
+        color: $white;
+        padding: 1rem;
+    }
+
+    .remove {
+        text-transform: uppercase;
+
+        @media only screen and (max-width: $width-sml) {
+
+            span {
+                display: none
+            }
+        }
+
+        .btnRemove {
+            padding: 0;
+            margin: 0;
+            background: $white;
+            border: 1px solid $darkblue;
+            width: 3rem;
+            height: 3rem;
+            color: $darkblue;
+
+            &:hover {
+                background-color: $darkblue;
+                color: $white;
+                border-left: 1px solid $white
             }
         }
     }
