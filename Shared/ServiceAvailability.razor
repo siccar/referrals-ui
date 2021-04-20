@@ -4,25 +4,17 @@
 <div id="service-availability">
     <div class="service top">
         <label>Service availability</label>
-        <span><i class="far fa-calendar-alt fa-3x"></i></span>
+        @if (!readOnly) {<span><i class="far fa-calendar-alt fa-3x"></i></span>}
     </div>
 
     @if (readOnly)
     {
         @foreach (RegularSchedule day in regularSchedules)
         {
-            <div class="dayofweek">
-                <div class="day">@day.ByDay</div>
-                <div class="times">
-                    <div class="hours">
-                        <span>
-                            <p>@day.Opens_At.ToString("HH")</p>
-                        </span>
-                        TO
-                        <span>
-                            <p>@day.Closes_At.ToString("HH")</p>
-                        </span>
-                    </div>
+            <div class="dayofweek readonly">
+                <div>@day.ByDay </div>
+                <div>
+                    @day.Opens_At.ToString("HH") TO @day.Closes_At.ToString("HH")
                 </div>
             </div>
         }

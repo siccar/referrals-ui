@@ -4886,6 +4886,9 @@ main .gridder .col-right {
     justify-content: space-between; }
   #service-availability .top {
     margin-bottom: 1rem; }
+  #service-availability .readonly {
+    justify-content: space-between;
+    font-weight: 700; }
   #service-availability .dayofweek {
     display: flex;
     height: 1.8rem;
@@ -4935,8 +4938,10 @@ main .gridder .col-right {
   margin-right: 1rem;
   font-weight: 700; }
 
-.serviceprovider .serviceinfo span {
-  font-weight: 700; }
+.serviceprovider .serviceinfo {
+  width: 20rem; }
+  .serviceprovider .serviceinfo span {
+    font-weight: 700; }
 
 .otherorgs h3 {
   line-height: 0;
@@ -4953,7 +4958,8 @@ main .gridder .col-right {
     padding: 1rem;
     margin-bottom: 1rem; }
     .otherorgs ul li:hover {
-      background: #e6e5eb; }
+      background: #e6e5eb;
+      cursor: pointer; }
     .otherorgs ul li a {
       text-decoration: none;
       color: #0a0039; }
