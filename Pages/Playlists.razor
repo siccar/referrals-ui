@@ -10,119 +10,113 @@
 
 <div class="content-container">
     <div class="gridder">
-        <h1>PlayLists</h1>
+        <div class="two-cols-30-70">
+            <div class="col">
+                <h2>Refine your search</h2>
+                <p class="space-sml">Search by location</p>
+                <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
+                    <label for="Postcode">Enter Postcode</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
+                    <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <button type="submit">Search</button>
+                </EditForm>
+                <hr />
+                <p class="space-sml"><span>OR</span> Search by Keyword/Category</p>
+                <EditForm Model="@SearchService" OnValidSubmit="@HandleFilter">
+                    <label for="Keyword">Keyword</label><InputText id="Keyword" @bind-Value="@SearchService.SearchText" />
+                    <label for="Category">Category</label>
+                    <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
+                        @foreach (var cat in Categories)
+                        {
+                            if (cat == SearchService.SelectedCategory)
+                            {
+                                <option value="@cat" selected>@((CategoryEnum)cat)</option>
+                            }
+                            else
+                            {
+                                <option value="@cat">@((CategoryEnum)cat)</option>
+                            }
+                        }
+                    </InputSelect>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <button type="submit">Search</button>
+                </EditForm>
 
-        <p>This component will return the current Users Playlists.</p>
-
-        <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
-
-
-            <label for="Postcode">Enter Postcode</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
-            <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <button type="submit">Search</button>
-        </EditForm>
-
-        <EditForm Model="@SearchService" OnValidSubmit="@HandleFilter">
-            <label for="Keyword">Keyword</label><InputText id="Keyword" @bind-Value="@SearchService.SearchText" />
-            <label for="Category">Category</label>
-            <InputSelect @bind-Value="@SearchService.SelectedCategory" class="form-control">
-                @foreach (var cat in Categories)
+                @if (@httpError != null)
                 {
-                    if (cat == SearchService.SelectedCategory)
-                    {
-                        <option value="@cat" selected>@((CategoryEnum)cat)</option>
-                    }
-                    else
-                    {
-                        <option value="@cat">@((CategoryEnum)cat)</option>
-                    }
+                    <warn>There was an error.</warn>
+                    <br />
+                    <warn>@httpError.StatusCode - @httpError.Message</warn>
                 }
-            </InputSelect>
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <button type="submit">Search</button>
-        </EditForm>
-
-        @if (@httpError != null)
-        {
-            <warn>There was an error.</warn>
-            <br />
-            <warn>@httpError.StatusCode - @httpError.Message</warn>
-        }
-        @if (validationError != null)
-        {
-            <ErrorValidationMessage Error=@validationError />
-        }
-
-
-        <p><em>Search Results...</em></p>
-        @if (services == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else if (searchServices.Count() == 0)
-        {
-            <p>0 Search Results</p>
-        }
-        else
-        {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Add To Playlist</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var service in searchServices)
+                @if (validationError != null)
                 {
-                    <tr>
-                        <td><NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink></td>
-                        <td>
-                            <input type="button" name="Add To Playlist" class="button1" value="Add"
-                                   @onclick="@(e => AddToPlaylist(service.Id))" />
-                        </td>
-                    </tr>
+                    <ErrorValidationMessage Error=@validationError />
                 }
-            </tbody>
-        </table>
-        }
+            </div>
+            <div class="col">
 
-        <br />
-        <p><em>Your Playlist...</em></p>
-        @if (Playlist == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else if (Playlist.Services.Count == 0)
-        {
-            <p>You have no services in you playlist.</p>
-        }
-        else
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Service Name</th>
-                        <th>Remove From Playlist</th>
-                    </tr>
-                </thead>
-                <tbody>
+                <h2>Search Results</h2>
+                @if (services == null)
+                {
+                    <p><em>Loading...</em></p>
+                }
+                else if (searchServices.Count() == 0)
+                {
+                    <p>Use either of the search forms to find an organization</p>
+                }
+                else
+                {
+
+                    @foreach (var service in searchServices)
+                    {
+                        <div class="playist-item">
+                            <div>
+                                <NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink>
+                            </div>
+                            <div class="remove">
+                                <span>Add to playlist</span>
+                                <button name="Add to playlist" class="btnRemove"  @onclick="@(e => AddToPlaylist(service.Id))"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+        
+                    }
+
+                }
+
+                <br />
+                <h2>Your Playlist</h2>
+
+                @if (Playlist == null)
+                {
+                    <p><em>Loading...</em></p>
+                }
+                else if (Playlist.Services.Count == 0)
+                {
+                    <p>You have no services in you playlist.</p>
+                }
+                else
+                {
+
                     @foreach (var s in Playlist.Services)
                     {
-                        <tr>
-                            <td><NavLink href=@($"view-service/{@services.First(x => x.Id == s).Id}")>@services.First(x => x.Id == s).Name</NavLink></td>
-                            <td>
-                                <input type="button" name="Remove From Playlist" class="button1" value="Remove"
-                                       @onclick="@(e => RemoveFromPlaylist(s))" />
-                            </td>
-                        </tr>
+                        <div class="playist-item">
+                            <div>
+                                <NavLink href=@($"view-service/{@services.First(x => x.Id == s).Id}")>@services.First(x => x.Id == s).Name</NavLink>
+                            </div>
+                            <div class="remove">
+                                <span>Remove from playlist</span>
+                                <button name="Remove From Playlist" class="btnRemove" @onclick="@(e => RemoveFromPlaylist(s))"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
                     }
-                </tbody>
-            </table>
-        }
+
+
+                }
+            </div>
+        </div>
     </div>
 </div>
 
