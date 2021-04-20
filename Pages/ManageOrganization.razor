@@ -80,12 +80,20 @@
             <tbody>
                 @foreach (var contact in keyContacts)
                 {
-                    <tr>
-                        <td>@contact.UserEmail</td>
+                <tr>
+                    <td>@contact.UserEmail</td>
+                    @if (keyContacts.Count() > 1)
+                    {
                         <td>
                             <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
                         </td>
-                    </tr>
+                    }
+                    else
+                    {
+                        <td>
+                        </td>
+                    }
+                </tr>
 
                 }
             </tbody>
@@ -170,6 +178,7 @@
         {
             contact.DisabledButton = true;
             await KeyContactService.RemoveKeyContact(contact);
+            keyContacts = await KeyContactService.GetKeyContactsForOrg(OrgId);
         }
 
         catch (HttpRequestException e)
