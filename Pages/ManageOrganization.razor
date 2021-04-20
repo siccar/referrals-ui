@@ -161,6 +161,7 @@
         {
             request.DisableButton = true;
             await MemberService.HandleDenyRequestForJoiningOrg(request);
+            Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
         }
         catch (HttpRequestException e)
         {
