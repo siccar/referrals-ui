@@ -222,6 +222,11 @@ main .gridder {
             grid-template-columns: 70% 30%;
         }
 
+        .two-cols-60-40 {
+            display: grid;
+            grid-template-columns: 60% 40%;
+        }
+
         .two-cols-30-70 {
             display: grid;
             grid-template-columns: 30% 70%;
@@ -249,7 +254,7 @@ main .gridder {
     }
 
     @media only screen and (min-width: $width-lge) {
-        .col-sizer {
+        .col-sizer, col-sizer-lge {
             width: 90%;
         }
 
@@ -261,6 +266,9 @@ main .gridder {
     @media only screen and (min-width: $width-xl) {
         .col-sizer {
             width: 70%;
+        }
+        .col-sizer-lge{
+            width:90%
         }
     }
 }
@@ -342,16 +350,11 @@ h1, h2, h4, p {
 /* Service Availablity*/
 #service-availability {
     margin-top: 1rem;
-    width:20rem;
+
     .service {
         display: flex;
         justify-content: space-between;
-       padding-bottom:1rem;
-    }
-
-    .readonly {
-       justify-content:space-between;
-       font-weight:700;
+        padding-bottom: 1rem;
     }
 
     .dayofweek {
@@ -359,6 +362,13 @@ h1, h2, h4, p {
         height: 1.8rem;
         font-size: 0.8rem;
         align-items: baseline;
+    }
+
+    .readonly {
+        justify-content: space-between;
+        font-weight: 700;
+        height:2rem;
+        font-size:1rem;
     }
 
     .day {
@@ -399,8 +409,8 @@ h1, h2, h4, p {
 .serviceprovider {
     h3 {
         line-height: 0;
-        font-weight: 500;
-        font-size: 1rem;
+        font-weight: 700;
+        font-size: 1.2rem;
         margin-bottom: 2rem;
 
         a {
@@ -420,10 +430,15 @@ h1, h2, h4, p {
     }
 
     .contactinfo {
+        margin-top:1.5rem;
         a {
             margin-right: 1rem;
             font-weight: 700;
         }
+    }
+
+    .descn {
+        margin-top:3rem;
     }
 
     .serviceinfo {
@@ -434,30 +449,23 @@ h1, h2, h4, p {
 }
 
 .otherorgs {
+    margin-top:3rem;
     h3 {
-        line-height: 0;
-        font-weight: 500;
-        font-size: 1rem;
-        margin-bottom: 1rem
+        line-height: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
     }
 
     ul {
-        list-style-type: none;
-        padding: 0;
-
+       list-style-type:disc;
         li {
-            border: 1px solid $darkblue;
-            text-align: center;
-            padding: 1rem;
             margin-bottom: 1rem;
-
+            text-decoration:underline;
             &:hover {
-                background: $light-grey;
                 cursor:pointer;
             }
 
             a {
-                text-decoration: none;
                 color: $darkblue;
             }
         }
@@ -506,4 +514,9 @@ h1, h2, h4, p {
             }
         }
     }
+}
+
+/* Map Styling */
+.gmap_canvas iframe {
+    width:100%
 }

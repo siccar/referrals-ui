@@ -17,71 +17,53 @@
 
         else
         {
-            <div class="two-cols-70-30">
-                <div class="serviceprovider">
+            <div class="two-cols-60-40">
+                <div class="serviceprovider col-sizer-lge">
                     <h2>@service.Name</h2>
                     <h3>Provided by: <NavLink href=@($"view-organisation/{serviceOrg.Id}")> @serviceOrg.Name</NavLink> </h3>
                     <div class="address">
                         <i class="fas fa-map-marker-alt"></i> <span>@address.Address_1, @address.City @address.Country, @address.Postal_Code</span>
-
-
-                        <div class="mapouter">
-                            <div class="gmap_canvas">
-                                <iframe width="300" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q=@address.Postal_Code&t=k&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-                                </iframe>
-                                <a href="https://fmovies2.org">fmovies</a><br>
-                                <style>
-                                    .mapouter {
-                                        position: relative;
-                                        text-align: right;
-                                        height: 300px;
-                                        width: 300px;
-                                    }
-                                </style>
-                                <style>
-                                    .gmap_canvas {
-                                        overflow: hidden;
-                                        background: none !important;
-                                        height: 300px;
-                                        width: 300px;
-                                    }
-                                </style>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="contactinfo"><i class="fas fa-envelope-open-text"></i> <a href="mailto:@service.Email" title="Email @serviceOrg.Name">Email</a> <i class="fas fa-desktop"></i> <a href="@service.Url" target="_blank" title="Go to @serviceOrg.Name website">Visit the website</a></div>
-                    <div class="serviceinfo">
-                        <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" readOnly="true" />
-                    </div>
                     <div class="descn">
+                        <h3>About @serviceOrg.Name</h3>
                         <p>@service.Description</p>
                     </div>
+                    @if (services.Count() > 1)
+                    {
+                    <div class="otherorgs">
+                        <h3>Other services for this organisation</h3>
+                        <ul>
+                            @foreach (var service in services)
+                            {
+                                @if (service.Id != Id)
+                                {
+                                    <li @onclick="@(() => NavManager.NavigateTo($"view-service/{service.Id}", true))">
+                                        @service.Name
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    }
                     @if (@httpError != null)
                     {
                         <warn>There was an error.</warn>
                         <br />
                         <warn>@httpError.StatusCode - @httpError.Message</warn>
                     }
-
                 </div>
-                <div class="otherorgs">
-                    <h3>Other services for this organisation</h3>
-                    <ul>
-                        @foreach (var service in services)
-                        {
-                            @if (service.Id != Id)
-                            {
-                                <li @onclick="@(() => NavManager.NavigateTo($"view-service/{service.Id}", true))">
-                                    @service.Name
-                                </li>
-                            }
-                        }
-                    </ul>
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width="300" height="300" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=@address.Postal_Code&z=15&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                        </iframe>
 
-
+                    </div>
+                    <div class="serviceinfo">
+                        <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" readOnly="true" />
+                    </div>
                 </div>
-            </div>
+            </div>         
         }
     </div>
 </div>

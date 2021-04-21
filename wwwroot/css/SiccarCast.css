@@ -4854,6 +4854,9 @@ input[type=checkbox]:checked::before {
   main .gridder .two-cols-70-30 {
     display: grid;
     grid-template-columns: 70% 30%; }
+  main .gridder .two-cols-60-40 {
+    display: grid;
+    grid-template-columns: 60% 40%; }
   main .gridder .two-cols-30-70 {
     display: grid;
     grid-template-columns: 30% 70%;
@@ -4869,14 +4872,16 @@ input[type=checkbox]:checked::before {
     justify-self: end; } }
 
 @media only screen and (min-width: 1024px) {
-  main .gridder .col-sizer {
+  main .gridder .col-sizer, main .gridder col-sizer-lge {
     width: 90%; }
   main .gridder .headspace {
     margin-top: 5rem; } }
 
 @media only screen and (min-width: 1200px) {
   main .gridder .col-sizer {
-    width: 70%; } }
+    width: 70%; }
+  main .gridder .col-sizer-lge {
+    width: 90%; } }
 
 h1, h2, h4, p {
   margin-bottom: 2rem; }
@@ -4927,20 +4932,21 @@ h1, h2, h4, p {
 
 /* Service Availablity*/
 #service-availability {
-  margin-top: 1rem;
-  width: 20rem; }
+  margin-top: 1rem; }
   #service-availability .service {
     display: flex;
     justify-content: space-between;
     padding-bottom: 1rem; }
-  #service-availability .readonly {
-    justify-content: space-between;
-    font-weight: 700; }
   #service-availability .dayofweek {
     display: flex;
     height: 1.8rem;
     font-size: 0.8rem;
     align-items: baseline; }
+  #service-availability .readonly {
+    justify-content: space-between;
+    font-weight: 700;
+    height: 2rem;
+    font-size: 1rem; }
   #service-availability .day {
     flex: 0 0 120px;
     text-transform: uppercase;
@@ -4966,8 +4972,8 @@ h1, h2, h4, p {
 /* Service Providers */
 .serviceprovider h3 {
   line-height: 0;
-  font-weight: 500;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.2rem;
   margin-bottom: 2rem; }
   .serviceprovider h3 a {
     text-decoration: underline;
@@ -4981,33 +4987,33 @@ h1, h2, h4, p {
   color: #000000;
   text-decoration: none; }
 
-.serviceprovider .contactinfo a {
-  margin-right: 1rem;
-  font-weight: 700; }
+.serviceprovider .contactinfo {
+  margin-top: 1.5rem; }
+  .serviceprovider .contactinfo a {
+    margin-right: 1rem;
+    font-weight: 700; }
+
+.serviceprovider .descn {
+  margin-top: 3rem; }
 
 .serviceprovider .serviceinfo span {
   font-weight: 700; }
 
-.otherorgs h3 {
-  line-height: 0;
-  font-weight: 500;
-  font-size: 1rem;
-  margin-bottom: 1rem; }
-
-.otherorgs ul {
-  list-style-type: none;
-  padding: 0; }
-  .otherorgs ul li {
-    border: 1px solid #0a0039;
-    text-align: center;
-    padding: 1rem;
-    margin-bottom: 1rem; }
-    .otherorgs ul li:hover {
-      background: #e6e5eb;
-      cursor: pointer; }
-    .otherorgs ul li a {
-      text-decoration: none;
-      color: #0a0039; }
+.otherorgs {
+  margin-top: 3rem; }
+  .otherorgs h3 {
+    line-height: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem; }
+  .otherorgs ul {
+    list-style-type: disc; }
+    .otherorgs ul li {
+      margin-bottom: 1rem;
+      text-decoration: underline; }
+      .otherorgs ul li:hover {
+        cursor: pointer; }
+      .otherorgs ul li a {
+        color: #0a0039; }
 
 /* Playlist */
 .playist-item {
@@ -5039,3 +5045,7 @@ h1, h2, h4, p {
         background-color: #0a0039;
         color: #fff;
         border-left: 1px solid #fff; }
+
+/* Map Styling */
+.gmap_canvas iframe {
+  width: 100%; }
