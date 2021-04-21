@@ -1,6 +1,7 @@
 ﻿@using OpenReferralPOV.Data
 
 
+@if (regularSchedules.Count() == 0) { return; }
 <div id="service-availability">
     <div class="service top">
         <label>Service availability</label>
