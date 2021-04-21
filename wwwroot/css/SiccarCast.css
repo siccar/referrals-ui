@@ -4931,7 +4931,8 @@ h1, h2, h4, p {
   width: 20rem; }
   #service-availability .service {
     display: flex;
-    justify-content: space-between; }
+    justify-content: space-between;
+    padding-bottom: 1rem; }
   #service-availability .readonly {
     justify-content: space-between;
     font-weight: 700; }
@@ -4960,7 +4961,7 @@ h1, h2, h4, p {
         outline: none; }
   #service-availability .switch:checked + .hours {
     display: inline-block;
-    margin-left: 2rem; }
+    margin-left: 1.5rem; }
 
 /* Service Providers */
 .serviceprovider h3 {
