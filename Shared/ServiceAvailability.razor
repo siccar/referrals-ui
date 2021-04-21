@@ -1,157 +1,52 @@
 ﻿@using OpenReferralPOV.Data
 
 
+@if (regularSchedules.Count() == 0 && readOnly) { return; }
 <div id="service-availability">
     <div class="service top">
         <label>Service availability</label>
-        <span><i class="far fa-calendar-alt fa-3x"></i></span>
-    </div>
-    <div class="dayofweek">
-        <div class="day">Sunday</div>
-        <div class="times">
-            <input type="checkbox" class="switch" checked="@WeekdayIsOpen("Sunday")"
-                   @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange("Sunday", __e.Value))">
-            <div class="hours">
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime("Sunday")"
-                           @onchange="@((ChangeEventArgs __e) => SetOpeningTime("Sunday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-                TO
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime("Sunday")"
-                           @onchange="@((ChangeEventArgs __e) => SetClosingTime("Sunday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-            </div>
-        </div>
+        @if (!readOnly)
+        {<span><i class="far fa-calendar-alt fa-3x"></i></span>}
     </div>
 
-    <div class="dayofweek">
-        <div class="day">Monday</div>
-        <div class="times">
-            <input type="checkbox" class="switch" checked="@WeekdayIsOpen("Monday")"
-                   @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange("Monday", __e.Value))">
-            <div class="hours">
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime("Monday")"
-                           @onchange="@((ChangeEventArgs __e) => SetOpeningTime("Monday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-                TO
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime("Monday")"
-                           @onchange="@((ChangeEventArgs __e) => SetClosingTime("Monday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled />
-                </span>
+    @if (readOnly)
+    {
+        @foreach (RegularSchedule day in regularSchedules)
+        {
+            <div class="dayofweek readonly">
+                <div>@day.ByDay </div>
+                <div>
+                    @day.Opens_At.ToString("HH"):00 TO @day.Closes_At.ToString("HH"):00
+                </div>
             </div>
-        </div>
-    </div>
-
-    <div class="dayofweek">
-        <div class="day">Tuesday</div>
-        <div class="times">
-            <input type="checkbox" class="switch" checked="@WeekdayIsOpen("Tuesday")"
-                   @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange("Tuesday", __e.Value))">
-            <div class="hours">
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime("Tuesday")"
-                           @onchange="@((ChangeEventArgs __e) => SetOpeningTime("Tuesday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-                TO
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime("Tuesday")"
-                           @onchange="@((ChangeEventArgs __e) => SetClosingTime("Tuesday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
+        }
+    }
+    else
+    {
+        @foreach (string day in days)
+        {
+            <div class="dayofweek">
+                <div class="day">@day</div>
+                <div class="times">
+                    <input type="checkbox" class="switch" checked="@WeekdayIsOpen(day)"
+                           @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange(day, __e.Value))">
+                    <div class="hours">
+                        <span>
+                            <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime(day)"
+                                   @onchange="@((ChangeEventArgs __e) => SetOpeningTime(day, __e.Value))" />
+                            : <input type="text" size="2" maxlength="2" value="00" disabled />
+                        </span>
+                        TO
+                        <span>
+                            <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime(day)"
+                                   @onchange="@((ChangeEventArgs __e) => SetClosingTime(day, __e.Value))" />
+                            : <input type="text" size="2" maxlength="2" value="00" disabled />
+                        </span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <div class="dayofweek">
-        <div class="day">Wednesday</div>
-        <div class="times">
-            <input type="checkbox" class="switch" checked="@WeekdayIsOpen("Wednesday")"
-                   @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange("Wednesday", __e.Value))">
-            <div class="hours">
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime("Wednesday")"
-                           @onchange="@((ChangeEventArgs __e) => SetOpeningTime("Wednesday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-                TO
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime("Wednesday")"
-                           @onchange="@((ChangeEventArgs __e) => SetClosingTime("Wednesday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <div class="dayofweek">
-        <div class="day">Thursday</div>
-        <div class="times">
-            <input type="checkbox" class="switch" checked="@WeekdayIsOpen("Thursday")"
-                   @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange("Thursday", __e.Value))">
-            <div class="hours">
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime("Thursday")"
-                           @onchange="@((ChangeEventArgs __e) => SetOpeningTime("Thursday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-                TO
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime("Thursday")"
-                           @onchange="@((ChangeEventArgs __e) => SetClosingTime("Thursday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <div class="dayofweek">
-        <div class="day">Friday</div>
-        <div class="times">
-            <input type="checkbox" class="switch" checked="@WeekdayIsOpen("Friday")"
-                   @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange("Friday", __e.Value))">
-            <div class="hours">
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime("Friday")"
-                           @onchange="@((ChangeEventArgs __e) => SetOpeningTime("Friday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-                TO
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime("Friday")"
-                           @onchange="@((ChangeEventArgs __e) => SetClosingTime("Friday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-            </div>
-        </div>
-    </div>
-
-    <div class="dayofweek">
-        <div class="day">Saturday</div>
-        <div class="times">
-            <input type="checkbox" class="switch" checked="@WeekdayIsOpen("Saturday")"
-                   @onchange="@((ChangeEventArgs __e) => HandleCheckboxChange("Saturday", __e.Value))">
-            <div class="hours">
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime("Saturday")"
-                           @onchange="@((ChangeEventArgs __e) => SetOpeningTime("Saturday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled />
-                </span>
-                TO
-                <span>
-                    <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime("Saturday")"
-                           @onchange="@((ChangeEventArgs __e) => SetClosingTime("Saturday", __e.Value))" />
-                    : <input type="text" size="2" maxlength="2" value="00" disabled/>
-                </span>
-            </div>
-        </div>
-    </div>
+        }
+    }
 
 </div>
 
@@ -160,7 +55,12 @@
     public List<RegularSchedule> regularSchedules { get; set; }
 
     [Parameter]
+    public bool readOnly { get; set; } = false;
+
+    [Parameter]
     public EventCallback<List<RegularSchedule>> updateServiceAvailibility { get; set; }
+
+    private List<string> days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
     private void HandleCheckboxChange(string day, object value)
     {
