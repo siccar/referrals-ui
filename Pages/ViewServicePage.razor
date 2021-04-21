@@ -19,8 +19,8 @@
         {
             <div class="two-cols-70-30">
                 <div class="serviceprovider">
+                    <h2>@service.Name</h2>
                     <h3>Provided by: <NavLink href=@($"view-organisation/{serviceOrg.Id}")> @serviceOrg.Name</NavLink> </h3>
-                    <h3>@service.Name</h3>
                     <div class="address">
                         <i class="fas fa-map-marker-alt"></i> <span>@address.Address_1, @address.City @address.Country, @address.Postal_Code</span>
 
