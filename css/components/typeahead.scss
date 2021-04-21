@@ -1,16 +1,16 @@
-﻿
+﻿@import '../_colours.scss';
 
 .blazored-typeahead {
     position: relative;
     width: 100%;
-    border: 1px solid #bfbfbf;
+    border: 1px solid $darkblue;
     /* border-radius: 5px; */
     outline:none!important
 }
 
 .blazored-typeahead.valid.modified {
     outline: none;
-    border: none;
+    border: 1px solid $darkblue;
 }
 
 .blazored-typeahead.invalid {
@@ -19,18 +19,17 @@
 }
 
 .blazored-typeahead__controls {
-    /* position: relative; */
-    /* cursor: text; */
-    /* display: flex; */
+     height:2.5rem;
+
 }
 
 .blazored-typeahead__input {
     flex: 1;
     max-width: 100%;
-    border: none!important;
-    padding: .4rem !important;
+    padding: .5rem !important;
     font-size: 1rem !important;
     color: #0a0039 !important;
+    border:none!important;
 }
 
 .blazored-typeahead:focus-within {
@@ -139,7 +138,7 @@
 
 .blazored-typeahead__input-icon--disabled .blazored-typeahead__down-arrow path,
 .blazored-typeahead__input-icon--disabled:hover .blazored-typeahead__down-arrow path {
-    fill: #9c9c9c;
+    fill: $darkblue;
 }
 
 .blazored-typeahead__multi-value {
@@ -181,8 +180,8 @@
 }
 
 .blazored-typeahead__multi-value-clear:hover {
-    background-color: rgb(212, 212, 212);
-    color: rgb(222, 53, 11);
+    background-color: $darkblue;
+    color: $white;
 }
 
 .blazored-typeahead__results {
@@ -218,10 +217,9 @@
 .blazored-typeahead__active-item,
 .blazored-typeahead__result:hover,
 .blazored-typeahead__result:focus {
-    background-color: #007bff;
-    border-top: 1px solid #007bff;
-    border-bottom: 1px solid #007bff;
-    color: #fff;
+    background-color: $darkblue;
+    color: $white;
+    border:none;
     cursor: pointer;
 }
 
