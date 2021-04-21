@@ -1,6 +1,7 @@
 ﻿@using OpenReferralPOV.Data
 
 
+@if (regularSchedules.Count() == 0 && readOnly) { return; }
 <div id="service-availability">
     <div class="service top">
         <label>Service availability</label>
@@ -15,7 +16,7 @@
             <div class="dayofweek readonly">
                 <div>@day.ByDay </div>
                 <div>
-                    @day.Opens_At.ToString("HH") TO @day.Closes_At.ToString("HH")
+                    @day.Opens_At.ToString("HH"):00 TO @day.Closes_At.ToString("HH"):00
                 </div>
             </div>
         }
