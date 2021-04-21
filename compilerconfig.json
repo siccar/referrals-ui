@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/css/SiccarCast.css",
     "inputFile": "css/SiccarCast.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/typeahead.css",
+    "inputFile": "css/components/typeahead.scss"
   }
 ]
