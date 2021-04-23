@@ -10,8 +10,7 @@
     <Authorized>
         @if (KeyContacts != null && KeyContacts.Count() > 0)
         {
-           
-            <li>Manage Organisation...</li>
+           <ul class="orglist">
             @foreach (var kc in KeyContacts)
             {
                 <li>
@@ -20,7 +19,7 @@
                 </li>
              }
 
-
+            </ul>
         }
 
     </Authorized>
@@ -30,8 +29,6 @@
 
     public Organization organization { get; set; } = new Organization();
     public KeyContact keyContact { get; set; } = new KeyContact();
-    private string selected = "";
-    private string link = "manage-organization/";
 
 
     private IEnumerable<KeyContact> KeyContacts { get; set; } = new List<KeyContact>();
@@ -51,18 +48,5 @@
             KeyContacts = new List<KeyContact>();
         }
     }
-
-
-    void DoStuff(ChangeEventArgs e)
-    {
-        var selected = e.Value.ToString();
-        if (selected != "-1")
-        {
-            NavManager.NavigateTo($"manage-organisation/{e.Value.ToString()}", true);
-        }
-
-    }
-
-
 }
 
