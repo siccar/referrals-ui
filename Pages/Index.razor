@@ -101,7 +101,9 @@
             organizations = await OrgService.GetAllOrganisations();
             var requests = await MembershipRequestService.GetAllMemebershipRequestsThatCanBeActioned();
             var keycontacts = await KeyContactService.GetOrgsICanManage();
-            IsAPotentialMemberOfAtLeastOneOrg = requests.Count() > 0 && requests.Any(request => request.Status != MembershipRequestsStatus.DENIED) || keycontacts.Count() > 0;
+            IsAPotentialMemberOfAtLeastOneOrg = requests.Any() &&
+                requests.Any(request => request.Status != MembershipRequestsStatus.DENIED && request.Status != MembershipRequestsStatus.REQUESTED)
+                || keycontacts.Count() > 0;
             isLoading = false;
         }
         catch (Exception)
