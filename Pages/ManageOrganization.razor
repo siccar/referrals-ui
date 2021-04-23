@@ -147,6 +147,14 @@
     public IEnumerable<Service> Services = new List<Service>();
 
 
+    protected override async Task OnParametersSetAsync()
+    {
+        organization = await OrgService.GetOrganisation(OrgId);
+        keyContacts = await KeyContactService.GetKeyContactsForOrg(OrgId);
+        Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
+        Services = (await ServiceService.GetServicesAsync()).Where(x => x.OrganizationId == OrgId);
+
+    }
     protected override async Task OnInitializedAsync()
     {
         organization = await OrgService.GetOrganisation(OrgId);
