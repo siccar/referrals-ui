@@ -10,22 +10,20 @@
     <Authorized>
         @if (KeyContacts != null && KeyContacts.Count() > 0)
         {
-            <EditForm Model="keyContact " Context="ctx">
+           
+            <li>Manage Organisation...</li>
+            @foreach (var kc in KeyContacts)
+            {
+                <li>
+                    @{var managelink = $"manage-organisation/{kc.OrgId.ToString()}";
+                    <NavLink href=@managelink>@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</NavLink>}
+                </li>
+             }
 
-                <select @onchange="DoStuff">
-                    <option value="-1">Manage Organisation...</option>
-                    @foreach (var kc in KeyContacts)
-                    {
-                        <option value="@kc.OrgId">@organizations.FirstOrDefault(x => x.Id == kc.OrgId).Name</option>
-                    }
-                </select>
-            </EditForm>
+
         }
 
     </Authorized>
-
-    <NotAuthorized>
-    </NotAuthorized>
 </AuthorizeView>
 
 @code {
@@ -33,6 +31,7 @@
     public Organization organization { get; set; } = new Organization();
     public KeyContact keyContact { get; set; } = new KeyContact();
     private string selected = "";
+    private string link = "manage-organization/";
 
 
     private IEnumerable<KeyContact> KeyContacts { get; set; } = new List<KeyContact>();
