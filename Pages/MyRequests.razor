@@ -22,71 +22,87 @@
             <h3><em>Action submitted</em></h3>
             <a href="myrequests">Reload</a>
         }
+        else if (NoRequestData())
+        {
+            <h3>You currently have no requests pending and no requests to action.</h3>
+            <p>Please <NavLink href="playlists">search</NavLink> for services and find organisations you wish to join.</p>
+        }
         else
         {
-
-            <h3>My Requests to Join Organisations and there status</h3>
-
-
-            @foreach (var membership in myrequeststojoin)
+            if (myrequeststojoin.Any())
             {
-                <div class="playist-item item-padding">
-                    <div>
-                        @organizations.First(x => x.Id == membership.OrgId).Name
+                <h3>Your Organisation Requests</h3>
+
+
+                @foreach (var membership in myrequeststojoin)
+                {
+                    <div class="playist-item item-padding">
+                        <div>
+                            @organizations.First(x => x.Id == membership.OrgId).Name
+                        </div>
+                        <div>
+                            @membership.Status
+                        </div>
                     </div>
-                    <div>
-                        @membership.Status
-                    </div>
-                </div>
+                }
+
             }
 
-            <h3>My Requests to Join Organisations as an admin</h3>
-
-
-            @foreach (var ar in myrequeststojoinAsAdmin)
+            if (myrequeststojoinAsAdmin.Any())
             {
-                <div class="playist-item item-padding">
-                    <div>
-                        @organizations.First(x => x.Id == ar.OrgId).Name
+                <h3>Your Organisation Admin Requests</h3>
+
+                @foreach (var ar in myrequeststojoinAsAdmin)
+                {
+                    <div class="playist-item item-padding">
+                        <div>
+                            @organizations.First(x => x.Id == ar.OrgId).Name
+                        </div>
+                        <div>
+                            PENDING
+                        </div>
                     </div>
-                    <div>
-                        PENDING
-                    </div>
-                </div>
+                }
             }
 
-            <h3>Join Requests for Orgs I am a Key Contact For</h3>
-
-            @foreach (var membership in joinRequestsICanAuthorise)
+            if (joinRequestsICanAuthorise.Any())
             {
-                <div class="playist-item item-padding">
-                    <div>@organizations.First(x => x.Id == membership.OrgId).Name</div>
-                    <div>@membership.Email</div>
-                    <div>
-                        <input type="button" name="Accept" class="button1" value="Accept" disabled="@membership.DisableButton" @onclick="@(e => HandleGrantRequest(membership))" />
+                <h3>Organisation Requests</h3>
+                @foreach (var membership in joinRequestsICanAuthorise)
+                {
+                    <div class="playist-item item-padding">
+                        <div>@organizations.First(x => x.Id == membership.OrgId).Name</div>
+                        <div>@membership.Email</div>
+                        <div>
+                            <input type="button" name="Accept" class="button1" value="Accept" disabled="@membership.DisableButton" @onclick="@(e => HandleGrantRequest(membership))" />
+                        </div>
+                        <div>
+                            <input type="button" name="Reject" class="button1" value="Reject" disabled="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
+                        </div>
                     </div>
-                    <div>
-                        <input type="button" name="Reject" class="button1" value="Reject" disabled="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
-                    </div>
-                </div>
 
+                }
             }
-            <h3>Admin Requests for Orgs I am a Key Contact For</h3>
 
-            @foreach (var ar in adminRequestsICanAuthorise)
+            if (adminRequestsICanAuthorise.Any())
             {
+                <h3>Organisation Admin Requests</h3>
 
-                <div class="playist-item item-padding">
-                    <div>@organizations.First(x => x.Id == ar.OrgId).Name</div>
-                    <div>@ar.UserEmail;</div>
-                    <div>
-                        <input type="button" name="Accept" class="button1" disabled="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
-                    </div>
-                    <div>
-                        <input type="button" name="Reject" class="button1" disabled="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
-                    </div>
-                </div>
+                @foreach (var ar in adminRequestsICanAuthorise)
+                {
 
+                    <div class="playist-item item-padding">
+                        <div>@organizations.First(x => x.Id == ar.OrgId).Name</div>
+                        <div>@ar.UserEmail</div>
+                        <div>
+                            <input type="button" name="Accept" class="button1" disabled="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
+                        </div>
+                        <div>
+                            <input type="button" name="Reject" class="button1" disabled="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
+                        </div>
+                    </div>
+
+                }
             }
 
 
@@ -217,5 +233,10 @@
         {
             Error.ProcessError(e);
         }
+    }
+
+    private bool NoRequestData()
+    {
+        return !(myrequeststojoin.Any() || myrequeststojoinAsAdmin.Any() || joinRequestsICanAuthorise.Any() || adminRequestsICanAuthorise.Any());
     }
 }
