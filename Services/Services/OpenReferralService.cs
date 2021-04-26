@@ -55,19 +55,6 @@ namespace OpenReferralPOV.Services
             return services;
         }
 
-        public async Task<IEnumerable<TagEnum>> GetServiceTagsAsync(string serviceId)
-        {
-            //var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/tags/{serviceId}"));
-            //var tags = JsonConvert.DeserializeObject<IEnumerable<TagEnum>>(responseString);
-
-            //return tags;
-
-            return new List<TagEnum>()
-            {
-                TagEnum.Tag1,TagEnum.Tag2, TagEnum.Tag3
-            };
-        }
-
         public async Task<Service> UpdateService(Service service)
         {
             var responseString = await _httpClientAdapter.PutAsync(new Uri($"{ _ApiBaseAddress}/Services/{service.Id}"), service);
