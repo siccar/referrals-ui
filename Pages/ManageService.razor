@@ -169,16 +169,19 @@
         try
         {
             updatingService = true;
+            var location = ServiceHelperFunctions.BuildLocation(service, address);
             if (originalAddress.Postal_Code != service._Postcode)
             {
-                var location = ServiceHelperFunctions.BuildLocation(service, address);
-                location = await ServiceService.AddLocation(location);
-
                 var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
+                location = await ServiceService.AddLocation(location);
                 service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
             }
             service.Tags = TagList;
             service = await ServiceService.UpdateService(service);
+
+            //Add address details back onto the service model
+            service._Postcode = location.Physical_Addresses.First().Postal_Code;
+            service.Address = location.Physical_Addresses.First().Address_1;
             updatingService = false;
             serviceUpdated = true;
         }
