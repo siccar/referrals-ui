@@ -5121,6 +5121,8 @@ h1, h2, h4, p {
   margin-bottom: 1rem;
   align-items: center;
   height: 3rem; }
+  .playist-item.item-padding div {
+    padding: 1rem; }
   .playist-item a {
     color: #fff;
     padding: 1rem; }
