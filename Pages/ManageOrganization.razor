@@ -167,6 +167,7 @@
     {
         try
         {
+            httpError = null;
             request.DisableButton = true;
             await MemberService.HandleDenyRequestForJoiningOrg(request);
             Memberships = await MemberService.GetAllMembersOfOrg(OrgId);
@@ -185,6 +186,7 @@
     {
         try
         {
+            httpError = null;
             contact.DisabledButton = true;
             await KeyContactService.RemoveKeyContact(contact);
             keyContacts = await KeyContactService.GetKeyContactsForOrg(OrgId);
@@ -204,6 +206,8 @@
     {
         try
         {
+            validationError = null;
+            httpError = null;
             organization = await OrgService.UpdateOrganisation(organization);
             orgUpdated = true;
         }
