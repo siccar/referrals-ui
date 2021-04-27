@@ -654,20 +654,20 @@ h1, h2, h4, p {
 .playist-item {
     display: flex;
     justify-content: space-between;
-    background: $darkblue;
-    color: $white;
+    background: $light-grey;
+    color: $darkblue;
     padding: 0;
     margin-bottom: 1rem;
     align-items: center;
-    height: 3rem;
 
     &.item-padding div {
         padding: 1rem;
     }
-
+    &.whitebg{
+        background:$white;
+    }
     a {
-        color: $white;
-        padding: 1rem;
+        color: $darkblue;
     }
 
     .remove {
@@ -683,16 +683,16 @@ h1, h2, h4, p {
         .btnRemove {
             padding: 0;
             margin: 0;
-            background: $white;
-            border: 1px solid $darkblue;
+            background: $darkblue;
             width: 3rem;
             height: 3rem;
-            color: $darkblue;
+            color: $white;
+            border: none;
 
             &:hover {
                 background-color: $darkblue;
+                opacity:0.3;
                 color: $white;
-                border-left: 1px solid $white
             }
         }
     }

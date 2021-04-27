@@ -5114,17 +5114,17 @@ h1, h2, h4, p {
 .playist-item {
   display: flex;
   justify-content: space-between;
-  background: #0a0039;
-  color: #fff;
+  background: #e6e5eb;
+  color: #0a0039;
   padding: 0;
   margin-bottom: 1rem;
-  align-items: center;
-  height: 3rem; }
+  align-items: center; }
   .playist-item.item-padding div {
     padding: 1rem; }
+  .playist-item.whitebg {
+    background: #fff; }
   .playist-item a {
-    color: #fff;
-    padding: 1rem; }
+    color: #0a0039; }
   .playist-item .remove {
     text-transform: uppercase; }
     @media only screen and (max-width: 640px) {
@@ -5133,15 +5133,15 @@ h1, h2, h4, p {
     .playist-item .remove .btnRemove {
       padding: 0;
       margin: 0;
-      background: #fff;
-      border: 1px solid #0a0039;
+      background: #0a0039;
       width: 3rem;
       height: 3rem;
-      color: #0a0039; }
+      color: #fff;
+      border: none; }
       .playist-item .remove .btnRemove:hover {
         background-color: #0a0039;
-        color: #fff;
-        border-left: 1px solid #fff; }
+        opacity: 0.3;
+        color: #fff; }
 
 /* Map Styling */
 .gmap_canvas iframe {
