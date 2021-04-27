@@ -666,6 +666,9 @@ h1, h2, h4, p {
     &.whitebg{
         background:$white;
     }
+    .link{
+        padding:0 1rem;
+    }
     a {
         color: $darkblue;
     }
