@@ -72,7 +72,7 @@
                     @foreach (var service in searchServices)
                     {
                         <div class="playist-item">
-                            <div>
+                            <div class="link">
                                 <NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink>
                             </div>
                             <div class="remove">
@@ -102,7 +102,7 @@
                     @foreach (var s in Playlist.Services)
                     {
                         <div class="playist-item">
-                            <div>
+                            <div class="link">
                                 <NavLink href=@($"view-service/{@services.First(x => x.Id == s).Id}")>@services.First(x => x.Id == s).Name</NavLink>
                             </div>
                             <div class="remove">

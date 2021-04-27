@@ -5123,6 +5123,8 @@ h1, h2, h4, p {
     padding: 1rem; }
   .playist-item.whitebg {
     background: #fff; }
+  .playist-item .link {
+    padding: 0 1rem; }
   .playist-item a {
     color: #0a0039; }
   .playist-item .remove {
