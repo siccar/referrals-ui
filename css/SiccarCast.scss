@@ -383,11 +383,6 @@ main .gridder {
 
 
     @media only screen and (min-width: $width-lge) {
-
-        .col {
-            width: 90%;
-        }
-
         .two-cols {
             display: grid;
             grid-template-columns: 50% 50%;
@@ -441,7 +436,7 @@ main .gridder {
 
     @media only screen and (min-width: $width-xl) {
         .col-sizer {
-            width: 70%;
+            width: 90%;
         }
 
         .col-sizer-lge {
@@ -539,6 +534,7 @@ h1, h2, h4, p {
         height: 1.8rem;
         font-size: 0.8rem;
         align-items: baseline;
+        justify-content: space-between;
     }
 
     .readonly {
@@ -705,3 +701,25 @@ h1, h2, h4, p {
 .gmap_canvas iframe {
     width: 100%
 }
+
+.service-tags {
+    span {
+        padding: 0;
+        margin: 0;
+
+        .tag {
+            width: auto;
+            font-size: 0.7rem;
+            padding: 0.3rem 1rem;
+            margin: 0.2rem;
+            border-radius: 0.8rem;
+            border:none;
+            background:$light-grey;
+            color:$darkblue;
+            &:hover{
+                background:$minty;
+                color:$white;
+            }
+            }
+        }
+    }

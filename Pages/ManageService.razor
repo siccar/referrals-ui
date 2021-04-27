@@ -17,23 +17,27 @@
         }
         else
         {
-            <div class="two-cols">
-                <div class="col col-sizer col-left">
 
-                    <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+            <h2>Manage Service</h2>
 
-                        <h3>Manage Service</h3>
-
-                        @if (serviceUpdated)
-                        {
-                            <h3>Service Updated</h3>
-                        }
-
+            @if (serviceUpdated)
+            {
+                <h3>Service Updated</h3>
+            }
+            <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+                <div class="two-cols">
+                    <div class="col col-sizer col-left">
                         <label for="Name">Name</label>
                         <InputText id="Name" @bind-Value="@service.Name" />
 
                         <label for="Description">Description</label>
                         <InputText id="Description" @bind-Value="@service.Description" />
+
+                        <label for="Email">Email</label>
+                        <InputText id="Email" @bind-Value="@service.Email" type="text" />
+
+                        <label for="Url">Url</label>
+                        <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
                         <label for="Address">Address</label>
                         <InputText id="Address" @bind-Value="@service.Address" type="text" />
@@ -46,42 +50,6 @@
 
                         <label for="PostCode">Post Code</label>
                         <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
-
-                        <label for="Email">Email</label>
-                        <InputText id="Email" @bind-Value="@service.Email" type="text" />
-
-                        <label for="Url">Url</label>
-                        <InputText id="Url" @bind-Value="@service.Url" type="text" />
-
-                        <table class="table">
-                            <tbody>
-                                @if (TagList.ToList().Count != 0)
-                                {
-                                    <tr>
-                                        <td>Remove Tags</td>
-                                        @foreach (var tag in TagList.ToList())
-                                        {
-
-                                            <td>
-                                                <input type="button" name="Remove from ServiceTags" class="button2" value="@((TagEnum)tag)"
-                                                       @onclick="@(e => RemoveFromServiceTags(tag))" />
-                                            </td>
-
-                                        }
-                                    </tr>
-                                }
-                                <tr>
-                                    <td>Add Tag</td>
-                                    @foreach (var t in Tags)
-                                    {
-                                        <td>
-                                            <input type="button" name="Add To ServiceTags" class="button1" value="@((TagEnum)t)"
-                                                   @onclick="@(e => AddToServiceTags(t))" />
-                                        </td>
-                                    }
-                                </tr>
-                            </tbody>
-                        </table>
 
                         <label for="Cat">Category</label>
                         <InputSelect @bind-Value="@service.Category" class="form-control">
@@ -100,25 +68,55 @@
                             }
                         </InputSelect>
 
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                        @if (@httpError != null)
-                        {
-                            <warn>There was an error submiting the form</warn>
-                            <br />
-                            <warn>@httpError.StatusCode</warn>
-                        }
-                        @if (validationError != null)
-                        {
-                            <ErrorValidationMessage Error=@validationError />
-                        }
-                        <button type="submit">Submit</button>
-                    </EditForm>
+
+
+                    </div>
+
+                    <div class="col col-sizer col-right">
+                        <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
+                        <div class="service-tags">
+                            <h4>Remove Tags</h4>
+                            @if (TagList.ToList().Count != 0)
+                            {
+                                @foreach (var tag in TagList.ToList())
+                                {
+
+                                    <span>
+                                        <input type="button" name="Remove from ServiceTags" class="tag minus" value="@((TagEnum)tag)"
+                                               @onclick="@(e => RemoveFromServiceTags(tag))" />
+                                    </span>
+
+                                }
+
+                            }
+                            <h4>Add Tag</h4>
+                            @foreach (var t in Tags)
+                            {
+                                <span>
+                                    <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)t)"
+                                           @onclick="@(e => AddToServiceTags(t))" /> 
+                                </span>
+                            }
+
+                        </div>
+                    </div>
                 </div>
-                <div class="col col-sizer col-right">
-                    <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
-                </div>
-            </div>
+                
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                @if (@httpError != null)
+                {
+                    <warn>There was an error submiting the form</warn>
+                    <br />
+                    <warn>@httpError.StatusCode</warn>
+                }
+                @if (validationError != null)
+                {
+                    <ErrorValidationMessage Error=@validationError />
+                }
+                <button type="submit">Submit</button>
+
+            </EditForm>
         }
     </div>
 </div>
