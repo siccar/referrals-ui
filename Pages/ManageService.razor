@@ -75,9 +75,10 @@
                     <div class="col col-sizer col-right">
                         <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
                         <div class="service-tags">
-                            <h4>Remove Tags</h4>
+                            
                             @if (TagList.ToList().Count != 0)
                             {
+                            <h4>Remove Tags</h4>
                                 @foreach (var tag in TagList.ToList())
                                 {
 
