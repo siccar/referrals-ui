@@ -730,7 +730,7 @@ h1, h2, h4, p {
 /* Azure styling */
 .api-wrapper {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 100vw;
     grid-template-rows: 100vh;
     align-items: center;
     justify-items: center;
@@ -748,11 +748,15 @@ h1, h2, h4, p {
     .divider, .create, .intro {
         text-align: center;
     }
-    
-    width:90rem;
-    
+
+    form {
+        width:90rem;
+    }
 
     @media only screen and (min-width: $width-lge) {
-        width: 30rem        
+
+        form {
+            width: 30rem
+        }
     }
 }

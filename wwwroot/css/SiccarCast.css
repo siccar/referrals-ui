@@ -5168,11 +5168,10 @@ h1, h2, h4, p {
 /* Azure styling */
 .api-wrapper {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 100vw;
   grid-template-rows: 100vh;
   align-items: center;
-  justify-items: center;
-  width: 90rem; }
+  justify-items: center; }
   .api-wrapper .error p {
     color: #fbd0e9;
     margin-bottom: 0.5rem; }
@@ -5180,6 +5179,8 @@ h1, h2, h4, p {
     color: #0a0039; }
   .api-wrapper .divider, .api-wrapper .create, .api-wrapper .intro {
     text-align: center; }
+  .api-wrapper form {
+    width: 90rem; }
   @media only screen and (min-width: 1024px) {
-    .api-wrapper {
+    .api-wrapper form {
       width: 30rem; } }
