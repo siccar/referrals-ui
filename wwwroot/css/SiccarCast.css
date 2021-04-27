@@ -5164,3 +5164,22 @@ h1, h2, h4, p {
     .service-tags span .tag:hover {
       background: #09CA77;
       color: #fff; }
+
+/* Azure styling */
+.api-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 100vh;
+  align-items: center;
+  justify-items: center;
+  width: 90rem; }
+  .api-wrapper .error p {
+    color: #fbd0e9;
+    margin-bottom: 0.5rem; }
+  .api-wrapper a {
+    color: #0a0039; }
+  .api-wrapper .divider, .api-wrapper .create, .api-wrapper .intro {
+    text-align: center; }
+  @media only screen and (min-width: 1024px) {
+    .api-wrapper {
+      width: 30rem; } }
