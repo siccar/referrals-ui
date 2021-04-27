@@ -5149,6 +5149,7 @@ h1, h2, h4, p {
 .gmap_canvas iframe {
   width: 100%; }
 
+/* Service tags*/
 .service-tags span {
   padding: 0;
   margin: 0; }
@@ -5164,3 +5165,7 @@ h1, h2, h4, p {
     .service-tags span .tag:hover {
       background: #09CA77;
       color: #fff; }
+
+/* Form validation */
+.validation-message {
+  color: #f00; }
