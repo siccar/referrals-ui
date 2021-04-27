@@ -12,7 +12,7 @@
     <div class="gridder">
 
 
-        <h3>Manage Organization</h3>
+        <h2>Manage Organisation</h2>
         @if (orgUpdated)
         {
             <h3>Organization Updated</h3>
@@ -47,80 +47,68 @@
         </EditForm>
 
         <h3>Services</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Service Name</th>
-                    <th>Service URL</th>
-                    <th>Manage</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var service in Services)
-                {
-                    <tr>
-                        <td>@service.Name</td>
-                        <td>@service.Url</td>
-                        <a class="" href="manage-service/@service.Id">Manage Service</a>
-                    </tr>
+        @if (Services.Count() > 0)
+            @foreach (var service in Services)
+            {
 
-                }
-            </tbody>
-        </table>
+                <div class="playist-item item-padding">
+                    <div>
+                        <strong>@service.Name</strong>
+                        <br />
+                        <a class="" href=" @service.Url" target="_blank"> @service.Url</a>
+                    </div>
+                    <div>
+                        <a class="" href="manage-service/@service.Id">Manage Service</a>
+                    </div>
+                </div>
+
+
+            } else
+            {
+                <p>You currently have no services added.  To add one click on the Add Service button below.</p>
+            }
+
         <input type="button" name="AddService" class="button1" value="Add Service" @onclick="@(e => NavigateToAddService(organization.Id))" />
 
         <h3>Admins/Key Contacts of the Organisation</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>User Email</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var contact in keyContacts)
-                {
-                <tr>
-                    <td>@contact.UserEmail</td>
-                    @if (keyContacts.Count() > 1)
-                    {
-                        <td>
+        @if (keyContacts.Count() > 0)
+            @foreach (var contact in keyContacts)
+            {
+                <div class="playist-item whitebg">
+                    <div>
+                        @contact.UserEmail
+                    </div>
+                    <div>
+                        @if (keyContacts.Count() > 1)
+                        {
                             <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => RemoveKeyContact(contact))" disabled="@contact.DisabledButton" />
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                        </td>
-                    }
-                </tr>
+                        }
+                    </div>
 
-                }
-            </tbody>
-        </table>
-
-        <p></p>
+                </div>
+              } else
+            {
+                <p>There are no Admins/Key contacts assigned to this organisation</p>
+            }
         <h3>Members of the  Organisation</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>User Email</th>
-                    <th>Membership Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var member in Memberships)
-                {
-                    <tr>
-                        <td>@member.Email</td>
-                        <td>@member.Status</td>
-                        <td>
-                            <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => HandleDenyRequest(member))" disabled="@member.DisableButton" />
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @if (Memberships.Count() > 0)
+            @foreach (var member in Memberships)
+            {
+                <div class="playist-item whitebg">
+                    <div>
+                        @member.Email
+                    </div>
+                    <div>@member.Status</div>
+                    <div>
+                        <input type="button" name="Reject" class="button1" value="Remove" @onclick="@(e => HandleDenyRequest(member))" disabled="@member.DisableButton" />
+                    </div>
+
+                </div>
+
+            } else
+            {
+                <p>There are no members assigned to this organisation</p>
+            }
 
     </div>
 </div>
