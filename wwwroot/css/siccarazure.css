@@ -18,8 +18,10 @@ body {
   .api-wrapper .VerificationControl {
     padding-bottom: 1rem;
     border-bottom: 1px solid; }
-  .api-wrapper .Password, .api-wrapper .sendCode {
+  .api-wrapper .sendCode {
     margin-bottom: 1rem; }
+  .api-wrapper .Password {
+    margin-top: 1rem; }
   .api-wrapper ul {
     padding: 0; }
   .api-wrapper img {
