@@ -748,6 +748,8 @@ h1, h2, h4, p {
 
     a {
         color: $darkblue;
+        display:block;
+        margin-bottom:1rem;
     }
 
     .divider, .create {
@@ -760,18 +762,11 @@ h1, h2, h4, p {
 
     @media only screen and (max-width: $width-mid) {
 
-        line-height:6rem;
-        font-size:2rem;
-
         img{
-            height:120px
+            height:70px;
         }
 
-        input, select, input[type=text], input[type=number], button[type=submit], input[type=button], button {
-            border: 1px #0a0039 solid;
-            padding: 1.3rem;
-            width: 100%;
-        }
+       
     }
 
     @media only screen and (min-width: $width-lge) {
