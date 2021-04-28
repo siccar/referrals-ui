@@ -28,9 +28,8 @@ body {
     text-align: left; }
   @media screen and (max-width: 768px) {
     .api-wrapper {
-      width: 70%;
-      font-size: 1.4rem;
-      line-height: 5rem; }
+      width: 80%;
+      line-height: 2rem; }
       .api-wrapper img {
         height: 70px; } }
   @media screen and (min-width: 1024px) {
