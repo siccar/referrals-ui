@@ -4,12 +4,11 @@
 @using OpenReferralPOV.Services
 @using OpenReferralPOV.Data.Enums;
 @using System.Collections.Generic;
-@using System;  
+@using System;
 
 @inject IOpenReferralService ReferralService
 @inject IOpenReferralOrganisationService OrgService
 @inject NavigationManager NavManager
-
 
 <div class="content-container">
     <div class="gridder">
@@ -28,8 +27,6 @@
             <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
                 <div class="two-cols">
                     <div class="col col-sizer col-left">
-
-
 
                         <label for="Name">Name</label>
                         <InputText id="Name" @bind-Value="@service.Name" type="text" />
@@ -55,8 +52,6 @@
                         <label for="PostCode">Post Code</label>
                         <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
-
-
                         <label for="Org">Organisation</label>
                         <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
                             @foreach (var org in organisations)
@@ -74,8 +69,6 @@
                             }
                         </InputSelect>
 
-
-
                         <label for="Cat">Category</label>
                         <InputSelect @bind-Value="@service.Category" class="form-control">
                             @foreach (var cat in CategoryList)
@@ -92,7 +85,6 @@
                                 }
                             }
                         </InputSelect>
-
                     </div>
                     <div class="col col-sizer col-right">
                         <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
@@ -114,21 +106,15 @@
 
                             }
                             <h4>Add Tag</h4>
-                            @foreach (var t in Tags.ToList().Where(ta => !(TagList.ToList().Any(tt => tt ==ta))).ToList())
+                            @foreach (var t in Tags.ToList().Where(ta => !(TagList.ToList().Any(tt => tt == ta))).ToList())
                             {
                                 <span>
                                     <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)t)"
                                            @onclick="@(e => AddToServiceTags(t))" />
                                 </span>
                             }
-
                         </div>
-
-
-
-
                     </div>
-
                 </div>
                 <DataAnnotationsValidator />
                 <ValidationSummary />
@@ -207,16 +193,10 @@
         {
             TagList.Add(tag);
         }
-        //var newTagList = Tags.ToList();
-        //newTagList.Remove(tag);
-        //Tags = newTagList.ToArray();
-
-        
     }
 
     private void RemoveFromServiceTags(int tag)
     {
-        
         TagList.Remove(tag);
     }
 
