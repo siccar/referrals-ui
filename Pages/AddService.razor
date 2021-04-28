@@ -3,6 +3,8 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 @using OpenReferralPOV.Data.Enums;
+@using System.Collections.Generic;
+@using System;  
 
 @inject IOpenReferralService ReferralService
 @inject IOpenReferralOrganisationService OrgService
@@ -112,7 +114,7 @@
 
                             }
                             <h4>Add Tag</h4>
-                            @foreach (var t in Tags)
+                            @foreach (var t in Tags.ToList().Where(ta => !(TagList.ToList().Any(tt => tt ==ta))).ToList())
                             {
                                 <span>
                                     <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)t)"
@@ -205,10 +207,16 @@
         {
             TagList.Add(tag);
         }
+        //var newTagList = Tags.ToList();
+        //newTagList.Remove(tag);
+        //Tags = newTagList.ToArray();
+
+        
     }
 
     private void RemoveFromServiceTags(int tag)
     {
+        
         TagList.Remove(tag);
     }
 
