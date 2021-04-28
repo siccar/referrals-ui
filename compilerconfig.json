@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/css/typeahead.css",
     "inputFile": "css/components/typeahead.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/siccarazure.css",
+    "inputFile": "css/siccarazure.scss"
   }
 ]
