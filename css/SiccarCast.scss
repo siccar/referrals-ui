@@ -663,14 +663,26 @@ h1, h2, h4, p {
     &.item-padding div {
         padding: 1rem;
     }
-    &.whitebg{
-        background:$white;
+
+    &.whitebg {
+        background: $white;
+
+        @media only screen and (max-width: $width-lge) {
+            display: block;
+        }
     }
-    .link{
-        padding:0 1rem;
+
+    .link {
+        padding: 0 1rem;
     }
+
     a {
         color: $darkblue;
+    }
+
+    .buttons {
+        display: flex;
+        grid-gap: 2rem;
     }
 
     .remove {
@@ -694,7 +706,7 @@ h1, h2, h4, p {
 
             &:hover {
                 background-color: $darkblue;
-                opacity:0.3;
+                opacity: 0.3;
                 color: $white;
             }
         }

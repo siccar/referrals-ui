@@ -5123,10 +5123,16 @@ h1, h2, h4, p {
     padding: 1rem; }
   .playist-item.whitebg {
     background: #fff; }
+    @media only screen and (max-width: 1024px) {
+      .playist-item.whitebg {
+        display: block; } }
   .playist-item .link {
     padding: 0 1rem; }
   .playist-item a {
     color: #0a0039; }
+  .playist-item .buttons {
+    display: flex;
+    grid-gap: 2rem; }
   .playist-item .remove {
     text-transform: uppercase; }
     @media only screen and (max-width: 640px) {
