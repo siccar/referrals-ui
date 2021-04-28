@@ -75,29 +75,7 @@
                     <div class="col col-sizer col-right">
                         <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
                         <div class="service-tags">
-                            
-                            @if (TagList.ToList().Count != 0)
-                            {
-                            <h4>Remove Tags</h4>
-                                @foreach (var tag in TagList.ToList())
-                                {
-
-                                    <span>
-                                        <input type="button" name="Remove from ServiceTags" class="tag minus" value="@((TagEnum)tag)"
-                                               @onclick="@(e => RemoveFromServiceTags(tag))" />
-                                    </span>
-
-                                }
-
-                            }
-                            <h4>Add Tag</h4>
-                            @foreach (var t in Tags)
-                            {
-                                <span>
-                                    <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)t)"
-                                           @onclick="@(e => AddToServiceTags(t))" /> 
-                                </span>
-                            }
+                            <ServiceTagManager ServiceTagList="@service.Tags.ToList()" updateServiceTagList="UpdateServiceTagList"/>
 
                         </div>
                     </div>
@@ -138,7 +116,6 @@
     public PhysicalAddress address;
     public PhysicalAddress originalAddress;
 
-    public int[] Tags = (int[])Enum.GetValues(typeof(TagEnum));
     public List<int> TagList { get; set; } = new List<int>();
     public int[] Category = (int[])Enum.GetValues(typeof(CategoryEnum));
     public List<CategoryEnum> CategoryList { get; set; } = new List<CategoryEnum>();
@@ -206,16 +183,9 @@
         service.Regular_Schedules = regularSchedules;
     }
 
-    private void AddToServiceTags(int tag)
+    private void UpdateServiceTagList(List<int> ServiceTagList)
     {
-        if (!TagList.Contains(tag))
-        {
-            TagList.Add(tag);
-        }
+        service.Tags = ServiceTagList;
     }
 
-    private void RemoveFromServiceTags(int tag)
-    {
-        TagList.Remove(tag);
-    }
 }
