@@ -4886,7 +4886,7 @@ h4 {
     color: #0a0039; }
   #alpha span {
     border-radius: 100px;
-    background: #ff0000;
+    background: #fbd0e9;
     color: #990059;
     padding: 0.2rem 1rem;
     margin-right: 0.5rem; }
@@ -5166,6 +5166,5 @@ h1, h2, h4, p {
       background: #09CA77;
       color: #fff; }
 
-/* Form validation */
 .validation-message {
-  color: #f00; }
+  color: #ff0000; }
