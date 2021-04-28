@@ -36,7 +36,9 @@ namespace OpenReferralPOV
 
             services.AddDistributedMemoryCache();
 
-            services.AddCors();
+            services.AddCors(options => options.AddDefaultPolicy(
+                    builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()
+                ));
 
             services.AddControllersWithViews()
                 .AddMicrosoftIdentityUI();
