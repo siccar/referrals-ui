@@ -3,12 +3,12 @@
 
 <h3>ServiceTagManager</h3>
 
-<div class="service-tags">
 
-    @if (TagList.ToList().Count != 0)
+
+    @if (ServiceTagList.ToList().Count != 0)
     {
         <h4>Remove Tags</h4>
-        @foreach (var tag in TagList.ToList())
+        @foreach (var tag in ServiceTagList.ToList())
         {
 
             <span>
@@ -20,39 +20,36 @@
 
     }
     <h4>Add Tag</h4>
-    @foreach (var t in Tags)
+    @foreach (var t in TotalTags)
     {
         <span>
             <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)t)"
                    @onclick="@(e => AddToServiceTags(t))" />
         </span>
     }
-</div>
+
                    
 
 @code {
 
     [Parameter]
-    public List<int> TagList { get; set; } = new List<int>();
+    public List<int> ServiceTagList { get; set; }
 
     [Parameter]
-    public bool readOnly { get; set; } = false; //todo: this might not be required
+    public EventCallback<List<RegularSchedule>> UpdateServiceTagList { get; set; }
 
-    [Parameter]
-    public EventCallback<List<RegularSchedule>> updateServiceTagList { get; set; }
-
-    public int[] Tags = (int[])Enum.GetValues(typeof(TagEnum));
+    public int[] TotalTags = (int[])Enum.GetValues(typeof(TagEnum));
 
     private void AddToServiceTags(int tag)
     {
-        if (!TagList.Contains(tag))
+        if (!ServiceTagList.Contains(tag))
         {
-            TagList.Add(tag);
+            ServiceTagList.Add(tag);
         }
     }
 
     private void RemoveFromServiceTags(int tag)
     {
-        TagList.Remove(tag);
+        ServiceTagList.Remove(tag);
     }
 }
