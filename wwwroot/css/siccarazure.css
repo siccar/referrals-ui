@@ -1,0 +1,33 @@
+﻿html {
+  height: 100%; }
+
+body {
+  /* Remember to use the other versions for IE 10 and older browsers! */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%; }
+
+/* Azure styling */
+.api-wrapper {
+  display: flex;
+  flex-direction: column; }
+  .api-wrapper img {
+    margin-bottom: 2rem; }
+  .api-wrapper .error p {
+    color: #fbd0e9;
+    margin-bottom: 0.5rem; }
+  .api-wrapper a {
+    color: #0a0039;
+    display: block;
+    margin-bottom: 1rem; }
+  .api-wrapper .divider, .api-wrapper .create {
+    text-align: center; }
+  .api-wrapper .intro {
+    text-align: left; }
+  @media only screen and (max-width: 768px) {
+    .api-wrapper img {
+      height: 70px; } }
+  @media only screen and (min-width: 1024px) {
+    .api-wrapper form {
+      width: 30rem; } }
