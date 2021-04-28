@@ -13,11 +13,21 @@ body {
   display: flex;
   flex-direction: column;
   padding: 2rem; }
+  .api-wrapper #emailVerificationControl_label {
+    display: none; }
+  .api-wrapper .VerificationControl {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid; }
+  .api-wrapper .Password, .api-wrapper .sendCode {
+    margin-bottom: 1rem; }
+  .api-wrapper ul {
+    padding: 0; }
   .api-wrapper img {
     margin-bottom: 2rem; }
-  .api-wrapper .error p {
-    color: #fbd0e9;
-    margin-bottom: 0.5rem; }
+  .api-wrapper .error {
+    color: #ff0000; }
+    .api-wrapper .error p {
+      margin-bottom: 0.5rem; }
   .api-wrapper a {
     color: #0a0039;
     display: block;
