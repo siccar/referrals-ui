@@ -5172,15 +5172,27 @@ h1, h2, h4, p {
   grid-template-rows: 100vh;
   align-items: center;
   justify-items: center; }
+  .api-wrapper img {
+    margin-bottom: 2rem; }
   .api-wrapper .error p {
     color: #fbd0e9;
     margin-bottom: 0.5rem; }
   .api-wrapper a {
     color: #0a0039; }
-  .api-wrapper .divider, .api-wrapper .create, .api-wrapper .intro {
+  .api-wrapper .divider, .api-wrapper .create {
     text-align: center; }
-  .api-wrapper form {
-    width: 90rem; }
+  .api-wrapper .intro {
+    text-align: left; }
+  @media only screen and (max-width: 768px) {
+    .api-wrapper {
+      line-height: 6rem;
+      font-size: 2rem; }
+      .api-wrapper img {
+        height: 120px; }
+      .api-wrapper input, .api-wrapper select, .api-wrapper input[type=text], .api-wrapper input[type=number], .api-wrapper button[type=submit], .api-wrapper input[type=button], .api-wrapper button {
+        border: 1px #0a0039 solid;
+        padding: 1.3rem;
+        width: 100%; } }
   @media only screen and (min-width: 1024px) {
     .api-wrapper form {
       width: 30rem; } }
