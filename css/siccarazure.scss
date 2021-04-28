@@ -19,14 +19,33 @@ body {
 .api-wrapper {
     display: flex;
     flex-direction: column;
-    padding:2rem; 
+    padding: 2rem;
+
+    #emailVerificationControl_label {
+        display: none;
+    }
+
+    .VerificationControl {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid;
+    }
+
+    .Password, .sendCode {
+        margin-bottom: 1rem;
+    }
+
+    ul {
+        padding: 0;
+    }
+
     img {
         margin-bottom: 2rem;
     }
 
     .error {
+        color: $red;
+
         p {
-            color: $red;
             margin-bottom: 0.5rem;
         }
     }
