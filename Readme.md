@@ -1,6 +1,12 @@
-# Open Referral UI
+# Open Referrals UI
+This repo contains the source code for the Open Referrals UI project.
 
-## Prerequisites
+TODO: Add in project description
+
+This Project requires the use of an Azure AD B2C tenant to store user credentials and 
+and to do authentication.  
+
+## Prerequisites / Dependencies
  - Azure B2C Tenant
  - A local or deployed instance of the OpenReferralAPI
 
@@ -42,3 +48,6 @@ This project can easily deployed using VS2019
 ## Feedback
 User can leave feedback via a [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfw5D-YCGzu8SDMhkmxqzJSu1KJJx-hYaRuLnrnU_Um7ILyxw/viewform).
 This link is also embedded in the app. 
+
+Issues can also be created against the Github repository 
+ToDo Add in link to Github repo
