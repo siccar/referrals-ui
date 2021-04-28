@@ -70,13 +70,11 @@
                 <h3>Organisation Requests</h3>
                 @foreach (var membership in joinRequestsICanAuthorise)
                 {
-                    <div class="playist-item item-padding">
+                    <div class="playist-item whitebg">
                         <div>@organizations.First(x => x.Id == membership.OrgId).Name</div>
                         <div>@membership.Email</div>
-                        <div>
+                        <div class="buttons">
                             <input type="button" name="Accept" class="button1" value="Accept" disabled="@membership.DisableButton" @onclick="@(e => HandleGrantRequest(membership))" />
-                        </div>
-                        <div>
                             <input type="button" name="Reject" class="button1" value="Reject" disabled="@membership.DisableButton" @onclick="@(e => HandleDenyRequest(membership))" />
                         </div>
                     </div>
@@ -91,13 +89,11 @@
                 @foreach (var ar in adminRequestsICanAuthorise)
                 {
 
-                    <div class="playist-item item-padding">
+                    <div class="playist-item whitebg">
                         <div>@organizations.First(x => x.Id == ar.OrgId).Name</div>
                         <div>@ar.UserEmail</div>
-                        <div>
+                        <div class="buttons">
                             <input type="button" name="Accept" class="button1" disabled="@ar.DisabledButton" value="Accept" @onclick="@(e => HandleAdminGrantRequest(ar))" />
-                        </div>
-                        <div>
                             <input type="button" name="Reject" class="button1" disabled="@ar.DisabledButton" value="Reject" @onclick="@(e => HandleAdminDenyGrantRequest(ar))" />
                         </div>
                     </div>
