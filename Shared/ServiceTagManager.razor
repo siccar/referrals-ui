@@ -1,5 +1,6 @@
 ﻿@using OpenReferralPOV.Data
 @using OpenReferralPOV.Data.Enums;
+@using System.Linq; 
 
 <h3>ServiceTagManager</h3>
 
@@ -20,7 +21,7 @@
 
     }
     <h4>Add Tag</h4>
-    @foreach (var tag in TotalTags)
+    @foreach (var tag in TotalTags.ToList().Where(t => !ServiceTagList.Contains(t)))
     {
         <span>
             <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)tag)"
@@ -36,7 +37,7 @@
     public List<int> ServiceTagList { get; set; }
 
     [Parameter]
-    public EventCallback<List<RegularSchedule>> UpdateServiceTagList { get; set; }
+    public EventCallback<List<int>> updateServiceTagList { get; set; }
 
     public int[] TotalTags = (int[])Enum.GetValues(typeof(TagEnum));
 
@@ -46,10 +47,13 @@
         {
             ServiceTagList.Add(tag);
         }
+
+        updateServiceTagList.InvokeAsync(ServiceTagList);
     }
 
     private void RemoveFromServiceTags(int tag)
     {
         ServiceTagList.Remove(tag);
+        updateServiceTagList.InvokeAsync(ServiceTagList);
     }
 }
