@@ -20,11 +20,11 @@
 
     }
     <h4>Add Tag</h4>
-    @foreach (var t in TotalTags)
+    @foreach (var tag in TotalTags)
     {
         <span>
-            <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)t)"
-                   @onclick="@(e => AddToServiceTags(t))" />
+            <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)tag)"
+                   @onclick="@(e => AddToServiceTags(tag))" />
         </span>
     }
 

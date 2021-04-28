@@ -116,7 +116,6 @@
     public PhysicalAddress address;
     public PhysicalAddress originalAddress;
 
-    public List<int> TagList { get; set; } = new List<int>();
     public int[] Category = (int[])Enum.GetValues(typeof(CategoryEnum));
     public List<CategoryEnum> CategoryList { get; set; } = new List<CategoryEnum>();
 
@@ -132,7 +131,7 @@
         originalAddress = new PhysicalAddress { Postal_Code = address.Postal_Code };
         loading = false;
 
-        TagList = service.Tags.ToList();
+
 
         foreach (var c in Category)
         {
@@ -152,7 +151,6 @@
                 location = await ServiceService.AddLocation(location);
                 service.Service_At_Locations = new List<ServiceAtLocation> { serviceAtLocation };
             }
-            service.Tags = TagList;
             service = await ServiceService.UpdateService(service);
 
             //Add address details back onto the service model
