@@ -19,7 +19,7 @@ body {
 .api-wrapper {
     display: flex;
     flex-direction: column;
-
+    padding:2rem; 
     img {
         margin-bottom: 2rem;
     }
@@ -45,14 +45,17 @@ body {
         text-align: left;
     }
 
-    @media only screen and (max-width: $width-mid) {
+    @media screen and (max-width: $width-mid) {
+        width: 70%;
+        font-size: 1.4rem;
+        line-height: 5rem;
 
         img {
             height: 70px;
         }
     }
 
-    @media only screen and (min-width: $width-lge) {
+    @media screen and (min-width: $width-lge) {
 
         form {
             width: 30rem
