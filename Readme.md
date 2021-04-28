@@ -38,3 +38,7 @@ This project can easily deployed using VS2019
  - Create a new pipeline called OpenReferralUI and target the azure-pipelines.yml
  - Create a release which targets the OpenReferralUi artifact and targets and app service.
  - Setup triggers or manually create a build and then release to the app service.
+
+## Feedback
+User can leave feedback via a [Google Form](https://docs.google.com/forms/d/e/1FAIpQLSfw5D-YCGzu8SDMhkmxqzJSu1KJJx-hYaRuLnrnU_Um7ILyxw/viewform).
+This link is also embedded in the app. 
