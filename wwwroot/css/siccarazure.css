@@ -11,7 +11,8 @@ body {
 /* Azure styling */
 .api-wrapper {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  padding: 2rem; }
   .api-wrapper img {
     margin-bottom: 2rem; }
   .api-wrapper .error p {
@@ -25,9 +26,13 @@ body {
     text-align: center; }
   .api-wrapper .intro {
     text-align: left; }
-  @media only screen and (max-width: 768px) {
-    .api-wrapper img {
-      height: 70px; } }
-  @media only screen and (min-width: 1024px) {
+  @media screen and (max-width: 768px) {
+    .api-wrapper {
+      width: 70%;
+      font-size: 1.4rem;
+      line-height: 5rem; }
+      .api-wrapper img {
+        height: 70px; } }
+  @media screen and (min-width: 1024px) {
     .api-wrapper form {
       width: 30rem; } }
