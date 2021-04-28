@@ -24,33 +24,39 @@
         {
             <h3>Add Service</h3>
             <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
                 <div class="two-cols">
                     <div class="col col-sizer col-left">
-
-
-
                         <label for="Name">Name</label>
+                        <ValidationMessage For="@(() => service.Name)" />
                         <InputText id="Name" @bind-Value="@service.Name" type="text" />
 
                         <label for="Description">Description</label>
+                        <ValidationMessage For="@(() => service.Description)" />
                         <InputText id="Description" @bind-Value="@service.Description" type="text" />
 
                         <label for="Email">Email</label>
+                        <ValidationMessage For="@(() => service.Email)" />
                         <InputText id="Email" @bind-Value="@service.Email" type="text" />
 
                         <label for="Url">Url</label>
+                        <ValidationMessage For="@(() => service.Url)" />
                         <InputText id="Url" @bind-Value="@service.Url" type="text" />
 
                         <label for="Address">Address</label>
+                        <ValidationMessage For="@(() => service.Address)" />
                         <InputText id="Address" @bind-Value="@service.Address" type="text" />
 
                         <label for="City">City</label>
+                        <ValidationMessage For="@(() => address.City)" />
                         <InputText id="City" @bind-Value="@address.City" type="text" />
 
                         <label for="County">County</label>
+                        <ValidationMessage For="@(() => address.State_Province)" />
                         <InputText id="County" @bind-Value="@address.State_Province" type="text" />
 
                         <label for="PostCode">Post Code</label>
+                        <ValidationMessage For="@(() => service._Postcode)" />
                         <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
 
@@ -128,8 +134,8 @@
                     </div>
 
                 </div>
-                <DataAnnotationsValidator />
-                <ValidationSummary />
+
+
                 @if (@httpError != null)
                 {
                     <warn>There was an error submiting the form</warn>
