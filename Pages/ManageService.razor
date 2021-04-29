@@ -84,30 +84,7 @@
                     <div class="col col-sizer col-right">
                         <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
                         <div class="service-tags">
-                            
-                            @if (TagList.ToList().Count != 0)
-                            {
-                            <h4>Remove Tags</h4>
-                                @foreach (var tag in TagList.ToList())
-                                {
-
-                                    <span>
-                                        <input type="button" name="Remove from ServiceTags" class="tag minus" value="@((TagEnum)tag)"
-                                               @onclick="@(e => RemoveFromServiceTags(tag))" />
-                                    </span>
-
-                                }
-
-                            }
-                            <h4>Add Tag</h4>
-                            @foreach (var t in Tags)
-                            {
-                                <span>
-                                    <input type="button" name="Add To ServiceTags" class="tag plus" value="@((TagEnum)t)"
-                                           @onclick="@(e => AddToServiceTags(t))" /> 
-                                </span>
-                            }
-
+                            <ServiceTagManager ServiceTagList="@service.Tags.ToList()" updateServiceTagList="UpdateServiceTagList" />
                         </div>
                     </div>
                 </div>
