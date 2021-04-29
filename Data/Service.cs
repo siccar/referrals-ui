@@ -26,7 +26,7 @@ namespace OpenReferralPOV.Data
         public string Email { get; set; }
         public string Id { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name must be populated")]
-        [StringLength(50, ErrorMessage = "Name can only be 50 chars long.")]
+        [StringLength(100, ErrorMessage = "Name can only be 100 chars long.")]
         public string Name { get; set; }
         public string OrganizationId { get; set; }
         public IEnumerable<RegularSchedule> Regular_Schedules { get; set; }
