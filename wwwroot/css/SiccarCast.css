@@ -5032,37 +5032,109 @@ h1, h2, h4, p {
     justify-content: space-between;
     padding-bottom: 1rem; }
   #service-availability .dayofweek {
-    display: flex;
-    height: 1.8rem;
-    font-size: 0.8rem;
-    align-items: baseline;
-    justify-content: space-between; }
+    display: grid;
+    grid-template-columns: 8rem 6rem auto;
+    grid-template-rows: auto;
+    grid-row-gap: 0.6rem;
+    align-items: center; }
+    #service-availability .dayofweek .day {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: .8rem; }
+    #service-availability .dayofweek .hours {
+      justify-self: end; }
+      #service-availability .dayofweek .hours span {
+        border: 1px solid #0a0039;
+        width: 1.8rem; }
+        #service-availability .dayofweek .hours span input {
+          border: none;
+          text-align: center;
+          font-size: 0.8em;
+          padding: 0;
+          width: inherit;
+          outline: none;
+          margin-bottom: 0; }
+    #service-availability .dayofweek label:after {
+      content: ''; }
+    #service-availability .dayofweek .time {
+      border: 1px solid #000; }
+    #service-availability .dayofweek .hours .to {
+      margin: 10px; }
+    #service-availability .dayofweek .time input {
+      border: none;
+      height: 0.8rem;
+      text-align: center;
+      outline: none; }
+    #service-availability .dayofweek .onoffswitch {
+      position: relative;
+      width: 81px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none; }
+    #service-availability .dayofweek .onoffswitch-checkbox {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none; }
+    #service-availability .dayofweek .onoffswitch-label {
+      display: block;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid #FFFFFF;
+      border-radius: 20px;
+      margin-bottom: 0px; }
+    #service-availability .dayofweek .onoffswitch-inner {
+      display: block;
+      width: 200%;
+      margin-left: -100%;
+      transition: margin 0.3s ease-in 0s; }
+    #service-availability .dayofweek .onoffswitch-checkbox:checked > .hours {
+      visibility: hidden; }
+    #service-availability .dayofweek .onoffswitch-inner:before, #service-availability .dayofweek .onoffswitch-inner:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 27px;
+      padding: 0;
+      line-height: 27px;
+      font-size: 10px;
+      color: white;
+      font-family: Trebuchet, Arial, sans-serif;
+      font-weight: bold;
+      box-sizing: border-box; }
+    #service-availability .dayofweek .onoffswitch-inner:before {
+      content: "OPEN";
+      padding-left: 7px;
+      background-color: #0a0039;
+      color: #fff; }
+    #service-availability .dayofweek .onoffswitch-inner:after {
+      content: "CLOSED";
+      padding-right: 7px;
+      background-color: #e6e5eb;
+      color: #000000;
+      text-align: right; }
+    #service-availability .dayofweek .onoffswitch-switch {
+      display: block;
+      width: 22px;
+      margin: 4.5px;
+      background: #fff;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 50px;
+      border: 2px solid #FFFFFF;
+      border-radius: 20px;
+      transition: all 0.3s ease-in 0s; }
+    #service-availability .dayofweek .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+      margin-left: 0; }
+    #service-availability .dayofweek .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+      right: 0px; }
   #service-availability .readonly {
-    justify-content: space-between;
     font-weight: 700;
     height: 2rem;
+    grid-template-columns: 8rem auto;
     font-size: 1rem; }
-  #service-availability .day {
-    flex: 0 0 120px;
-    text-transform: uppercase;
-    font-weight: 900; }
-  #service-availability .times {
-    flex: 1; }
-  #service-availability .hours {
-    display: none; }
-    #service-availability .hours span {
-      border: 1px solid #0a0039;
-      width: 1.8rem; }
-      #service-availability .hours span input {
-        border: none;
-        text-align: center;
-        font-size: 0.8em;
-        padding: 0;
-        width: inherit;
-        outline: none; }
-  #service-availability .switch:checked + .hours {
-    display: inline-block;
-    margin-left: 1.5rem; }
+    #service-availability .readonly .hours {
+      justify-self: end; }
 
 /* Service Providers */
 .serviceprovider h3 {
