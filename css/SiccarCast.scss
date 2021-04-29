@@ -110,7 +110,7 @@ header {
         }
     }
 
-    @media only screen and (min-width: $width-mid) {
+    @media only screen and (min-width: $width-lge) {
         padding-top: 0.5rem;
 
         .mobile-menu {
@@ -845,4 +845,45 @@ h1, h2, h4, p {
     }
 .validation-message{
     color:$error-red;
+}
+
+.feedback {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.5s 1;
+    -webkit-animation: fadeIn 0.5s 1;
+    animation-fill-mode: backwards;
+    animation-delay: 0.5s;
+    -webkit-animation-delay: 0.5s; /* Safari and Chrome */
+
+
+
+    &.success {
+        background: $minty;
+        color: $white;
+    }
+
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+            display: none;
+        }
+    }
 }

@@ -22,7 +22,9 @@
 
             @if (serviceUpdated)
             {
-                <h3>Service Updated</h3>
+                <div class="feedback success">
+                    <div>Service Updated</div>
+                </div>
             }
             <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
                 <DataAnnotationsValidator />
