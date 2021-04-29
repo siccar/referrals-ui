@@ -20,7 +20,7 @@ namespace OpenReferralPOV.Data
         [StringLength(200, ErrorMessage = "Description can only be 200 chars long.")]
         public string Description { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name must be populated")]
-        [StringLength(50, ErrorMessage = "Name can only be 50 chars long.")]
+        [StringLength(100, ErrorMessage = "Name can only be 100 chars long.")]
         public string Name { get; set; }
         public int CharityNumber { get; set; }
         public IEnumerable<string> ServicesIds { get; set; }
