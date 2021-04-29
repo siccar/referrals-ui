@@ -663,14 +663,26 @@ h1, h2, h4, p {
     &.item-padding div {
         padding: 1rem;
     }
-    &.whitebg{
-        background:$white;
+
+    &.whitebg {
+        background: $white;
+
+        @media only screen and (max-width: $width-lge) {
+            display: block;
+        }
     }
-    .link{
-        padding:0 1rem;
+
+    .link {
+        padding: 0 1rem;
     }
+
     a {
         color: $darkblue;
+    }
+
+    .buttons {
+        display: flex;
+        grid-gap: 2rem;
     }
 
     .remove {
@@ -694,7 +706,7 @@ h1, h2, h4, p {
 
             &:hover {
                 background-color: $darkblue;
-                opacity:0.3;
+                opacity: 0.3;
                 color: $white;
             }
         }
@@ -705,6 +717,7 @@ h1, h2, h4, p {
     width: 100%
 }
 
+/* Service tags*/
 .service-tags {
     span {
         padding: 0;
@@ -726,53 +739,6 @@ h1, h2, h4, p {
             }
         }
     }
-
-/* Azure styling */
-.api-wrapper {
-    display: grid;
-    grid-template-columns: 100vw;
-    grid-template-rows: 100vh;
-    align-items: center;
-    justify-items: center;
-
-    img {
-        margin-bottom: 2rem;
-    }
-
-    .error {
-        p {
-            color: $red;
-            margin-bottom: 0.5rem;
-        }
-    }
-
-    a {
-        color: $darkblue;
-        display:block;
-        margin-bottom:1rem;
-    }
-
-    .divider, .create {
-        text-align: center;
-    }
-
-    .intro {
-        text-align: left;
-    }
-
-    @media only screen and (max-width: $width-mid) {
-
-        img{
-            height:70px;
-        }
-
-       
-    }
-
-    @media only screen and (min-width: $width-lge) {
-
-        form {
-            width: 30rem
-        }
-    }
+.validation-message{
+    color:$error-red;
 }

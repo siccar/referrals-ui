@@ -17,9 +17,10 @@
 
         else
         {
+            <h2 for="Name">@organisation.Name</h2>
             <div class="two-cols">
                 <div class="col col-left">
-                    <h2 for="Name">@organisation.Name</h2>
+
 
                     <h4 for="Description">@organisation.Description</h4>
 
@@ -41,7 +42,7 @@
                     else if (showRequestToBeAdmin)
                     {
                         <EditForm Model="@isAdmin" OnValidSubmit="@HandleValidSubmit">
-                            <h4>Make me an admin</h4>
+                            <h3>Make me an admin</h3>
                             <p>An admin has the ability to add/remove services and update all oragnisation information</p>
                             <div>
                                 <label for="admin">Request admin rights</label>
@@ -49,27 +50,25 @@
                             </div>
                             <button type="submit">Request Association</button>
                         </EditForm>
-                    }                    
+                    }
 
                     <h3>Services</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Service Name</th>
-                                <th>Service URL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var service in services)
-                            {
-                                <tr>
-                                    <td><NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink></td>
-                                    <td>@service.Url</td>
-                                </tr>
 
-                            }
-                        </tbody>
-                    </table>
+                    @foreach (var service in services)
+                    {
+
+
+                        <div class="playist-item item-padding">
+                            <div>
+                                <NavLink href=@($"view-service/{service.Id}")>@service.Name</NavLink>
+                            </div>
+                            <div>
+                                @service.Url
+                            </div>
+                        </div>
+
+                    }
+
                 </div>
             </div>
         }
