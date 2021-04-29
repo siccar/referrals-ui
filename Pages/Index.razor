@@ -27,7 +27,7 @@
                 }
                 else if (!NewOrgRequest)
                 {
-                    <SearchOrg IsAPotentialMemberOfAtLeastOneOrg="@IsAPotentialMemberOfAtLeastOneOrg"/>
+                    <SearchOrg IsAPotentialMemberOfAtLeastOneOrg="@IsAPotentialMemberOfAtLeastOneOrg" RequestSent="@UpdateNewRequest"/>
                 }
                 else
                 {
@@ -80,43 +80,11 @@
 
     }
 
-
-    private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
+    private void UpdateNewRequest(bool NewRequest)
     {
-        organizations = await OrgService.GetAllOrganisations();
-        return await Task.FromResult(organizations.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+        NewOrgRequest = NewRequest;
     }
 
-
-    private async Task HandleValidSubmit()
-    {
-        try
-        {
-            if (request.Org == null || request.Org.Id == null)
-            {
-                return;
-            }
-            if (request.IsAdmin)
-            {
-                await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
-                NewOrgRequest = true;
-            }
-            else
-            {
-                await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
-                NewOrgRequest = true;
-            }
-
-        }
-        catch (HttpRequestException e)
-        {
-            httpError = e;
-        }
-        catch (Exception e)
-        {
-            Error.ProcessError(e);
-        }
-    }
 }
 
 
