@@ -4,12 +4,6 @@
 @using Blazored.Typeahead
 
 @inject IOpenReferralOrganisationService OrgService
-@inject IOpenReferralMembershipRequestsService MembershipRequestService
-@inject IOpenReferralKeyContactService KeyContactService
-@inject IOpenReferralPlaylistService PlaylistService
-@inject IOpenReferralServiceFilterService ServiceFilterService
-@inject IOpenReferralService ServiceService  // This needs replaced with the service collection once its ine
-
 <h3>Search Organisation</h3>
 
 <div class="two-cols headspace">
@@ -52,15 +46,22 @@
 
     [CascadingParameter]
     Error Error { get; set; }
-    private bool isLoading = true;
     private IEnumerable<Organization> organizations;
-    private bool IsAPotentialMemberOfAtLeastOneOrg = false;
-    private IEnumerable<MembershipRequests> MembershipRequests;
     HttpRequestException httpError { get; set; }
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
-    private bool NewOrgRequest;
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            organizations = await OrgService.GetAllOrganisations();
+        }
+        catch (Exception)
+        {
+            organizations = new List<Organization>();
+        }
 
+    }
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
     {
         organizations = await OrgService.GetAllOrganisations();
