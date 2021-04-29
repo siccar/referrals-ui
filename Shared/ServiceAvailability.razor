@@ -38,22 +38,24 @@
                         </label>
                     </div>
                 </div>
-                if (WeekdayIsOpen(day))
-                {
-                    <div class="hours" id="hours_@day">
-                        <span>
-                            <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime(day)"
-                                   @onchange="@((ChangeEventArgs __e) => SetOpeningTime(day, __e.Value))" />
-                            : <input type="text" size="2" maxlength="2" value="00" disabled />
-                        </span>
-                        TO
-                        <span>
-                            <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime(day)"
-                                   @onchange="@((ChangeEventArgs __e) => SetClosingTime(day, __e.Value))" />
-                            : <input type="text" size="2" maxlength="2" value="00" disabled />
-                        </span>
-                    </div>
-                }
+               
+                <div class="hours" id="hours_@day">
+                    @if (WeekdayIsOpen(day))
+                    {
+                    <span>
+                        <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetOpeningTime(day)"
+                               @onchange="@((ChangeEventArgs __e) => SetOpeningTime(day, __e.Value))" />
+                        : <input type="text" size="2" maxlength="2" value="00" disabled />
+                    </span>
+                    <span class="txt-sml">TO</span>
+                    <span>
+                        <input type="number" size="2" min="0" max="23" maxlength="2" value="@GetClosingTime(day)"
+                               @onchange="@((ChangeEventArgs __e) => SetClosingTime(day, __e.Value))" />
+                        : <input type="text" size="2" maxlength="2" value="00" disabled />
+                    </span>
+                    }
+                </div>
+               
             }
 
         </div>

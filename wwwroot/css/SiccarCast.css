@@ -5054,6 +5054,9 @@ h1, h2, h4, p {
           width: inherit;
           outline: none;
           margin-bottom: 0; }
+      #service-availability .dayofweek .hours .txt-sml {
+        border: none;
+        font-size: 0.7rem; }
     #service-availability .dayofweek label:after {
       content: ''; }
     #service-availability .dayofweek .time {
