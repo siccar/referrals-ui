@@ -49,8 +49,13 @@
 
 @code {
 
+    [Parameter]
+    public bool IsAPotentialMemberOfAtLeastOneOrg { get; set; } = false;
+
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private IEnumerable<Organization> organizations;
+    private bool NewOrgRequest;
+    HttpRequestException httpError { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -62,12 +67,10 @@
             IsAPotentialMemberOfAtLeastOneOrg = requests.Any() &&
                 requests.Any(request => request.Status != MembershipRequestsStatus.DENIED && request.Status != MembershipRequestsStatus.REQUESTED)
                 || keycontacts.Count() > 0;
-            isLoading = false;
         }
         catch (Exception)
         {
             organizations = new List<Organization>();
-            isLoading = false;
         }
 
     }
@@ -102,10 +105,6 @@
         catch (HttpRequestException e)
         {
             httpError = e;
-        }
-        catch (Exception e)
-        {
-            Error.ProcessError(e);
         }
     }
 
