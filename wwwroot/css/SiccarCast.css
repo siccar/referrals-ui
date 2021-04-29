@@ -5123,10 +5123,16 @@ h1, h2, h4, p {
     padding: 1rem; }
   .playist-item.whitebg {
     background: #fff; }
+    @media only screen and (max-width: 1024px) {
+      .playist-item.whitebg {
+        display: block; } }
   .playist-item .link {
     padding: 0 1rem; }
   .playist-item a {
     color: #0a0039; }
+  .playist-item .buttons {
+    display: flex;
+    grid-gap: 2rem; }
   .playist-item .remove {
     text-transform: uppercase; }
     @media only screen and (max-width: 640px) {
@@ -5149,6 +5155,7 @@ h1, h2, h4, p {
 .gmap_canvas iframe {
   width: 100%; }
 
+/* Service tags*/
 .service-tags span {
   padding: 0;
   margin: 0; }
@@ -5165,29 +5172,5 @@ h1, h2, h4, p {
       background: #09CA77;
       color: #fff; }
 
-/* Azure styling */
-.api-wrapper {
-  display: grid;
-  grid-template-columns: 100vw;
-  grid-template-rows: 100vh;
-  align-items: center;
-  justify-items: center; }
-  .api-wrapper img {
-    margin-bottom: 2rem; }
-  .api-wrapper .error p {
-    color: #fbd0e9;
-    margin-bottom: 0.5rem; }
-  .api-wrapper a {
-    color: #0a0039;
-    display: block;
-    margin-bottom: 1rem; }
-  .api-wrapper .divider, .api-wrapper .create {
-    text-align: center; }
-  .api-wrapper .intro {
-    text-align: left; }
-  @media only screen and (max-width: 768px) {
-    .api-wrapper img {
-      height: 70px; } }
-  @media only screen and (min-width: 1024px) {
-    .api-wrapper form {
-      width: 30rem; } }
+.validation-message {
+  color: #ff0000; }

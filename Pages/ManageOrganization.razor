@@ -13,38 +13,44 @@
 
 
         <h2>Manage Organisation</h2>
+        
+        
         @if (orgUpdated)
         {
             <h3>Organization Updated</h3>
         }
 
-        <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
-            <label for="Name">Name</label>
-            <InputText id="Name" @bind-Value="@organization.Name" />
+    <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <label for="Name">Name</label>
+        <ValidationMessage For="@(() => organization.Name)" />
+        <InputText id="Name" @bind-Value="@organization.Name" />
 
-            <label for="Description">Description</label>
-            <InputText id="Description" @bind-Value="@organization.Description" />
+        <label for="Description">Description</label>
+        <ValidationMessage For="@(() => organization.Description)" />
+        <InputText id="Description" @bind-Value="@organization.Description" />
 
-            <label for="Charity Number">Charity Number</label>
-            <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
+        <label for="Charity Number">Charity Number</label>
+        <ValidationMessage For="@(() => organization.CharityNumber)" />
+        <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
 
-            <label for="Url">Url</label>
-            <InputText id="Url" @bind-Value="@organization.Url" />
+        <label for="Url">Url</label>
+        <ValidationMessage For="@(() => organization.Url)" />
+        <InputText id="Url" @bind-Value="@organization.Url" />
 
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            @if (@httpError != null)
-            {
-                <warn>There was an error.</warn>
-                <br />
-                <warn>@httpError.StatusCode</warn>
-            }
-            @if (validationError != null)
-            {
-                <ErrorValidationMessage Error=@validationError />
-            }
-            <button type="submit">Submit</button>
-        </EditForm>
+
+        @if (@httpError != null)
+        {
+            <warn>There was an error.</warn>
+            <br />
+            <warn>@httpError.StatusCode</warn>
+        }
+        @if (validationError != null)
+        {
+            <ErrorValidationMessage Error=@validationError />
+        }
+        <button type="submit">Submit</button>
+    </EditForm>
 
         <h3>Services</h3>
         @if (Services.Count() > 0)
@@ -86,7 +92,7 @@
                     </div>
 
                 </div>
-              } else
+            } else
             {
                 <p>There are no Admins/Key contacts assigned to this organisation</p>
             }
