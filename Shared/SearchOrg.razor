@@ -5,11 +5,6 @@
 @using Blazored.Typeahead
 
 @inject IOpenReferralOrganisationService OrgService
-@inject IOpenReferralMembershipRequestsService MembershipRequestService
-@inject IOpenReferralKeyContactService KeyContactService
-@inject IOpenReferralPlaylistService PlaylistService
-@inject IOpenReferralServiceFilterService ServiceFilterService
-@inject IOpenReferralService ServiceService
 
 <div class="two-cols headspace">
     <div class="col col-sizer col-left">
@@ -52,6 +47,9 @@
     [Parameter]
     public bool IsAPotentialMemberOfAtLeastOneOrg { get; set; } = false;
 
+    [Parameter]
+    public EventCallback<bool> RequestSent { get; set; }
+
     public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private IEnumerable<Organization> organizations;
     private bool NewOrgRequest;
@@ -62,11 +60,6 @@
         try
         {
             organizations = await OrgService.GetAllOrganisations();
-            var requests = await MembershipRequestService.GetAllMemebershipRequestsThatCanBeActioned();
-            var keycontacts = await KeyContactService.GetOrgsICanManage();
-            IsAPotentialMemberOfAtLeastOneOrg = requests.Any() &&
-                requests.Any(request => request.Status != MembershipRequestsStatus.DENIED && request.Status != MembershipRequestsStatus.REQUESTED)
-                || keycontacts.Count() > 0;
         }
         catch (Exception)
         {
@@ -78,6 +71,7 @@
     private async Task<IEnumerable<Organization>> SearchOrgs(string searchText)
     {
         organizations = await OrgService.GetAllOrganisations();
+        NewOrgRequest = true;
         return await Task.FromResult(organizations.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
     }
 
@@ -94,11 +88,13 @@
             {
                 await OrgService.RequestToJoinOrganisationAsAdmin(request.Org.Id);
                 NewOrgRequest = true;
+                RequestSent.InvokeAsync(NewOrgRequest);
             }
             else
             {
                 await OrgService.RequestToJoinOrganisationAsMember(request.Org.Id);
                 NewOrgRequest = true;
+                RequestSent.InvokeAsync(NewOrgRequest);
             }
 
         }
@@ -106,6 +102,7 @@
         {
             httpError = e;
         }
+
     }
 
 }
