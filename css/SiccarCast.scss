@@ -559,6 +559,11 @@ h1, h2, h4, p {
                     margin-bottom: 0;
                 }
             }
+
+            .txt-sml {
+                border: none;
+                font-size: 0.7rem;
+            }
         }
 
         label:after {
@@ -671,8 +676,9 @@ h1, h2, h4, p {
         height: 2rem;
         grid-template-columns: 8rem auto;
         font-size: 1rem;
+
         .hours {
-            justify-self:end
+            justify-self: end
         }
     }
 }
