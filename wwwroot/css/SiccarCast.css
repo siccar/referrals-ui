@@ -4757,7 +4757,7 @@ header {
             text-decoration: none;
             color: #0a0039;
             position: relative; } }
-  @media only screen and (min-width: 1024px) {
+  @media only screen and (min-width: 768px) {
     header {
       padding-top: 0.5rem;
       align-self: start;
@@ -5202,7 +5202,13 @@ h1, h2, h4, p {
       .playist-item.whitebg {
         display: block; } }
   .playist-item .link {
-    padding: 0 1rem; }
+    padding: 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 20rem; }
+    .playist-item .link:hover {
+      opacity: 0.3; }
   .playist-item a {
     color: #0a0039; }
   .playist-item .buttons {
@@ -5252,7 +5258,6 @@ h1, h2, h4, p {
 
 .feedback {
   display: flex;
-  justify-content: space-between;
   padding: 1rem;
   margin-bottom: 1rem;
   animation: fadeIn 0.5s 1;
@@ -5260,10 +5265,19 @@ h1, h2, h4, p {
   animation-fill-mode: backwards;
   animation-delay: 0.5s;
   -webkit-animation-delay: 0.5s;
-  /* Safari and Chrome */ }
+  /* Safari and Chrome */
+  align-items: center; }
+  .feedback span {
+    margin-left: 0.5rem; }
   .feedback.success {
     background: #09CA77;
     color: #fff; }
+  .feedback.error {
+    background: #ff0000;
+    color: #fff; }
+  .feedback.info {
+    background: #e6e5eb;
+    color: #0a0039; }
 
 @keyframes fadeIn {
   from {
