@@ -54,9 +54,7 @@
     private bool isLoading = true;
     private IEnumerable<Organization> organizations;
     private bool IsAPotentialMemberOfAtLeastOneOrg = false;
-    private IEnumerable<MembershipRequests> MembershipRequests;
     HttpRequestException httpError { get; set; }
-    public OrgRequestToJoin request { get; set; } = new OrgRequestToJoin() { Org = new Organization() { Name = "Please start typing " } };
     private bool NewOrgRequest;
 
 
