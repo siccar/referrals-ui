@@ -76,7 +76,7 @@
     public string Id { get; set; }
 
     public bool loading { get; set; } = true;
-
+    public bool hiddenLocation { get; set; } = false;
     public Service service { get; set; }
     public IEnumerable<Service> services { get; set; } = new List<Service>();
     public PhysicalAddress address;
@@ -107,6 +107,7 @@
                 address = new PhysicalAddress();
                 serviceOrg = await OrgService.GetOrganisation(service.OrganizationId);
                 services = (await ServiceService.GetServicesAsync()).Where(x => x.OrganizationId == service.OrganizationId);
+                hiddenLocation = true;
                 loading = false;
                 return;
             }
