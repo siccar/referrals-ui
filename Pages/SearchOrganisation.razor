@@ -1,9 +1,7 @@
 ﻿@page "/search-organisation/"
 
 @using OpenReferralPOV.Data
-@using OpenReferralPOV.Data.Requests
 @using OpenReferralPOV.Services
-@using Blazored.Typeahead
 
 @inject IOpenReferralOrganisationService OrgService
 
@@ -20,7 +18,7 @@
 
             if (NewOrgRequestCreated)
             {
-            <h3><em>Request Sent.</em></h3>
+                <h3><em>Request Sent.</em></h3>
             }
         }
         @if (@httpError != null)
@@ -58,5 +56,4 @@
     {
         NewOrgRequestCreated = NewRequest;
     }
-
 }
