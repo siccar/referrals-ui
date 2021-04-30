@@ -22,9 +22,18 @@
 
             @if (serviceUpdated)
             {
-                <div class="feedback success">
-                    <div>Service Updated</div>
-                </div>
+                <StatusMessage messageType="success" message="Service Updated" />
+            }
+
+            @if (@httpError != null)
+            {
+                <StatusMessage messageType="error" message="Sorry, there was an error submiting the form" />
+                //Comment out the status code as user probably does not need to see this
+                //@httpError.StatusCode
+            }
+            @if (validationError != null)
+            {
+                <ErrorValidationMessage Error=@validationError />
             }
             <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
                 <DataAnnotationsValidator />
@@ -86,23 +95,14 @@
                     <div class="col col-sizer col-right">
                         <ServiceAvailability regularSchedules="@service.Regular_Schedules.ToList()" updateServiceAvailibility="UpdateServiceAvailibility" />
                         <div class="service-tags">
-                            <ServiceTagManager ServiceTagList="@service.Tags.ToList()" updateServiceTagList="UpdateServiceTagList"/>
+                            <ServiceTagManager ServiceTagList="@service.Tags.ToList()" updateServiceTagList="UpdateServiceTagList" />
 
                         </div>
                     </div>
                 </div>
 
 
-                @if (@httpError != null)
-                {
-                    <warn>There was an error submiting the form</warn>
-                    <br />
-                    <warn>@httpError.StatusCode</warn>
-                }
-                @if (validationError != null)
-                {
-                    <ErrorValidationMessage Error=@validationError />
-                }
+
                 <button type="submit">Submit</button>
 
             </EditForm>

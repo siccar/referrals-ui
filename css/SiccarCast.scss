@@ -110,7 +110,7 @@ header {
         }
     }
 
-    @media only screen and (min-width: $width-lge) {
+    @media only screen and (min-width: $width-mid) {
         padding-top: 0.5rem;
 
         .mobile-menu {
@@ -778,6 +778,14 @@ h1, h2, h4, p {
 
     .link {
         padding: 0 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 20rem;
+
+        &:hover {
+            opacity: 0.3;
+        }
     }
 
     a {
@@ -849,7 +857,6 @@ h1, h2, h4, p {
 
 .feedback {
     display: flex;
-    justify-content: space-between;
     padding: 1rem;
     margin-bottom: 1rem;
     animation: fadeIn 0.5s 1;
@@ -857,12 +864,26 @@ h1, h2, h4, p {
     animation-fill-mode: backwards;
     animation-delay: 0.5s;
     -webkit-animation-delay: 0.5s; /* Safari and Chrome */
+    align-items: center;
 
+    span {
+        margin-left: 0.5rem;
+    }
 
 
     &.success {
         background: $minty;
         color: $white;
+    }
+
+    &.error {
+        background: $error-red;
+        color: $white;
+    }
+
+    &.info {
+        background: $light-grey;
+        color: $darkblue;
     }
 
 
