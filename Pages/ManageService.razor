@@ -24,12 +24,10 @@
             {
                 <StatusMessage messageType="success" message="Service Updated" />
             }
-
             @if (@httpError != null)
             {
-                <StatusMessage messageType="error" message="Sorry, there was an error submiting the form" />
-                //Comment out the status code as user probably does not need to see this
-                //@httpError.StatusCode
+                string strMessage = "Sorry, there was an error submiting the form [" + httpError.StatusCode + "]";
+                <StatusMessage messageType="error" message="@strMessage" />
             }
             @if (validationError != null)
             {
@@ -40,7 +38,7 @@
                 <div class="two-cols">
                     <div class="col col-sizer col-left">
                         <label for="Name">Name</label>
-                        <ValidationMessage For="@(() => service.Name)" />
+                       
                         <InputText id="Name" @bind-Value="@service.Name" type="text" />
 
                         <label for="Description">Description</label>

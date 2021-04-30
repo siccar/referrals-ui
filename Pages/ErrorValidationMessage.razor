@@ -1,10 +1,9 @@
 ﻿@using OpenReferralPOV.Data
+@{
+     string strMessage = "There were validation errors. [" + Error.FirstError() + "]";
+}
 
-
-<div>
-    <warn>There were validation errors.</warn><br />
-    <pre>@Error.FirstError()</pre>
-</div>
+<StatusMessage messageType="error" message="@strMessage" />
 
 @code {
     [Parameter]
