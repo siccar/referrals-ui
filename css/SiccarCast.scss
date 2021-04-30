@@ -764,6 +764,7 @@ h1, h2, h4, p {
     margin-bottom: 1rem;
     align-items: center;
 
+
     &.item-padding div {
         padding: 1rem;
     }
@@ -774,6 +775,15 @@ h1, h2, h4, p {
         @media only screen and (max-width: $width-lge) {
             display: block;
         }
+    }
+
+    .servicename {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 20rem;
+        margin:0;
+        font-weight:700
     }
 
     .link {
@@ -790,6 +800,10 @@ h1, h2, h4, p {
 
     a {
         color: $darkblue;
+
+        &:hover {
+            opacity: 0.3;
+        }
     }
 
     .buttons {
@@ -869,6 +883,7 @@ h1, h2, h4, p {
     span {
         margin-left: 0.5rem;
     }
+
 
 
     &.success {
