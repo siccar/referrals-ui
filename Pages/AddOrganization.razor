@@ -12,7 +12,7 @@
     <div class="gridder">
         @if (orgCreated)
         {
-            <h3>Organisation Created</h3>
+            <h3>Organization Created</h3>
             NavManager.NavigateTo($"manage-organisation/{organization.Id}", true);
 
         }
@@ -21,7 +21,8 @@
 
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
 
-        <h2>Add Organsation</h2>
+        <h2>Add Organisation</h2>
+
         <DataAnnotationsValidator />
 
         <label for="Name">Name</label>
