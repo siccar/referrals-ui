@@ -5201,6 +5201,13 @@ h1, h2, h4, p {
     @media only screen and (max-width: 1024px) {
       .playist-item.whitebg {
         display: block; } }
+  .playist-item .servicename {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 20rem;
+    margin: 0;
+    font-weight: 700; }
   .playist-item .link {
     padding: 0 1rem;
     white-space: nowrap;
@@ -5211,6 +5218,8 @@ h1, h2, h4, p {
       opacity: 0.3; }
   .playist-item a {
     color: #0a0039; }
+    .playist-item a:hover {
+      opacity: 0.3; }
   .playist-item .buttons {
     display: flex;
     grid-gap: 2rem; }

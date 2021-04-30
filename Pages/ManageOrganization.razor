@@ -17,7 +17,7 @@
         
         @if (orgUpdated)
         {
-            <h3>Organization Updated</h3>
+            <h3>Organisation Updated</h3>
         }
 
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
@@ -59,7 +59,7 @@
 
                 <div class="playist-item item-padding">
                     <div>
-                        <strong>@service.Name</strong>
+                        <p class="servicename">@service.Name</p>
                         <br />
                         <a class="" href=" @service.Url" target="_blank"> @service.Url</a>
                     </div>
