@@ -29,8 +29,7 @@
             }
             @if (@httpError != null)
             {
-                string strMessage = "Sorry, there was an error submiting the form [" + httpError.StatusCode + "]";
-                <StatusMessage messageType="error" message="@strMessage" />
+                <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
             }
             @if (validationError != null)
             {
@@ -41,7 +40,7 @@
                 <div class="two-cols">
                     <div class="col col-sizer col-left">
                         <label for="Name">Name</label>
-                       
+
                         <InputText id="Name" @bind-Value="@service.Name" type="text" />
 
                         <label for="Description">Description</label>

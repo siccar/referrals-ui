@@ -46,9 +46,7 @@
 
                 @if (@httpError != null)
                 {
-                    <warn>There was an error.</warn>
-                    <br />
-                    <warn>@httpError.StatusCode</warn>
+                     <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
                 }
                 @if (validationError != null)
                 {

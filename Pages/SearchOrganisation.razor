@@ -23,9 +23,7 @@
         }
         @if (@httpError != null)
         {
-            <warn>There was an error submiting the form</warn>
-            <br />
-            <warn>@httpError.StatusCode</warn>
+            <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
         }
     </div>
 </div>

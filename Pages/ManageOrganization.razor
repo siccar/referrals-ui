@@ -17,10 +17,18 @@
         
         @if (orgUpdated)
         {
-            <h3>Organisation Updated</h3>
+            <StatusMessage messageType="success" message="Organisation updated" />
         }
 
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
+        @if (@httpError != null)
+        {
+        <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
+        }
+        @if (validationError != null)
+        {
+            <ErrorValidationMessage Error=@validationError />
+        }
         <DataAnnotationsValidator />
         <label for="Name">Name</label>
         <ValidationMessage For="@(() => organization.Name)" />
@@ -38,17 +46,6 @@
         <ValidationMessage For="@(() => organization.Url)" />
         <InputText id="Url" @bind-Value="@organization.Url" />
 
-
-        @if (@httpError != null)
-        {
-            <warn>There was an error.</warn>
-            <br />
-            <warn>@httpError.StatusCode</warn>
-        }
-        @if (validationError != null)
-        {
-            <ErrorValidationMessage Error=@validationError />
-        }
         <button type="submit">Submit</button>
     </EditForm>
 

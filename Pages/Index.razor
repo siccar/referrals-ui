@@ -20,6 +20,10 @@
         }
         <div class="content-container">
             <div class="gridder">
+                @if (@httpError != null)
+                {
+                    <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
+                }
 
                 @if (isLoading)
                 {
@@ -27,18 +31,13 @@
                 }
                 else if (!NewOrgRequest)
                 {
-                    <SearchOrg IsAPotentialMemberOfAtLeastOneOrg="@IsAPotentialMemberOfAtLeastOneOrg" RequestSent="@UpdateNewRequest"/>
+                    <SearchOrg IsAPotentialMemberOfAtLeastOneOrg="@IsAPotentialMemberOfAtLeastOneOrg" RequestSent="@UpdateNewRequest" />
                 }
                 else
                 {
-                    <h3><em>Request Sent.</em></h3>
+                    <StatusMessage messageType="info" message="Request Sent" />
                 }
-                @if (@httpError != null)
-                {
-                    <warn>There was an error submiting the form</warn>
-                    <br />
-                    <warn>@httpError.StatusCode</warn>
-                }
+
             </div>
         </div>
     </Authorized>

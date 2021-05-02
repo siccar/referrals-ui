@@ -1,6 +1,6 @@
 ﻿<div class="feedback @messageType">
     @{ 
-        if(messageType == "success")
+        if(messageType == "success" || messageType == "info")
         {
             Icon = "info-circle";
         } else if(messageType == "error")

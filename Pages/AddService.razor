@@ -14,16 +14,25 @@
     <div class="gridder">
         @if (serviceCreated)
         {
-            <h2>Service Created</h2>
+            <StatusMessage messageType="success" message="Service created" />
             NavManager.NavigateTo($"manage-organisation/{service.OrganizationId}", true);
         }
         else if (creatingService)
         {
-            <h3>Creating Service...</h3>
+            <StatusMessage messageType="info" message="Creating Service" />
         }
         else
         {
             <h3>Add Service</h3>
+
+            @if (@httpError != null)
+            {
+                <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
+            }
+            @if (validationError != null)
+            {
+                <ErrorValidationMessage Error=@validationError />
+            }
             <EditForm Model="@service" OnValidSubmit="@HandleValidSubmit">
                 <DataAnnotationsValidator />
                 <div class="two-cols">
@@ -109,16 +118,6 @@
                 </div>
 
 
-                @if (@httpError != null)
-                {
-                    <warn>There was an error submiting the form</warn>
-                    <br />
-                    <warn>@httpError.StatusCode</warn>
-                }
-                @if (validationError != null)
-                {
-                    <ErrorValidationMessage Error=@validationError />
-                }
                 <button type="submit">Submit</button>
             </EditForm>
         }

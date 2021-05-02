@@ -12,17 +12,26 @@
     <div class="gridder">
         @if (orgCreated)
         {
-            <h3>Organization Created</h3>
+            <StatusMessage messageType="success" message="Organisation created" />
             NavManager.NavigateTo($"manage-organisation/{organization.Id}", true);
 
         }
         else
         {
 
+           
+
     <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
 
         <h2>Add Organisation</h2>
-
+        @if (@httpError != null)
+        {
+            <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
+        }
+        @if (validationError != null)
+        {
+            <ErrorValidationMessage Error=@validationError />
+        }
         <DataAnnotationsValidator />
 
         <label for="Name">Name</label>
@@ -40,16 +49,7 @@
         <ValidationMessage For="@(() => organization.Url)" />
         <InputText id="Url" @bind-Value="@organization.Url" type="text" />
 
-        @if (@httpError != null)
-        {
-            <warn>There was an error submiting the form</warn>
-            <br />
-            <warn>@httpError.StatusCode</warn>
-        }
-        @if (validationError != null)
-        {
-            <ErrorValidationMessage Error=@validationError />
-        }
+
         <button type="submit">Submit</button>
     </EditForm>
         }

@@ -29,9 +29,7 @@
                     <h4 for="Url">Website:<a href="@organisation.Url"> @organisation.Url</a></h4>
                     @if (@httpError != null)
                     {
-                        <warn>There was an error.</warn>
-                        <br />
-                        <warn>@httpError.StatusCode</warn>
+                        <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
                     }
                 </div>
                 <div class="col col-right">
