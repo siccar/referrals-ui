@@ -5242,6 +5242,9 @@ h1, h2, h4, p {
         color: #fff; }
 
 /* Map Styling */
+.gmap_canvas {
+  position: relative; }
+
 .gmap_canvas iframe {
   width: 100%; }
 
@@ -5300,3 +5303,23 @@ h1, h2, h4, p {
   to {
     opacity: 0;
     display: none; } }
+
+/* Google map blur */
+.overlay {
+  position: absolute;
+  z-index: 100;
+  margin: auto;
+  background: white;
+  padding: 1rem;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-weight: 700; }
+
+.blurMap {
+  filter: blur(5px); }
