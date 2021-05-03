@@ -38,9 +38,17 @@
         <ValidationMessage For="@(() => organization.Description)" />
         <InputText id="Description" @bind-Value="@organization.Description" />
 
-        <label for="Charity Number">Charity Number</label>
-        <ValidationMessage For="@(() => organization.CharityNumber)" />
-        <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
+        <table>
+            <tr>
+                @if (isCharity)
+                {
+                    <label for="Charity Number">Charity Number (Leave as zero if this doesn't apply to your organisation)</label>
+                    <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
+                }
+                <label for="isCharity">Select here if there is a charity number associated.</label>
+                <InputCheckbox @bind-Value="@isCharity" id="isCharity" />
+            </tr>
+        </table>
 
         <label for="Url">URL</label>
         <ValidationMessage For="@(() => organization.Url)" />
@@ -137,6 +145,8 @@
 
     public IEnumerable<Service> Services = new List<Service>();
 
+    public bool isCharity { get; set; } = true;
+
 
     protected override async Task OnParametersSetAsync()
     {
@@ -199,8 +209,13 @@
         {
             validationError = null;
             httpError = null;
-            organization = await OrgService.UpdateOrganisation(organization);
-            orgUpdated = true;
+            if (!isCharity) { organization.CharityNumber = 0; }
+            if ((isCharity && (organization.CharityNumber > 0)) || (!isCharity))
+            {
+                organization = await OrgService.UpdateOrganisation(organization);
+                orgUpdated = true;
+            }
+
         }
         catch (ValidationError e)
         {
