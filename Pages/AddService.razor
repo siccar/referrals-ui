@@ -74,23 +74,6 @@
                         <ValidationMessage For="@(() => service._Postcode)" />
                         <InputText id="PostCode" @bind-Value="@service._Postcode" type="text" />
 
-                        <label for="Org">Organisation</label>
-                        <InputSelect @bind-Value="@service.OrganizationId" class="form-control">
-                            @foreach (var org in organisations)
-                                {
-                                    if (org.Id == OrgId)
-                                    {
-                                        service.OrganizationId = org.Id;
-                                    <option value="@org.Id" selected>@org.Name</option>
-                                    }
-                                    else
-                                    {
-                                    <option value="@org.Id">@org.Name</option>
-                                    }
-                                }
-                            }
-                        </InputSelect>
-
                         <label for="Cat">Category</label>
                         <InputSelect @bind-Value="@service.Category" class="form-control">
                             @foreach (var cat in CategoryList)
@@ -145,6 +128,8 @@
         try
         {
             creatingService = true;
+            httpError = null;
+            validationError = null;
 
             location = ServiceHelperFunctions.BuildLocation(service, location);
             location = await ReferralService.AddLocation(location);
@@ -188,6 +173,8 @@
     {
         try
         {
+            service.OrganizationId = OrgId;
+
             location.Physical_Addresses = new List<PhysicalAddress> { new PhysicalAddress() };
 
             organisations = await OrgService.GetAllOrganisations();

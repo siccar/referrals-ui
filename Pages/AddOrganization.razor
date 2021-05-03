@@ -69,6 +69,7 @@
         try
         {
             httpError = null;
+            validationError = null;
             organization = await ReferralService.AddOrganization(organization);
             orgCreated = true;
         }

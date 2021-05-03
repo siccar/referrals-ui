@@ -86,7 +86,6 @@
     {
         try
         {
-
             service = await ServiceService.GetServiceById(Id);
             var location = await ServiceService.GetLocationById(service.Service_At_Locations.First().Location_Id);
             address = location.Physical_Addresses.First();

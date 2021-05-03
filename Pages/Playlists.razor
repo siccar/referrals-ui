@@ -154,6 +154,8 @@
     {
         try
         {
+            httpError = null;
+            validationError = null;
             Playlist.Services.Add(id);
             Playlist = await PlaylistService.Update(Playlist);
         }
@@ -171,7 +173,8 @@
     {
         try
         {
-
+            httpError = null;
+            validationError = null;
             Playlist.Services.Remove(id);
             Playlist = await PlaylistService.Update(Playlist);
         }
@@ -189,6 +192,7 @@
     {
         try
         {
+            httpError = null;
             validationError = null;
             var postcodeResults = await ServiceService.GetServicesAsync(SearchService.Postcode, SearchService.Proximity);
             searchServices = RemovePlaylistServices(postcodeResults);
@@ -211,6 +215,7 @@
     {
         try
         {
+            httpError = null;
             validationError = null;
             services = await ServiceService.GetServicesAsync();
 
@@ -235,7 +240,7 @@
             }
             else
             {
-                searchServices = services;
+                searchServices = RemovePlaylistServices(services);
             }
         }
         catch (ValidationError e)

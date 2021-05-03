@@ -116,6 +116,7 @@
     {
         try
         {
+            httpError = null;
             if (isAdmin)
             {
                 await OrgService.RequestToJoinOrganisationAsAdmin(Id);

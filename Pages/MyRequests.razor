@@ -151,6 +151,7 @@
     {
         try
         {
+            httpError = null;
             request.DisableButton = true;
             await MembershipRequests.HandleGrantRequestForJoiningOrg(request);
             ActionTaken = true;
@@ -171,6 +172,7 @@
     {
         try
         {
+            httpError = null;
             request.DisableButton = true;
             await MembershipRequests.HandleDenyRequestForJoiningOrg(request);
             ActionTaken = true;
@@ -192,6 +194,7 @@
     {
         try
         {
+            httpError = null;
             kc.DisabledButton = true;
             await KeyContactRequests.HandleAdminGrantRequest(kc.OrgId, kc.UserId);
             ActionTaken = true;
@@ -213,6 +216,7 @@
     {
         try
         {
+            httpError = null;
             kc.DisabledButton = true;
             await KeyContactRequests.HandleAdminDenyRequest(kc.OrgId, kc.UserId);
             ActionTaken = true;

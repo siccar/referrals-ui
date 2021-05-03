@@ -169,6 +169,10 @@
         try
         {
             updatingService = true;
+            httpError = null;
+            validationError = null;
+
+
             location = ServiceHelperFunctions.BuildLocation(service, location);
             var serviceAtLocation = ServiceHelperFunctions.BuildServiceAtLocation(location, service);
             location = await ServiceService.UpdateLocation(location);
