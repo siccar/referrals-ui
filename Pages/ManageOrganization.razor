@@ -2,6 +2,7 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 @using System.Linq
+@using OpenReferralPOV.Shared
 
 @inject IOpenReferralOrganisationService OrgService
 @inject IOpenReferralService ServiceService
@@ -17,7 +18,7 @@
 
         @if (orgUpdated)
         {
-            <@StatusMessage messageType="success" message="Organisation updated" />
+            <StatusMessage messageType="success" message="Organisation updated" />
         }
 
         <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
@@ -29,10 +30,10 @@
             <label for="Description">Description</label>
             <ValidationMessage For="@(() => organization.Description)" />
             <InputText id="Description" @bind-Value="@organization.Description" />
-
-            <label for="isCharity">Is your organisation a charity?</label>
-            <InputCheckbox @bind-Value="@isCharity" id="isCharity" />
-
+            <div>
+                <label for="isCharity">Is your organisation a charity?</label>
+                <InputCheckbox @bind-Value="@isCharity" id="isCharity" />
+            </div>
             @if (isCharity)
             {
                 <label for="Charity Number">Charity Number</label>

@@ -3,6 +3,7 @@
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
 @using System.Net.Http
+@using OpenReferralPOV.Shared
 
 @inject IOpenReferralOrganisationService ReferralService
 @inject NavigationManager NavManager
@@ -18,17 +19,11 @@
         }
         else
         {
+
             <EditForm Model="@organization" OnValidSubmit="@HandleValidSubmit">
 
                 <h2>Add Organisation</h2>
-                @if (@httpError != null)
-                {
-                    <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
-                }
-                @if (validationError != null)
-                {
-                    <ErrorValidationMessage Error=@validationError />
-                }
+
                 <DataAnnotationsValidator />
 
                 <label for="Name">Name</label>
@@ -38,9 +33,10 @@
                 <label for="Description">Description</label>
                 <ValidationMessage For="@(() => organization.Description)" />
                 <InputText id="Description" @bind-Value="@organization.Description" type="text" />
-
-                <label for="isCharity">Is your organisation a charity?</label>
-                <InputCheckbox @bind-Value="@isCharity" id="isCharity" />
+                <div>
+                    <label for="isCharity">Is your organisation a charity?</label>
+                    <InputCheckbox @bind-Value="@isCharity" id="isCharity" />
+                </div>
 
                 @if (isCharity)
                 {
@@ -66,6 +62,7 @@
                 }
                 <button type="submit">Submit</button>
             </EditForm>
+
         }
     </div>
 </div>
