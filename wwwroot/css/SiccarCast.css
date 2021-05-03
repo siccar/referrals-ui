@@ -5322,3 +5322,26 @@ h1, h2, h4, p {
 
 .blurMap {
   filter: blur(5px); }
+
+/* Distance Selector */
+#distanceselector {
+  display: flex;
+  justify-content: space-between;
+  padding: 0; }
+  #distanceselector label::after {
+    content: ''; }
+  #distanceselector input[type=radio] {
+    width: 0;
+    height: 0;
+    position: absolute; }
+  #distanceselector input[type=radio]:checked label {
+    background: #0a0039;
+    color: #fff; }
+  #distanceselector li {
+    background: #e6e5eb; }
+    #distanceselector li label {
+      color: #0a0039;
+      width: 3rem;
+      text-align: center;
+      cursor: pointer;
+      display: block; }

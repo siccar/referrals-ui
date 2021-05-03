@@ -945,3 +945,39 @@ position: absolute;
 .blurMap{
     filter:blur(5px);
 }
+
+/* Distance Selector */
+#distanceselector {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+
+    label::after {
+        content: '';
+    }
+
+    input[type=radio] {
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+
+    input[type=radio]:checked {
+        label {
+            background: $darkblue;
+            color:$white;
+        }
+    }
+        li {
+            background: $light-grey;
+
+
+            label {
+                color: $darkblue;
+                width: 3rem;
+                text-align: center;
+                cursor: pointer;
+                display: block;
+            }
+        }
+    }
