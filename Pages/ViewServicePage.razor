@@ -21,12 +21,16 @@
                 <div class="serviceprovider col-sizer-lge">
                     <h2>@service.Name</h2>
                     <h3>Provided by: <NavLink href=@($"view-organisation/{serviceOrg.Id}")> @serviceOrg.Name</NavLink> </h3>
-                    @if (hiddenLocation == false)
-                    {
+                   
                     <div class="address">
-                        <i class="fas fa-map-marker-alt"></i> <span>@address.Address_1, @address.City @address.Country, @address.Postal_Code</span>
-                    </div>
-                    }
+                        
+                        @if (hiddenLocation == false)
+                        {
+                            <i class="fas fa-map-marker-alt"></i> <span>@address.Address_1, @address.City @address.Country, @address.Postal_Code</span>
+                        } else {
+                            <p>Address not shown for security purposes</p>
+                        }
+                        </div>
                     <div class="contactinfo"><i class="fas fa-envelope-open-text"></i> <a href="mailto:@service.Email" title="Email @serviceOrg.Name">Email</a> <i class="fas fa-desktop"></i> <a href="@service.Url" target="_blank" title="Go to @serviceOrg.Name website">Visit the website</a></div>
                     <div class="descn">
                         <h3>About @serviceOrg.Name</h3>

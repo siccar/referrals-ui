@@ -4795,7 +4795,8 @@ header {
         display: inline-block; }
       header .dropdown {
         position: relative;
-        align-items: baseline; }
+        align-items: baseline;
+        z-index: 1000; }
       header .dropdown-content {
         display: none;
         opacity: 1;

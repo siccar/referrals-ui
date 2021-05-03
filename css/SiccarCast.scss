@@ -174,7 +174,8 @@ header {
 
         .dropdown {
             position: relative;
-            align-items: baseline
+            align-items: baseline;
+            z-index:1000;
         }
 
         .dropdown-content {
@@ -373,6 +374,7 @@ input[type=checkbox]::before {
 input[type=checkbox]:checked::before {
     @extend .fas;
     content: fa-content($fa-var-check-square);
+   
 }
 
 .btn-sml {
