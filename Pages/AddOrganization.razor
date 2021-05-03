@@ -38,22 +38,32 @@
                 <label for="Description">Description</label>
                 <ValidationMessage For="@(() => organization.Description)" />
                 <InputText id="Description" @bind-Value="@organization.Description" type="text" />
-                <table>
-                    <tr>
-                        @if (isCharity)
-                        {
-                            <label for="Charity Number">Charity Number (Leave as zero if this doesn't apply to your organisation)</label>
-                            <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
-                        }
-                        <label for="isCharity">Select here if there is a charity number associated.</label>
-                        <InputCheckbox @bind-Value="@isCharity" id="isCharity" />
-                    </tr>
-                </table>
+
+                <label for="isCharity">Is your organisation a charity?</label>
+                <InputCheckbox @bind-Value="@isCharity" id="isCharity" />
+
+                @if (isCharity)
+                {
+                    <label for="Charity Number">Charity Number</label>
+                    <ValidationMessage For="@(() => organization.CharityNumber)" />
+
+                    <InputNumber id="CharityNumber" @bind-Value="@organization.CharityNumber" />
+                }
+
                 <label for="Url">URL</label>
                 <ValidationMessage For="@(() => organization.Url)" />
                 <InputText id="Url" @bind-Value="@organization.Url" type="text" />
 
-
+                @if (@httpError != null)
+                {
+                    <warn>There was an error submiting the form</warn>
+                    <br />
+                    <warn>@httpError.StatusCode</warn>
+                }
+                @if (validationError != null)
+                {
+                    <ErrorValidationMessage Error=@validationError />
+                }
                 <button type="submit">Submit</button>
             </EditForm>
         }
@@ -67,7 +77,7 @@
     ValidationError validationError { get; set; }
     public Organization organization { get; set; } = new Organization();
     public bool orgCreated { get; set; } = false;
-    public bool isCharity { get; set; } = true;
+    public bool isCharity { get; set; } = false;
 
     private async Task HandleValidSubmit()
     {
@@ -77,11 +87,9 @@
             validationError = null;
 
             if (!isCharity) { organization.CharityNumber = 0; }
-            if ((isCharity && (organization.CharityNumber > 0)) || (!isCharity))
-            {
-                organization = await ReferralService.AddOrganization(organization);
-                orgCreated = true;
-            }
+
+            organization = await ReferralService.AddOrganization(organization);
+            orgCreated = true;
         }
         catch (ValidationError e)
         {
