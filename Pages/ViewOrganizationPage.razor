@@ -23,8 +23,9 @@
 
 
                     <h4 for="Description">@organisation.Description</h4>
-
+                    @if (organisation.CharityNumber != 0) {
                     <h4 for="Charity Number">Charity Number: @organisation.CharityNumber</h4>
+                    }
 
                     <h4 for="Url">Website:<a href="@organisation.Url"> @organisation.Url</a></h4>
                     @if (@httpError != null)
