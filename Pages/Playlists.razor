@@ -17,18 +17,10 @@
                 <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
                     <label for="Postcode">Enter Postcode</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
                     <label for="Distance">Distance (miles)</label>
-                    <InputRadioGroup Name="Distance" @bind-Value="@SearchService.Proximity">
-                        <ul id="distanceselector">
-                            <li><label for="5"><InputRadio Name="Distance" SelectedValue="5" id="5" Value="@("5")" /> 5</label></li>
-                            <li><label for="10"><InputRadio Name="Distance" SelectedValue="10" id="10" Value="@("10")" />10</label></li>
-                            <li><label for="15"><InputRadio Name="Distance" SelectedValue="15" id="15" Value="@("15")" />15</label></li>
-                            <li><label for="20"><InputRadio Name="Distance" SelectedValue="20" id="20" Value="@("20")" /> 20</label></li>
-                            <li><label for="Any"><InputRadio Name="Distance"  SelectedValue="1000" id="Any" Value="@("1000")" /> Any</label></li>
-                        </ul>
-                    </InputRadioGroup>
+                    <DistanceSelector UpdateProximity="@UpdateProximity" CurrentProximity="@SearchService.Proximity" IsDisabled="@(SearchService.Postcode == String.Empty)"/>
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <button type="submit">Search</button>
+                    <button type="submit" disabled="@(SearchService.Postcode == String.Empty)">Search</button>
                 </EditForm>
                 <hr />
                 <p class="space-sml"><span>OR</span> Search by Keyword/Category</p>
@@ -268,6 +260,11 @@
     private IEnumerable<Service> RemovePlaylistServices(IEnumerable<Service> services)
     {
         return services.Where(x => !Playlist.Services.Contains(x.Id));
+    }
+
+    private void UpdateProximity(double proximity)
+    {
+        SearchService.Proximity = proximity;
     }
 
 }
