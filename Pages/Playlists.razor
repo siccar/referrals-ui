@@ -1,7 +1,10 @@
 ﻿@page "/playlists"
+@attribute [Authorize]
+
 @using OpenReferralPOV.Data.Enums
 @using OpenReferralPOV.Data
 @using OpenReferralPOV.Services
+
 
 @inject IOpenReferralPlaylistService PlaylistService
 @inject IOpenReferralServiceFilterService ServiceFilterService
@@ -47,7 +50,7 @@
 
                 @if (@httpError != null)
                 {
-                     <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
+                    <HTTPErrorMessage message=@httpError.StatusCode.ToString() />
                 }
                 @if (validationError != null)
                 {
@@ -76,10 +79,10 @@
                             </div>
                             <div class="remove">
                                 <span>Add to playlist</span>
-                                <button name="Add to playlist" class="btnRemove"  @onclick="@(e => AddToPlaylist(service.Id))"><i class="fas fa-plus"></i></button>
+                                <button name="Add to playlist" class="btnRemove" @onclick="@(e => AddToPlaylist(service.Id))"><i class="fas fa-plus"></i></button>
                             </div>
                         </div>
-        
+
                     }
 
                 }
