@@ -13,10 +13,10 @@ and to do authentication.
 ## Source Code
 This project uses BlazorServer and is written in C#
 
-## Setup Azure Resources
+### Setup Azure Resources
 - Create an OpenReferralUI app registration
 - Create a client secret and copy it down
-- Add the _user_impersonation permission from the OpenReferralAPI app registration (See OpenReferralAPI project)
+- Add the _user_impersonation permission from the OpenReferralAPI app registration (See [OpenReferralAPI](https://github.com/siccar/referrals-api))
 
 ## Getting started Locally
 
