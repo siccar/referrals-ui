@@ -53,11 +53,11 @@
                         <label for="Url">URL</label>
                         <ValidationMessage For="@(() => service.Url)" />
                         <InputText id="Url" @bind-Value="@service.Url" type="text" />
-
-                        <label for="IsVulnerable">Is Vulnerable (Tick if location should be hidden)</label>
-                        <ValidationMessage For="@(() => location.IsVulnerable)" />
-                        <InputCheckbox id="IsVulnerable" @bind-Value="@location.IsVulnerable" />
-
+                        <div>
+                            <label for="IsVulnerable">Is Vulnerable (Tick if location should be hidden)</label>
+                            <ValidationMessage For="@(() => location.IsVulnerable)" />
+                            <InputCheckbox id="IsVulnerable" @bind-Value="@location.IsVulnerable" />
+                        </div>
                         <label for="Address">Address</label>
                         <ValidationMessage For="@(() => service.Address)" />
                         <InputText id="Address" @bind-Value="@service.Address" type="text" />
