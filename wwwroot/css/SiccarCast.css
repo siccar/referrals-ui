@@ -5245,8 +5245,10 @@ h1, h2, h4, p {
         color: #fff; }
 
 /* Map Styling */
-.gmap_canvas iframe {
-  width: 100%; }
+.gmap_canvas {
+  position: relative; }
+  .gmap_canvas iframe {
+    width: 100%; }
 
 /* Service tags*/
 .service-tags span {
