@@ -42,7 +42,7 @@ This project uses BlazorServer and is written in C#
 - The colours, font-sizes, responsive utils reside within the main css folder.
 - In the root of the project there is a file called compilerconfig.json.  This file was autogenrated in Visual Studio by a plugin.
 - if using Visual Studio the plugin can be installed from here (https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebCompiler)
-- Once installed when changes are made to any of the .scss files and then saved the new complied CSS files are built.
+- Once installed, when changes to any of the .scss files are saved, then the minified css files are built.
 - The SiccarCast.css and the SiccarCast.min.css reside in the wwwroot/css folder
 
 ## Deployment
