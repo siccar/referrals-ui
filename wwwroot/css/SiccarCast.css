@@ -5217,6 +5217,8 @@ h1, h2, h4, p {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 20rem; }
+    .playist-item .link:hover {
+      opacity: 0.3; }
   .playist-item a {
     color: #0a0039; }
     .playist-item a:hover {
@@ -5243,9 +5245,6 @@ h1, h2, h4, p {
         color: #fff; }
 
 /* Map Styling */
-.gmap_canvas {
-  position: relative; }
-
 .gmap_canvas iframe {
   width: 100%; }
 
@@ -5286,8 +5285,8 @@ h1, h2, h4, p {
     background: #09CA77;
     color: #fff; }
   .feedback.error {
-    background: #fbd0e9;
-    color: #990059; }
+    background: #ff0000;
+    color: #fff; }
   .feedback.info {
     background: #e6e5eb;
     color: #0a0039; }
