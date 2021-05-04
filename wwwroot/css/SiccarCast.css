@@ -4923,7 +4923,9 @@ button[type=submit], input[type=button], button {
   width: 100%;
   border-bottom: 2px solid #0a0039;
   margin-top: 1.3rem; }
-  button[type=submit]:hover, input[type=button]:hover, button:hover {
+  button[type=submit][disabled], input[type=button][disabled], button[disabled] {
+    opacity: 0.6; }
+  button[type=submit]:hover:not([disabled]), input[type=button]:hover:not([disabled]), button:hover:not([disabled]) {
     background: #09CA77;
     color: #0a0039;
     cursor: pointer; }
@@ -5215,6 +5217,8 @@ h1, h2, h4, p {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 20rem; }
+    .playist-item .link:hover {
+      opacity: 0.3; }
   .playist-item a {
     color: #0a0039; }
     .playist-item a:hover {
@@ -5241,9 +5245,6 @@ h1, h2, h4, p {
         color: #fff; }
 
 /* Map Styling */
-.gmap_canvas {
-  position: relative; }
-
 .gmap_canvas iframe {
   width: 100%; }
 
@@ -5284,8 +5285,8 @@ h1, h2, h4, p {
     background: #09CA77;
     color: #fff; }
   .feedback.error {
-    background: #fbd0e9;
-    color: #990059; }
+    background: #ff0000;
+    color: #fff; }
   .feedback.info {
     background: #e6e5eb;
     color: #0a0039; }
@@ -5322,3 +5323,33 @@ h1, h2, h4, p {
 
 .blurMap {
   filter: blur(5px); }
+
+/* Distance Selector */
+#distanceselector {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  grid-gap: .3rem; }
+  #distanceselector button {
+    background: #e6e5eb;
+    color: #0a0039;
+    width: 20%;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+    border-radius: 0.3rem;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    height: 2rem; }
+  #distanceselector .IsDisabled {
+    opacity: 0.6;
+    cursor: default; }
+  #distanceselector .IsActive {
+    opacity: 1; }
+    #distanceselector .IsActive:hover {
+      background: #0a0039;
+      color: #fff; }
+  #distanceselector .isSelected {
+    background: #0a0039;
+    color: #fff; }

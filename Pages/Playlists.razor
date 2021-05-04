@@ -16,10 +16,11 @@
                 <p class="space-sml">Search by location</p>
                 <EditForm Model="@SearchService" OnValidSubmit="@HandleSearchService">
                     <label for="Postcode">Enter Postcode</label><InputText id="Postcode" @bind-Value="@SearchService.Postcode" />
-                    <label for="Distance">Distance (miles)</label><InputNumber id="Distance" @bind-Value="@SearchService.Proximity" />
+                    <label for="Distance">Distance (miles)</label>
+                    <DistanceSelector UpdateProximity="@UpdateProximity" CurrentProximity="@SearchService.Proximity" IsDisabled="@(SearchService.Postcode == String.Empty)"/>
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <button type="submit">Search</button>
+                    <button type="submit" disabled="@(SearchService.Postcode == String.Empty)">Search</button>
                 </EditForm>
                 <hr />
                 <p class="space-sml"><span>OR</span> Search by Keyword/Category</p>
@@ -259,6 +260,11 @@
     private IEnumerable<Service> RemovePlaylistServices(IEnumerable<Service> services)
     {
         return services.Where(x => !Playlist.Services.Contains(x.Id));
+    }
+
+    private void UpdateProximity(double proximity)
+    {
+        SearchService.Proximity = proximity;
     }
 
 }
