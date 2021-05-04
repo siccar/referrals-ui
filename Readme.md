@@ -1,8 +1,10 @@
 # Open Referrals UI
 This repo contains the source code for the Open Referrals UI project.
 
-The Open Referrals UI is designed to allow users to find and view Organisations and Services. The app is designed from the perspective of a 
-'Social Prescriber'. It's thier job to find charity services for people who may not be able to find the services they require themselves.
+The Open Referrals tool is designed to support social prescribing.  It does this by providing functionality that: allows service managers
+at voluntary sector organisations to publish information about their organisations and their services; and allows social prescribers from local
+authorities and voluntary sector organisations to search for voluntary sector organisations and services in their local area.  The Open Referrals tool
+has been built for re-use in differnt local areas, it has also been built using the Open Referrals Standard to drive stadardisation and interoperability.
 
 ## Features
  - Create Organsisations/Services
