@@ -1,7 +1,14 @@
 # Open Referrals UI
 This repo contains the source code for the Open Referrals UI project.
 
-TODO: Add in project description
+The Open Referrals UI is designed to allow users to find and view Organisations and Services. The app is designed from the perspective of a 
+'Social Prescriber'. It's thier job to find charity services for people who may not be able to find the services they require themselves.
+
+## Features
+ - Create Organsisations/Services
+ - Associate with Organisations as a member or admin
+ - Service search with Geosearch functionality
+ - Hide vulnerable service location data
 
 This Project requires the use of an Azure AD B2C tenant to store user credentials and 
 and to do authentication.  
