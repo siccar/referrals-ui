@@ -8,9 +8,10 @@ namespace OpenReferralPOV.Services.PendingOrgs
 {
     public interface IPendingOrgsService
     {
-        Task<IEnumerable<Organization>> GetPendingOrgs(Organization organization);
+        Task<IEnumerable<Organization>> GetPendingOrgs();
         Task<Organization> CreatePendingOrg(Organization organization);
-        Task<Organization> VerifyPendingOrganisation(string orgId);
+        Task VerifyPendingOrganisation(string orgId);
         Task<bool> UserHasPendingOrg();
+        Task DeletePendingOrganisation(string orgId);
     }
 }

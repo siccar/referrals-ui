@@ -20,7 +20,7 @@ namespace OpenReferralPOV.Services.PendingOrgs
             _ApiBaseAddress = configuration["ORApi:BaseUrl"];
         }
 
-        public async Task<IEnumerable<Organization>> GetPendingOrgs(Organization organization)
+        public async Task<IEnumerable<Organization>> GetPendingOrgs()
         {
             var responseString = await _httpClientAdapter.GetAsync(new Uri($"{ _ApiBaseAddress}/PendingOrganizations"));
             var organizations = JsonConvert.DeserializeObject<IEnumerable<Organization>>(responseString);
@@ -44,9 +44,14 @@ namespace OpenReferralPOV.Services.PendingOrgs
             return hasPendingOrg;
         }
 
-        public Task<Organization> VerifyPendingOrganisation(string orgId)
+        public async Task VerifyPendingOrganisation(string orgId)
         {
-            throw new NotImplementedException();
+            await _httpClientAdapter.PostAsync(new Uri($"{ _ApiBaseAddress}/PendingOrganizations/{orgId}"), orgId);
+        }
+
+        public async Task DeletePendingOrganisation(string orgId)
+        {
+            await _httpClientAdapter.DeleteAsync(new Uri($"{ _ApiBaseAddress}/PendingOrganizations/{orgId}"), orgId);
         }
     }
 }
