@@ -303,6 +303,10 @@
 
     private bool NoRequestData()
     {
-        return !(myrequeststojoin.Any() || myrequeststojoinAsAdmin.Any() || joinRequestsICanAuthorise.Any() || adminRequestsICanAuthorise.Any());
+        return !(myrequeststojoin.Any()
+            || myrequeststojoinAsAdmin.Any()
+            || joinRequestsICanAuthorise.Any()
+            || adminRequestsICanAuthorise.Any()
+            || pendingOrgs.Any());
     }
 }
